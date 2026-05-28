@@ -1,1 +1,3486 @@
-{"version":1,"updatedAt":null,"people":[],"crossLinks":[]}
+{
+  "version": 1,
+  "updatedAt": "2026-05-28T11:28:30.690Z",
+  "people": [
+    {
+      "Doğum Tarihi": "",
+      "Notlar / Çapraz Ref": "Sülale atası; Ahishavioglu ailesi",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Kök",
+      "Eş Adı": "Cihan",
+      "Ad": "Eyyüp",
+      "Ölüm Tarihi": "",
+      "Kod": "0"
+    },
+    {
+      "Kod": "2",
+      "Eş Adı": "Fatıma (Fetime)",
+      "Ad": "Hamit",
+      "Ölüm Tarihi": "",
+      "Notlar / Çapraz Ref": "Fatima: D.H.1298, Ö.28.10.1941",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 1",
+      "Doğum Tarihi": "H.1270"
+    },
+    {
+      "Ad": "Ahmet",
+      "Ölüm Tarihi": "?",
+      "Eş Adı": "Zöhre (Zehra) / Zarife (Veve)",
+      "Kod": "2A",
+      "Doğum Tarihi": "H.1302",
+      "Nesil": "Nesil 2",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "Zöhre/Zarife: D.H.1887"
+    },
+    {
+      "Ölüm Tarihi": "",
+      "Ad": "Remziye",
+      "Eş Adı": "Ziya Çiplikli",
+      "Kod": "2AA",
+      "Doğum Tarihi": "H.1325",
+      "Nesil": "Nesil 3",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "Ziya: D.H.1318, Ö.20.01.1971"
+    },
+    {
+      "Doğum Tarihi": "28.09.1933",
+      "Notlar / Çapraz Ref": "3 eş",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 4",
+      "Eş Adı": "Yıldız / Türkan / Ayten (Çiplikli)",
+      "Ad": "Duran",
+      "Ölüm Tarihi": "18.01.2000",
+      "Kod": "2AAA"
+    },
+    {
+      "Doğum Tarihi": "08.02.1956",
+      "Nesil": "Nesil 5",
+      "Notlar / Çapraz Ref": "Anne=Yıldız",
+      "Eşin Kızlık Soyadı": "",
+      "Ad": "Yıldız (Nesrin)",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "Mehmet Karadedaş",
+      "Kod": "2AAAA"
+    },
+    {
+      "Kod": "2AAAB",
+      "Eş Adı": "Genişhan",
+      "Ölüm Tarihi": "",
+      "Ad": "Sermin",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "Anne=Türkan; eş adı belirsiz",
+      "Nesil": "Nesil 5",
+      "Doğum Tarihi": "21.01.1963"
+    },
+    {
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "Anne=Ayten",
+      "Nesil": "Nesil 5",
+      "Doğum Tarihi": "13.08.1971",
+      "Kod": "2AAAC",
+      "Eş Adı": "Adıkutlu",
+      "Ölüm Tarihi": "",
+      "Ad": "Sevda"
+    },
+    {
+      "Doğum Tarihi": "10.11.1972",
+      "Notlar / Çapraz Ref": "Anne=Ayten",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 5",
+      "Eş Adı": "",
+      "Ad": "Yıldırım",
+      "Ölüm Tarihi": "",
+      "Kod": "2AAAD"
+    },
+    {
+      "Kod": "2AAAE",
+      "Ad": "Bülent",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "",
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "Anne=Ayten",
+      "Doğum Tarihi": "13.12.1974"
+    },
+    {
+      "Ad": "Muharrem",
+      "Ölüm Tarihi": "06.04.1985",
+      "Eş Adı": "Feride",
+      "Kod": "2AB",
+      "Doğum Tarihi": "H.1327",
+      "Nesil": "Nesil 3",
+      "Eşin Kızlık Soyadı": "Aksu",
+      "Notlar / Çapraz Ref": "Feride: D.H.1333, Ö.16.11.1997"
+    },
+    {
+      "Kod": "2ABA",
+      "Ölüm Tarihi": "",
+      "Ad": "Harun",
+      "Eş Adı": "Ayten",
+      "Nesil": "Nesil 4",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Doğum Tarihi": "04.08.1947"
+    },
+    {
+      "Eş Adı": "Gözde",
+      "Ad": "Barış",
+      "Ölüm Tarihi": "",
+      "Kod": "2ABAA",
+      "Doğum Tarihi": "",
+      "Eşin Kızlık Soyadı": "Çıbıklı",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 5"
+    },
+    {
+      "Doğum Tarihi": "",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 6",
+      "Eş Adı": "",
+      "Ad": "Lena",
+      "Ölüm Tarihi": "",
+      "Kod": "2ABAAA"
+    },
+    {
+      "Notlar / Çapraz Ref": "Boşandı",
+      "Eşin Kızlık Soyadı": "Yüksel",
+      "Nesil": "Nesil 5",
+      "Doğum Tarihi": "",
+      "Kod": "2ABAB",
+      "Eş Adı": "Feyza / Anna",
+      "Ad": "Özgür",
+      "Ölüm Tarihi": ""
+    },
+    {
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "Anne=Feyza",
+      "Nesil": "Nesil 6",
+      "Doğum Tarihi": "",
+      "Kod": "2ABABA",
+      "Eş Adı": "",
+      "Ad": "Melisa",
+      "Ölüm Tarihi": ""
+    },
+    {
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "Anne=Feyza",
+      "Nesil": "Nesil 6",
+      "Doğum Tarihi": "",
+      "Kod": "2ABABB",
+      "Eş Adı": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Demir"
+    },
+    {
+      "Eş Adı": "",
+      "Ad": "Alen",
+      "Ölüm Tarihi": "",
+      "Kod": "2ABABC",
+      "Doğum Tarihi": "",
+      "Notlar / Çapraz Ref": "İsim belirsiz",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 6"
+    },
+    {
+      "Nesil": "Nesil 4",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Doğum Tarihi": "30.03.1954",
+      "Kod": "2ABB",
+      "Ad": "Gülten",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "Rafet Karazan"
+    },
+    {
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Doğum Tarihi": "04.08.1974",
+      "Kod": "2ABBA",
+      "Ölüm Tarihi": "",
+      "Ad": "Jülide",
+      "Eş Adı": ""
+    },
+    {
+      "Ad": "Evren",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "Esra",
+      "Kod": "2ABBB",
+      "Doğum Tarihi": "26.03.1983",
+      "Nesil": "Nesil 5",
+      "Notlar / Çapraz Ref": "Boşandı",
+      "Eşin Kızlık Soyadı": "Yılancıoğlu"
+    },
+    {
+      "Eş Adı": "Remziye",
+      "Ad": "Nazim",
+      "Ölüm Tarihi": "02.01.1983",
+      "Kod": "2AC",
+      "Doğum Tarihi": "H.1328",
+      "Notlar / Çapraz Ref": "Boşandı",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 3"
+    },
+    {
+      "Kod": "2ACA",
+      "Eş Adı": "",
+      "Ad": "Esen",
+      "Ölüm Tarihi": "25.01.2016",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 4",
+      "Doğum Tarihi": "05.08.1947"
+    },
+    {
+      "Doğum Tarihi": "",
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "Belgede isim yok",
+      "Ad": "?",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "",
+      "Kod": "2ACAA"
+    },
+    {
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "Belgede isim yok",
+      "Doğum Tarihi": "",
+      "Kod": "2ACAB",
+      "Ölüm Tarihi": "",
+      "Ad": "?",
+      "Eş Adı": ""
+    },
+    {
+      "Ad": "Rubide",
+      "Ölüm Tarihi": "H.1334",
+      "Eş Adı": "",
+      "Kod": "2AD",
+      "Doğum Tarihi": "H.1330",
+      "Nesil": "Nesil 3",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": ""
+    },
+    {
+      "Kod": "2AE",
+      "Eş Adı": "Lütfi Akın",
+      "Ad": "Nedime",
+      "Ölüm Tarihi": "",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "Lütfi: D.H.1329, Ö.26.04.1962",
+      "Nesil": "Nesil 3",
+      "Doğum Tarihi": "H.01.02.1332"
+    },
+    {
+      "Nesil": "Nesil 4",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Doğum Tarihi": "27.03.1938",
+      "Kod": "2AEA",
+      "Ölüm Tarihi": "",
+      "Ad": "Nermin",
+      "Eş Adı": ""
+    },
+    {
+      "Kod": "2AEAA",
+      "Ölüm Tarihi": "",
+      "Ad": "Ayşe",
+      "Eş Adı": "",
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Doğum Tarihi": ""
+    },
+    {
+      "Kod": "2AEAB",
+      "Ölüm Tarihi": "",
+      "Ad": "?",
+      "Eş Adı": "",
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "Belgede isim yok",
+      "Doğum Tarihi": ""
+    },
+    {
+      "Doğum Tarihi": "11.05.1941",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 4",
+      "Eş Adı": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Nesrin",
+      "Kod": "2AEB"
+    },
+    {
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "Belgede isim yok",
+      "Nesil": "Nesil 5",
+      "Doğum Tarihi": "",
+      "Kod": "2AEBA",
+      "Eş Adı": "",
+      "Ad": "?",
+      "Ölüm Tarihi": ""
+    },
+    {
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "Belgede isim yok",
+      "Nesil": "Nesil 5",
+      "Doğum Tarihi": "",
+      "Kod": "2AEBB",
+      "Eş Adı": "",
+      "Ad": "?",
+      "Ölüm Tarihi": ""
+    },
+    {
+      "Doğum Tarihi": "29.08.1947",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 4",
+      "Eş Adı": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Osman Uğur",
+      "Kod": "2AEC"
+    },
+    {
+      "Eş Adı": "",
+      "Ad": "Oktay",
+      "Ölüm Tarihi": "",
+      "Kod": "2AED",
+      "Doğum Tarihi": "31.03.1951",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 4"
+    },
+    {
+      "Kod": "2AED-1",
+      "Eş Adı": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Rauf",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "2AED çocuğu; belgede kod yok",
+      "Nesil": "Nesil 4",
+      "Doğum Tarihi": ""
+    },
+    {
+      "Kod": "2AED-2",
+      "Eş Adı": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Ali",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "2AED çocuğu; belgede kod yok",
+      "Nesil": "Nesil 4",
+      "Doğum Tarihi": ""
+    },
+    {
+      "Doğum Tarihi": "31.10.1959",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 4",
+      "Eş Adı": "Canan",
+      "Ölüm Tarihi": "",
+      "Ad": "Kemal Süha",
+      "Kod": "2AEE"
+    },
+    {
+      "Kod": "2AEEA",
+      "Ad": "Nil",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "",
+      "Nesil": "Nesil 5",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Doğum Tarihi": ""
+    },
+    {
+      "Eş Adı": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Gül",
+      "Kod": "2AEEB",
+      "Doğum Tarihi": "",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 5"
+    },
+    {
+      "Kod": "2AEEC",
+      "Eş Adı": "",
+      "Ölüm Tarihi": "",
+      "Ad": "?",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "Belgede isim yok",
+      "Nesil": "Nesil 5",
+      "Doğum Tarihi": ""
+    },
+    {
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 3",
+      "Doğum Tarihi": "H.03.01.1336",
+      "Kod": "2AF",
+      "Eş Adı": "",
+      "Ölüm Tarihi": "15.06.1951",
+      "Ad": "Raziye"
+    },
+    {
+      "Doğum Tarihi": "15.02.1922",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 3",
+      "Eş Adı": "Halit Sivişoğlu",
+      "Ad": "Makbule",
+      "Ölüm Tarihi": "",
+      "Kod": "2AG"
+    },
+    {
+      "Eş Adı": "Mustafa Biçmen",
+      "Ad": "Edibe",
+      "Ölüm Tarihi": "",
+      "Kod": "2AGA",
+      "Doğum Tarihi": "",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 4"
+    },
+    {
+      "Ad": "Duygu",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "",
+      "Kod": "2AGAA",
+      "Doğum Tarihi": "",
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": ""
+    },
+    {
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 5",
+      "Doğum Tarihi": "",
+      "Kod": "2AGAB",
+      "Eş Adı": "",
+      "Ad": "Eker",
+      "Ölüm Tarihi": ""
+    },
+    {
+      "Nesil": "Nesil 4",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Doğum Tarihi": "",
+      "Kod": "2AGB",
+      "Ad": "Ahmet",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "Emel / Nazmiye"
+    },
+    {
+      "Ölüm Tarihi": "",
+      "Ad": "Volkan",
+      "Eş Adı": "",
+      "Kod": "2AGBA",
+      "Doğum Tarihi": "",
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "Anne=Emel"
+    },
+    {
+      "Nesil": "Nesil 5",
+      "Notlar / Çapraz Ref": "Anne=Nazmiye",
+      "Eşin Kızlık Soyadı": "",
+      "Doğum Tarihi": "",
+      "Kod": "2AGBB",
+      "Ad": "Vildan",
+      "Ölüm Tarihi": "",
+      "Eş Adı": ""
+    },
+    {
+      "Eş Adı": "Vahit Kuş",
+      "Ad": "Fatıma",
+      "Ölüm Tarihi": "",
+      "Kod": "2AH",
+      "Doğum Tarihi": "H.04.03.1340",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 3"
+    },
+    {
+      "Nesil": "Nesil 4",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Doğum Tarihi": "",
+      "Kod": "2AHA",
+      "Ad": "Naci",
+      "Ölüm Tarihi": "",
+      "Eş Adı": ""
+    },
+    {
+      "Kod": "2AHB",
+      "Eş Adı": "Lami",
+      "Ad": "Dilek",
+      "Ölüm Tarihi": "",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 4",
+      "Doğum Tarihi": ""
+    },
+    {
+      "Doğum Tarihi": "",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 5",
+      "Eş Adı": "",
+      "Ad": "Ulaş",
+      "Ölüm Tarihi": "",
+      "Kod": "2AHBA"
+    },
+    {
+      "Eş Adı": "",
+      "Ad": "Gökçenaz",
+      "Ölüm Tarihi": "",
+      "Kod": "2AHBB",
+      "Doğum Tarihi": "",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 5"
+    },
+    {
+      "Doğum Tarihi": "",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 4",
+      "Eş Adı": "",
+      "Ad": "Dilber",
+      "Ölüm Tarihi": "",
+      "Kod": "2AHC"
+    },
+    {
+      "Doğum Tarihi": "",
+      "Nesil": "Nesil 4",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Ad": "Mustafa",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "",
+      "Kod": "2AHD"
+    },
+    {
+      "Kod": "2AHE",
+      "Eş Adı": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Adnan",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 4",
+      "Doğum Tarihi": ""
+    },
+    {
+      "Ölüm Tarihi": "15.12.1965",
+      "Ad": "Şevket",
+      "Eş Adı": "Ayşe / Hanife Gürgenç",
+      "Kod": "2B",
+      "Doğum Tarihi": "H.1306",
+      "Nesil": "Nesil 2",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "Hanife: D.H.1306, Ö.28.04.1988"
+    },
+    {
+      "Nesil": "Nesil 3",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "Fikri: D.H.1338, Ö.08.06.1985",
+      "Doğum Tarihi": "05.08.1926",
+      "Kod": "2BA",
+      "Ad": "Hatice",
+      "Ölüm Tarihi": "08.06.1985",
+      "Eş Adı": "Fikri Kahraman"
+    },
+    {
+      "Kod": "2BAA",
+      "Eş Adı": "Sırrı Kanaan",
+      "Ölüm Tarihi": "",
+      "Ad": "Behiye (Gülsen)",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 4",
+      "Doğum Tarihi": "12.07.1946"
+    },
+    {
+      "Doğum Tarihi": "",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "Uğurlu",
+      "Nesil": "Nesil 5",
+      "Eş Adı": "Şadan",
+      "Ad": "Muzaffer",
+      "Ölüm Tarihi": "",
+      "Kod": "2BAAA"
+    },
+    {
+      "Doğum Tarihi": "",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 6",
+      "Eş Adı": "",
+      "Ad": "Muhittin Ali",
+      "Ölüm Tarihi": "",
+      "Kod": "2BAAAA"
+    },
+    {
+      "Ad": "Mustafa",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "",
+      "Kod": "2BAAAB",
+      "Doğum Tarihi": "",
+      "Nesil": "Nesil 6",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": ""
+    },
+    {
+      "Kod": "2BAB",
+      "Ölüm Tarihi": "",
+      "Ad": "Mehmet Necati",
+      "Eş Adı": "Aysel (Reyhan)",
+      "Nesil": "Nesil 4",
+      "Eşin Kızlık Soyadı": "Güden",
+      "Notlar / Çapraz Ref": "",
+      "Doğum Tarihi": "23.12.1947"
+    },
+    {
+      "Doğum Tarihi": "",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 5",
+      "Eş Adı": "Haldun Sakallı",
+      "Ad": "Güliz Neslihan",
+      "Ölüm Tarihi": "",
+      "Kod": "2BABA"
+    },
+    {
+      "Eş Adı": "",
+      "Ad": "Ilgın",
+      "Ölüm Tarihi": "",
+      "Kod": "2BABAA",
+      "Doğum Tarihi": "",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 6"
+    },
+    {
+      "Ölüm Tarihi": "",
+      "Ad": "Harun",
+      "Eş Adı": "",
+      "Kod": "2BABAB",
+      "Doğum Tarihi": "",
+      "Nesil": "Nesil 6",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": ""
+    },
+    {
+      "Nesil": "Nesil 6",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "Belgede isim yok",
+      "Doğum Tarihi": "",
+      "Kod": "2BABAC",
+      "Ölüm Tarihi": "",
+      "Ad": "?",
+      "Eş Adı": ""
+    },
+    {
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 5",
+      "Doğum Tarihi": "",
+      "Kod": "2BABB",
+      "Eş Adı": "Murat",
+      "Ölüm Tarihi": "",
+      "Ad": "Yeliz"
+    },
+    {
+      "Eş Adı": "",
+      "Ad": "Miray",
+      "Ölüm Tarihi": "",
+      "Kod": "2BABBA",
+      "Doğum Tarihi": "",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 6"
+    },
+    {
+      "Doğum Tarihi": "",
+      "Nesil": "Nesil 6",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Simay",
+      "Eş Adı": "",
+      "Kod": "2BABBB"
+    },
+    {
+      "Nesil": "Nesil 5",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Doğum Tarihi": "",
+      "Kod": "2BABC",
+      "Ad": "Fikri",
+      "Ölüm Tarihi": "",
+      "Eş Adı": ""
+    },
+    {
+      "Notlar / Çapraz Ref": "Boşandı",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 4",
+      "Doğum Tarihi": "04.09.1949",
+      "Kod": "2BAC",
+      "Eş Adı": "Mübeccel / Feray",
+      "Ad": "Yunus",
+      "Ölüm Tarihi": ""
+    },
+    {
+      "Doğum Tarihi": "",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 5",
+      "Eş Adı": "",
+      "Ad": "Didem",
+      "Ölüm Tarihi": "",
+      "Kod": "2BACA"
+    },
+    {
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Doğum Tarihi": "",
+      "Kod": "2BACB",
+      "Ölüm Tarihi": "",
+      "Ad": "Emre",
+      "Eş Adı": ""
+    },
+    {
+      "Doğum Tarihi": "15.06.1951",
+      "Eşin Kızlık Soyadı": "Kahraman",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 4",
+      "Eş Adı": "Fatma",
+      "Ölüm Tarihi": "",
+      "Ad": "Necdet (Naci)",
+      "Kod": "2BAD"
+    },
+    {
+      "Doğum Tarihi": "",
+      "Eşin Kızlık Soyadı": "Tangülü",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 5",
+      "Eş Adı": "Beyza",
+      "Ölüm Tarihi": "",
+      "Ad": "Ercan",
+      "Kod": "2BADA"
+    },
+    {
+      "Eş Adı": "",
+      "Ad": "Yusuf Kaan",
+      "Ölüm Tarihi": "",
+      "Kod": "2BADAA",
+      "Doğum Tarihi": "",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 6"
+    },
+    {
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 6",
+      "Doğum Tarihi": "",
+      "Kod": "2BADAB",
+      "Eş Adı": "",
+      "Ad": "Ali Onur",
+      "Ölüm Tarihi": ""
+    },
+    {
+      "Doğum Tarihi": "",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 6",
+      "Eş Adı": "",
+      "Ad": "Ömer Mert",
+      "Ölüm Tarihi": "",
+      "Kod": "2BADAC"
+    },
+    {
+      "Doğum Tarihi": "",
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Esin",
+      "Eş Adı": "Oğuzhan Baran",
+      "Kod": "2BADB"
+    },
+    {
+      "Doğum Tarihi": "",
+      "Nesil": "Nesil 6",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Ahmet Selim",
+      "Eş Adı": "",
+      "Kod": "2BADBA"
+    },
+    {
+      "Doğum Tarihi": "",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 6",
+      "Eş Adı": "",
+      "Ad": "Mustafa Kerem",
+      "Ölüm Tarihi": "",
+      "Kod": "2BADBB"
+    },
+    {
+      "Nesil": "Nesil 6",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Doğum Tarihi": "",
+      "Kod": "2BADBC",
+      "Ölüm Tarihi": "",
+      "Ad": "Mehmet Selçuk",
+      "Eş Adı": ""
+    },
+    {
+      "Nesil": "Nesil 4",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Doğum Tarihi": "10.07.1955",
+      "Kod": "2BAE",
+      "Ölüm Tarihi": "",
+      "Ad": "Neriman",
+      "Eş Adı": "Cemal (Koray) Reyhan"
+    },
+    {
+      "Kod": "2BAEA",
+      "Eş Adı": "Şengül / Şadiye",
+      "Ad": "Cem",
+      "Ölüm Tarihi": "",
+      "Eşin Kızlık Soyadı": "Budak",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 5",
+      "Doğum Tarihi": "02.04.1982"
+    },
+    {
+      "Ölüm Tarihi": "",
+      "Ad": "Leyla",
+      "Eş Adı": "",
+      "Kod": "2BAEAA",
+      "Doğum Tarihi": "07.03.2019",
+      "Nesil": "Nesil 6",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "Tarih belirsiz"
+    },
+    {
+      "Doğum Tarihi": "05.06.1988",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 5",
+      "Eş Adı": "Emre Manav",
+      "Ad": "Burcu",
+      "Ölüm Tarihi": "",
+      "Kod": "2BAEB"
+    },
+    {
+      "Doğum Tarihi": "09.08.1927",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "Feyziye: D.20.06.1936, Ö.11.07.1961; Güllü: D.06.04.1933, Ö.22.11.2025",
+      "Nesil": "Nesil 3",
+      "Eş Adı": "Feyziye (Şahin) / Güllü (Neriman) (Kuvvet)",
+      "Ölüm Tarihi": "21.06.1995",
+      "Ad": "Zeki",
+      "Kod": "2BB"
+    },
+    {
+      "Doğum Tarihi": "29.04.1955",
+      "Nesil": "Nesil 4",
+      "Notlar / Çapraz Ref": "Eşi=2EJ; ÇAPRAZ AKRABALİK",
+      "Eşin Kızlık Soyadı": "Demiralay",
+      "Ad": "Hamit Erdal (Serdar)",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "Selva Demiralay [→2EJ]",
+      "Kod": "2BBA"
+    },
+    {
+      "Kod": "2BBAA",
+      "Ad": "Selcan Bahar",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "Volkan Herken",
+      "Nesil": "Nesil 5",
+      "Notlar / Çapraz Ref": "aynı kişi=2EJA",
+      "Eşin Kızlık Soyadı": "",
+      "Doğum Tarihi": "17.04.1983"
+    },
+    {
+      "Doğum Tarihi": "",
+      "Nesil": "Nesil 6",
+      "Notlar / Çapraz Ref": "aynı kişi=2EJAA",
+      "Eşin Kızlık Soyadı": "",
+      "Ad": "Duru",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "",
+      "Kod": "2BBAAA"
+    },
+    {
+      "Doğum Tarihi": "21.11.1985",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "aynı kişi=2EJB",
+      "Nesil": "Nesil 5",
+      "Eş Adı": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Ersel Baha",
+      "Kod": "2BBAB"
+    },
+    {
+      "Kod": "2BBB",
+      "Eş Adı": "Mustafa Erdem [→2DCC]",
+      "Ad": "Serap",
+      "Ölüm Tarihi": "",
+      "Notlar / Çapraz Ref": "Eşi=2DCC; ÇAPRAZ AKRABALİK",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 4",
+      "Doğum Tarihi": "29.01.1957"
+    },
+    {
+      "Kod": "2BBBA",
+      "Ad": "Pınar",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "",
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "aynı kişi=2DCCA",
+      "Doğum Tarihi": "30.06.1982"
+    },
+    {
+      "Notlar / Çapraz Ref": "aynı kişi=2DCCB; Boşandı",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 5",
+      "Doğum Tarihi": "01.08.1986",
+      "Kod": "2BBBB",
+      "Eş Adı": "Fatih Kayıhan",
+      "Ad": "Elif",
+      "Ölüm Tarihi": ""
+    },
+    {
+      "Kod": "2BBC",
+      "Eş Adı": "Nesrin",
+      "Ölüm Tarihi": "",
+      "Ad": "Dilaver",
+      "Eşin Kızlık Soyadı": "Can",
+      "Notlar / Çapraz Ref": "Nesrin: D.28.06.1960",
+      "Nesil": "Nesil 4",
+      "Doğum Tarihi": "16.06.1959"
+    },
+    {
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "Emrah: D.22.09.1984",
+      "Nesil": "Nesil 5",
+      "Doğum Tarihi": "23.06.1989",
+      "Kod": "2BBCA",
+      "Eş Adı": "Emrah Eren",
+      "Ölüm Tarihi": "",
+      "Ad": "Dilara"
+    },
+    {
+      "Doğum Tarihi": "19.11.2019",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 6",
+      "Eş Adı": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Ata Erdem",
+      "Kod": "2BBCAA"
+    },
+    {
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Doğum Tarihi": "28.05.1997",
+      "Kod": "2BBCB",
+      "Ölüm Tarihi": "",
+      "Ad": "Zekican",
+      "Eş Adı": ""
+    },
+    {
+      "Ad": "Nevzat (Atilla)",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "Venhar",
+      "Kod": "2BBD",
+      "Doğum Tarihi": "01.07.1962",
+      "Nesil": "Nesil 4",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "Çiplikli"
+    },
+    {
+      "Kod": "2BBDA",
+      "Eş Adı": "Enver Karagöz",
+      "Ad": "Damla",
+      "Ölüm Tarihi": "",
+      "Notlar / Çapraz Ref": "Enver: D.24.05.1989",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 5",
+      "Doğum Tarihi": "29.05.1989"
+    },
+    {
+      "Eş Adı": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Gül Endam",
+      "Kod": "2BBDAA",
+      "Doğum Tarihi": "16.11.2016",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 6"
+    },
+    {
+      "Kod": "2BBDAB",
+      "Eş Adı": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Behiye Nisan",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 6",
+      "Doğum Tarihi": "16.04.2019"
+    },
+    {
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 5",
+      "Doğum Tarihi": "28.04.1995",
+      "Kod": "2BBDB",
+      "Eş Adı": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Gülmisal"
+    },
+    {
+      "Doğum Tarihi": "24.01.1964",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 4",
+      "Eş Adı": "",
+      "Ad": "Fatih",
+      "Ölüm Tarihi": "16.04.1964",
+      "Kod": "2BBE"
+    },
+    {
+      "Kod": "2BBF",
+      "Ölüm Tarihi": "",
+      "Ad": "Serpil",
+      "Eş Adı": "Şükrü Çelebi",
+      "Nesil": "Nesil 4",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "Şükrü: D.19.02.1962",
+      "Doğum Tarihi": "27.01.1965"
+    },
+    {
+      "Doğum Tarihi": "11.07.1995",
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Enes Berker",
+      "Eş Adı": "",
+      "Kod": "2BBFA"
+    },
+    {
+      "Doğum Tarihi": "10.09.1999",
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Edibe Ezgi",
+      "Eş Adı": "",
+      "Kod": "2BBFB"
+    },
+    {
+      "Doğum Tarihi": "15.05.1968",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 4",
+      "Eş Adı": "",
+      "Ad": "Yıldıray",
+      "Ölüm Tarihi": "",
+      "Kod": "2BBG"
+    },
+    {
+      "Kod": "2BBH",
+      "Ad": "Soner",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "Gamze",
+      "Nesil": "Nesil 4",
+      "Notlar / Çapraz Ref": "Gamze: D.11.12.1977",
+      "Eşin Kızlık Soyadı": "Çelikyürek",
+      "Doğum Tarihi": "02.02.1975"
+    },
+    {
+      "Eş Adı": "",
+      "Ad": "İlayda",
+      "Ölüm Tarihi": "",
+      "Kod": "2BBHA",
+      "Doğum Tarihi": "04.11.2007",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 5"
+    },
+    {
+      "Nesil": "Nesil 5",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Doğum Tarihi": "28.06.2019",
+      "Kod": "2BBHB",
+      "Ad": "Eren Kemal",
+      "Ölüm Tarihi": "",
+      "Eş Adı": ""
+    },
+    {
+      "Ölüm Tarihi": "16.09.1991",
+      "Ad": "Fikri",
+      "Eş Adı": "Meliha",
+      "Kod": "2BC",
+      "Doğum Tarihi": "02.03.1932",
+      "Nesil": "Nesil 3",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "Meliha: D.22.07.1930, Ö.12.12.2023"
+    },
+    {
+      "Ad": "Müzeyyen",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "Kemal Kökşen",
+      "Kod": "2BCA",
+      "Doğum Tarihi": "04.01.1949",
+      "Nesil": "Nesil 4",
+      "Notlar / Çapraz Ref": "Kemal: D.15.08.1946",
+      "Eşin Kızlık Soyadı": ""
+    },
+    {
+      "Eş Adı": "Filiz",
+      "Ölüm Tarihi": "",
+      "Ad": "Alper",
+      "Kod": "2BCAA",
+      "Doğum Tarihi": "21.03.1974",
+      "Eşin Kızlık Soyadı": "Satılmışoğlu",
+      "Notlar / Çapraz Ref": "Filiz: D.21.05.1979",
+      "Nesil": "Nesil 5"
+    },
+    {
+      "Nesil": "Nesil 6",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Doğum Tarihi": "24.02.2010",
+      "Kod": "2BCAAA",
+      "Ad": "Kıvanç",
+      "Ölüm Tarihi": "",
+      "Eş Adı": ""
+    },
+    {
+      "Kod": "2BCAAB",
+      "Ölüm Tarihi": "",
+      "Ad": "Öykü",
+      "Eş Adı": "",
+      "Nesil": "Nesil 6",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "İsim belirsiz",
+      "Doğum Tarihi": "12.09.2012"
+    },
+    {
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "Ömer: D.22.05.1975",
+      "Nesil": "Nesil 5",
+      "Doğum Tarihi": "22.08.1977",
+      "Kod": "2BCAB",
+      "Eş Adı": "Ömer Vardar",
+      "Ad": "Nurtaç",
+      "Ölüm Tarihi": ""
+    },
+    {
+      "Kod": "2BCABA",
+      "Ad": "Ceren",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "",
+      "Nesil": "Nesil 6",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Doğum Tarihi": "05.09.2000"
+    },
+    {
+      "Kod": "2BCABB",
+      "Eş Adı": "",
+      "Ad": "Gülce",
+      "Ölüm Tarihi": "",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 6",
+      "Doğum Tarihi": "01.11.2008"
+    },
+    {
+      "Ölüm Tarihi": "29.03.2026",
+      "Ad": "Orhan",
+      "Eş Adı": "Binnur",
+      "Kod": "2BCB",
+      "Doğum Tarihi": "02.01.1950",
+      "Nesil": "Nesil 4",
+      "Eşin Kızlık Soyadı": "Hepetaç",
+      "Notlar / Çapraz Ref": ""
+    },
+    {
+      "Doğum Tarihi": "01.07.2002",
+      "Nesil": "Nesil 5",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Ad": "Emin",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "",
+      "Kod": "2BCBA"
+    },
+    {
+      "Doğum Tarihi": "22.06.2006",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 5",
+      "Eş Adı": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Emre",
+      "Kod": "2BCBB"
+    },
+    {
+      "Kod": "2BCC",
+      "Eş Adı": "",
+      "Ad": "Hamza",
+      "Ölüm Tarihi": "03.02.1956",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 4",
+      "Doğum Tarihi": "26.10.1955"
+    },
+    {
+      "Doğum Tarihi": "29.06.1959",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "Nebahat: D.29.10.1962",
+      "Nesil": "Nesil 4",
+      "Eş Adı": "Nebahat",
+      "Ad": "Turan",
+      "Ölüm Tarihi": "",
+      "Kod": "2BCD"
+    },
+    {
+      "Nesil": "Nesil 5",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Doğum Tarihi": "10.11.1990",
+      "Kod": "2BCDA",
+      "Ad": "M. Onur",
+      "Ölüm Tarihi": "",
+      "Eş Adı": ""
+    },
+    {
+      "Kod": "2BCDB",
+      "Ölüm Tarihi": "",
+      "Ad": "Ozan",
+      "Eş Adı": "",
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Doğum Tarihi": "03.07.1996"
+    },
+    {
+      "Doğum Tarihi": "01.01.1933",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 3",
+      "Eş Adı": "Elmas",
+      "Ad": "Lütfi",
+      "Ölüm Tarihi": "03.03.2016",
+      "Kod": "2BD"
+    },
+    {
+      "Ad": "Mualla",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "Osman Akalın [→2FBC]",
+      "Kod": "2BDA",
+      "Doğum Tarihi": "",
+      "Nesil": "Nesil 4",
+      "Notlar / Çapraz Ref": "Eşi=2FBC; Osman: D.23.04.1959",
+      "Eşin Kızlık Soyadı": ""
+    },
+    {
+      "Kod": "2BDAA",
+      "Ad": "Funda",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "Yasin Kertiş",
+      "Nesil": "Nesil 5",
+      "Notlar / Çapraz Ref": "aynı kişi=2FBCA",
+      "Eşin Kızlık Soyadı": "",
+      "Doğum Tarihi": "22.01.1984"
+    },
+    {
+      "Eş Adı": "",
+      "Ad": "Açelya",
+      "Ölüm Tarihi": "",
+      "Kod": "2BDAAA",
+      "Doğum Tarihi": "26.02.2014",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 6"
+    },
+    {
+      "Nesil": "Nesil 6",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Doğum Tarihi": "07.09.2018",
+      "Kod": "2BDAAB",
+      "Ölüm Tarihi": "",
+      "Ad": "Cihangir",
+      "Eş Adı": ""
+    },
+    {
+      "Doğum Tarihi": "23.06.1989",
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "Dayıgüreçlik",
+      "Notlar / Çapraz Ref": "aynı kişi=2FBCB",
+      "Ad": "Mesut",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "Nihan",
+      "Kod": "2BDAB"
+    },
+    {
+      "Doğum Tarihi": "07.05.2016",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 6",
+      "Eş Adı": "",
+      "Ad": "Barış",
+      "Ölüm Tarihi": "",
+      "Kod": "2BDABA"
+    },
+    {
+      "Doğum Tarihi": "",
+      "Nesil": "Nesil 4",
+      "Notlar / Çapraz Ref": "Boşandı",
+      "Eşin Kızlık Soyadı": "",
+      "Ad": "Dündar",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "Zehra",
+      "Kod": "2BDB"
+    },
+    {
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 5",
+      "Doğum Tarihi": "",
+      "Kod": "2BDBA",
+      "Eş Adı": "Melisa",
+      "Ölüm Tarihi": "",
+      "Ad": "Ufuk"
+    },
+    {
+      "Doğum Tarihi": "",
+      "Nesil": "Nesil 6",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Ad": "Şeyma",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "",
+      "Kod": "2BDBAA"
+    },
+    {
+      "Eş Adı": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Zeliha Elmas",
+      "Kod": "2BDBAB",
+      "Doğum Tarihi": "",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 6"
+    },
+    {
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "Boşandı",
+      "Doğum Tarihi": "",
+      "Kod": "2BDBB",
+      "Ölüm Tarihi": "",
+      "Ad": "Melike",
+      "Eş Adı": "Remy"
+    },
+    {
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 5",
+      "Doğum Tarihi": "",
+      "Kod": "2BDBC",
+      "Eş Adı": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Lütfü"
+    },
+    {
+      "Ölüm Tarihi": "28.04.2021",
+      "Ad": "Tarık",
+      "Eş Adı": "Mehtap",
+      "Kod": "2BDC",
+      "Doğum Tarihi": "01.03.1963",
+      "Nesil": "Nesil 4",
+      "Eşin Kızlık Soyadı": "Gültekin",
+      "Notlar / Çapraz Ref": ""
+    },
+    {
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 5",
+      "Doğum Tarihi": "",
+      "Kod": "2BDCA",
+      "Eş Adı": "",
+      "Ad": "Şevket Ali",
+      "Ölüm Tarihi": ""
+    },
+    {
+      "Kod": "2BDCB",
+      "Eş Adı": "Duygu",
+      "Ölüm Tarihi": "",
+      "Ad": "Sedat Lütfi",
+      "Eşin Kızlık Soyadı": "Eker",
+      "Notlar / Çapraz Ref": "Evlenme: 15.08.2024",
+      "Nesil": "Nesil 5",
+      "Doğum Tarihi": ""
+    },
+    {
+      "Doğum Tarihi": "",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 5",
+      "Eş Adı": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Ender Tarık",
+      "Kod": "2BDCC"
+    },
+    {
+      "Kod": "2C",
+      "Ölüm Tarihi": "?",
+      "Ad": "Hurde (Hürdağ)",
+      "Eş Adı": "İmdat Gemici",
+      "Nesil": "Nesil 2",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "İmdat: D.H.1294, Ö.H.01.06.1334",
+      "Doğum Tarihi": "H.1307"
+    },
+    {
+      "Ölüm Tarihi": "01.06.1981",
+      "Ad": "Ruziye",
+      "Eş Adı": "Hayri Özgüven / Battal",
+      "Kod": "2CA",
+      "Doğum Tarihi": "1914",
+      "Nesil": "Nesil 3",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": ""
+    },
+    {
+      "Doğum Tarihi": "10.08.1933",
+      "Nesil": "Nesil 4",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Ölüm Tarihi": "10.11.1965",
+      "Ad": "Ülviye",
+      "Eş Adı": "",
+      "Kod": "2CAA"
+    },
+    {
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 3",
+      "Doğum Tarihi": "H.1333",
+      "Kod": "2CB",
+      "Eş Adı": "",
+      "Ad": "Raziye",
+      "Ölüm Tarihi": "02.03.1926"
+    },
+    {
+      "Notlar / Çapraz Ref": "2DF Anne=Nazife",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 2",
+      "Doğum Tarihi": "H.1318",
+      "Kod": "2D",
+      "Eş Adı": "Süleyman Gürgenç / Nazife",
+      "Ad": "Leyla",
+      "Ölüm Tarihi": "20.04.1969"
+    },
+    {
+      "Ölüm Tarihi": "28.12.1985",
+      "Ad": "Enver",
+      "Eş Adı": "Zennure",
+      "Kod": "2DA",
+      "Doğum Tarihi": "H.11.03.1339",
+      "Nesil": "Nesil 3",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "Zennure: D.13.02.1929"
+    },
+    {
+      "Nesil": "Nesil 4",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Doğum Tarihi": "23.04.1949",
+      "Kod": "2DAA",
+      "Ölüm Tarihi": "",
+      "Ad": "Süheyla",
+      "Eş Adı": "Aydemir Uğurlu"
+    },
+    {
+      "Ölüm Tarihi": "",
+      "Ad": "Ebru",
+      "Eş Adı": "Cenap Ermutlu",
+      "Kod": "2DAAA",
+      "Doğum Tarihi": "",
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": ""
+    },
+    {
+      "Kod": "2DAAAA",
+      "Eş Adı": "",
+      "Ad": "Ekin",
+      "Ölüm Tarihi": "",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 6",
+      "Doğum Tarihi": ""
+    },
+    {
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Doğum Tarihi": "",
+      "Kod": "2DAAB",
+      "Ölüm Tarihi": "",
+      "Ad": "Şeyda",
+      "Eş Adı": "Volkan Aytekin"
+    },
+    {
+      "Kod": "2DAABA",
+      "Eş Adı": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Yağız Ali",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 6",
+      "Doğum Tarihi": ""
+    },
+    {
+      "Ölüm Tarihi": "",
+      "Ad": "Alya",
+      "Eş Adı": "",
+      "Kod": "2DAABB",
+      "Doğum Tarihi": "",
+      "Nesil": "Nesil 6",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": ""
+    },
+    {
+      "Eş Adı": "Rüksan",
+      "Ad": "Fırat",
+      "Ölüm Tarihi": "",
+      "Kod": "2DAAC",
+      "Doğum Tarihi": "",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 5"
+    },
+    {
+      "Doğum Tarihi": "06.06.1952",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 4",
+      "Eş Adı": "Emine",
+      "Ölüm Tarihi": "22.11.1999",
+      "Ad": "Adnan",
+      "Kod": "2DAB"
+    },
+    {
+      "Kod": "2DABA",
+      "Ölüm Tarihi": "",
+      "Ad": "Doğan",
+      "Eş Adı": "Nihan",
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Doğum Tarihi": ""
+    },
+    {
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 6",
+      "Doğum Tarihi": "",
+      "Kod": "2DABAA",
+      "Eş Adı": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Adnan Efe"
+    },
+    {
+      "Ölüm Tarihi": "",
+      "Ad": "Mert",
+      "Eş Adı": "",
+      "Kod": "2DABAB",
+      "Doğum Tarihi": "",
+      "Nesil": "Nesil 6",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": ""
+    },
+    {
+      "Kod": "2DABB",
+      "Eş Adı": "Engin Irmaklı",
+      "Ad": "Pınar",
+      "Ölüm Tarihi": "",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 5",
+      "Doğum Tarihi": ""
+    },
+    {
+      "Doğum Tarihi": "01.07.1955",
+      "Notlar / Çapraz Ref": "Perihan: D.11.12.1957",
+      "Eşin Kızlık Soyadı": "Korahan",
+      "Nesil": "Nesil 4",
+      "Eş Adı": "Perihan",
+      "Ad": "Selim",
+      "Ölüm Tarihi": "",
+      "Kod": "2DAC"
+    },
+    {
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Doğum Tarihi": "27.11.1984",
+      "Kod": "2DACA",
+      "Ad": "Selinay",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "Damien Comolli"
+    },
+    {
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 6",
+      "Doğum Tarihi": "05.12.2024",
+      "Kod": "2DACAA",
+      "Eş Adı": "",
+      "Ad": "Ata Arsene",
+      "Ölüm Tarihi": ""
+    },
+    {
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Doğum Tarihi": "28.04.1990",
+      "Kod": "2DACB",
+      "Ölüm Tarihi": "",
+      "Ad": "Tuğçe",
+      "Eş Adı": ""
+    },
+    {
+      "Eş Adı": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Sevilay",
+      "Kod": "2DACC",
+      "Doğum Tarihi": "03.01.1993",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 5"
+    },
+    {
+      "Nesil": "Nesil 4",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Doğum Tarihi": "05.03.1961",
+      "Kod": "2DAD",
+      "Ad": "Zühal",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "Fazlı Özçelik"
+    },
+    {
+      "Doğum Tarihi": "15.03.1968",
+      "Nesil": "Nesil 4",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Ad": "Habil",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "Emre",
+      "Kod": "2DAE"
+    },
+    {
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 5",
+      "Doğum Tarihi": "",
+      "Kod": "2DAEA",
+      "Eş Adı": "",
+      "Ad": "Enver Doğukan",
+      "Ölüm Tarihi": ""
+    },
+    {
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Doğum Tarihi": "",
+      "Kod": "2DAEB",
+      "Ad": "Battal Barkan",
+      "Ölüm Tarihi": "",
+      "Eş Adı": ""
+    },
+    {
+      "Eş Adı": "Aliye",
+      "Ad": "Muammer",
+      "Ölüm Tarihi": "04.03.2000",
+      "Kod": "2DB",
+      "Doğum Tarihi": "H.1341",
+      "Notlar / Çapraz Ref": "Aliye: D.05.02.1929",
+      "Eşin Kızlık Soyadı": "Erdem",
+      "Nesil": "Nesil 3"
+    },
+    {
+      "Kod": "2DBA",
+      "Eş Adı": "Nilgün",
+      "Ad": "Mehmet Oktay",
+      "Ölüm Tarihi": "",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 4",
+      "Doğum Tarihi": "01.09.1949"
+    },
+    {
+      "Kod": "2DBAA",
+      "Ölüm Tarihi": "",
+      "Ad": "?",
+      "Eş Adı": "",
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "Belgede isim yok",
+      "Doğum Tarihi": ""
+    },
+    {
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "Belgede isim yok",
+      "Doğum Tarihi": "",
+      "Kod": "2DBAB",
+      "Ad": "?",
+      "Ölüm Tarihi": "",
+      "Eş Adı": ""
+    },
+    {
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 4",
+      "Doğum Tarihi": "21.12.1951",
+      "Kod": "2DBB",
+      "Eş Adı": "Nesrin",
+      "Ölüm Tarihi": "",
+      "Ad": "Fatih"
+    },
+    {
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 5",
+      "Doğum Tarihi": "",
+      "Kod": "2DBBA",
+      "Eş Adı": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Banu"
+    },
+    {
+      "Kod": "2DBBB",
+      "Eş Adı": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Ebru",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 5",
+      "Doğum Tarihi": ""
+    },
+    {
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 4",
+      "Doğum Tarihi": "07.04.1954",
+      "Kod": "2DBC",
+      "Eş Adı": "",
+      "Ad": "Haluk",
+      "Ölüm Tarihi": "01.01.1955"
+    },
+    {
+      "Doğum Tarihi": "16.12.1955",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 4",
+      "Eş Adı": "Serpil",
+      "Ölüm Tarihi": "",
+      "Ad": "Yıldırım",
+      "Kod": "2DBD"
+    },
+    {
+      "Ölüm Tarihi": "",
+      "Ad": "Gamze",
+      "Eş Adı": "",
+      "Kod": "2DBDA",
+      "Doğum Tarihi": "",
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": ""
+    },
+    {
+      "Kod": "2DBDB",
+      "Eş Adı": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Tuğçe",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 5",
+      "Doğum Tarihi": ""
+    },
+    {
+      "Eş Adı": "",
+      "Ad": "Sührap",
+      "Ölüm Tarihi": "",
+      "Kod": "2DBE",
+      "Doğum Tarihi": "09.01.1963",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 4"
+    },
+    {
+      "Eş Adı": "",
+      "Ad": "Ufuk",
+      "Ölüm Tarihi": "",
+      "Kod": "2DBF",
+      "Doğum Tarihi": "14.07.1963",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 4"
+    },
+    {
+      "Ad": "Mahruse",
+      "Ölüm Tarihi": "16.05.2013",
+      "Eş Adı": "Kadir Erdem",
+      "Kod": "2DC",
+      "Doğum Tarihi": "1928",
+      "Nesil": "Nesil 3",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "Kadir: D.01.07.1924, Ö.15.05.1991"
+    },
+    {
+      "Ölüm Tarihi": "",
+      "Ad": "Nihal",
+      "Eş Adı": "Mete Oruç",
+      "Kod": "2DCA",
+      "Doğum Tarihi": "",
+      "Nesil": "Nesil 4",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": ""
+    },
+    {
+      "Doğum Tarihi": "",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 5",
+      "Eş Adı": "",
+      "Ad": "Eren",
+      "Ölüm Tarihi": "",
+      "Kod": "2DCAA"
+    },
+    {
+      "Eş Adı": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Nazlı",
+      "Kod": "2DCAB",
+      "Doğum Tarihi": "",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 5"
+    },
+    {
+      "Ad": "Halil",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "Nesrin",
+      "Kod": "2DCB",
+      "Doğum Tarihi": "",
+      "Nesil": "Nesil 4",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": ""
+    },
+    {
+      "Doğum Tarihi": "",
+      "Nesil": "Nesil 5",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Ad": "Ender",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "",
+      "Kod": "2DCBA"
+    },
+    {
+      "Doğum Tarihi": "",
+      "Nesil": "Nesil 4",
+      "Notlar / Çapraz Ref": "Eşi=2BBB; ÇAPRAZ AKRABALİK",
+      "Eşin Kızlık Soyadı": "",
+      "Ad": "Mustafa",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "Serap Demiralay [→2BBB]",
+      "Kod": "2DCC"
+    },
+    {
+      "Ad": "Pınar",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "",
+      "Kod": "2DCCA",
+      "Doğum Tarihi": "30.06.1982",
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "aynı kişi=2BBBA"
+    },
+    {
+      "Doğum Tarihi": "01.08.1986",
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "aynı kişi=2BBBB; Boşandı",
+      "Ölüm Tarihi": "",
+      "Ad": "Elif",
+      "Eş Adı": "Fatih Kayıhan [=2BBBB]",
+      "Kod": "2DCCB"
+    },
+    {
+      "Doğum Tarihi": "",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 4",
+      "Eş Adı": "Dilaver Gündüz",
+      "Ölüm Tarihi": "",
+      "Ad": "Hülya",
+      "Kod": "2DCD"
+    },
+    {
+      "Kod": "2DCDA",
+      "Eş Adı": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Gözde",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 5",
+      "Doğum Tarihi": ""
+    },
+    {
+      "Ad": "Kemal",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "Fazilet",
+      "Kod": "2DCE",
+      "Doğum Tarihi": "",
+      "Nesil": "Nesil 4",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": ""
+    },
+    {
+      "Kod": "2DCEA",
+      "Ad": "Kadir Yiğit",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "",
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Doğum Tarihi": ""
+    },
+    {
+      "Doğum Tarihi": "06.04.1929",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 3",
+      "Eş Adı": "Duran Akbaş",
+      "Ad": "Meliha",
+      "Ölüm Tarihi": "",
+      "Kod": "2DD"
+    },
+    {
+      "Nesil": "Nesil 4",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Doğum Tarihi": "",
+      "Kod": "2DDA",
+      "Ölüm Tarihi": "",
+      "Ad": "Özden",
+      "Eş Adı": ""
+    },
+    {
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 4",
+      "Doğum Tarihi": "",
+      "Kod": "2DDB",
+      "Eş Adı": "Yadigar",
+      "Ad": "Mehmet",
+      "Ölüm Tarihi": ""
+    },
+    {
+      "Kod": "2DDBA",
+      "Eş Adı": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Hallac-ı Mansur",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 5",
+      "Doğum Tarihi": ""
+    },
+    {
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Doğum Tarihi": "",
+      "Kod": "2DDBB",
+      "Ad": "Mustafa",
+      "Ölüm Tarihi": "",
+      "Eş Adı": ""
+    },
+    {
+      "Doğum Tarihi": "",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "Boşandı",
+      "Nesil": "Nesil 4",
+      "Eş Adı": "",
+      "Ad": "Vildan",
+      "Ölüm Tarihi": "",
+      "Kod": "2DDC"
+    },
+    {
+      "Ad": "Can",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "",
+      "Kod": "2DDCA",
+      "Doğum Tarihi": "",
+      "Nesil": "Nesil 5",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": ""
+    },
+    {
+      "Ölüm Tarihi": "",
+      "Ad": "Timur",
+      "Eş Adı": "",
+      "Kod": "2DDD",
+      "Doğum Tarihi": "",
+      "Nesil": "Nesil 4",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": ""
+    },
+    {
+      "Doğum Tarihi": "",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 4",
+      "Eş Adı": "",
+      "Ad": "Nalan",
+      "Ölüm Tarihi": "",
+      "Kod": "2DDE"
+    },
+    {
+      "Doğum Tarihi": "01.02.1933",
+      "Nesil": "Nesil 3",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Ad": "Osman Nuri",
+      "Ölüm Tarihi": "01.09.1934",
+      "Eş Adı": "",
+      "Kod": "2DE"
+    },
+    {
+      "Doğum Tarihi": "16.01.1935",
+      "Nesil": "Nesil 3",
+      "Notlar / Çapraz Ref": "Anne=Nazife",
+      "Eşin Kızlık Soyadı": "",
+      "Ad": "Yıldız",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "Azmi Gülcüoğlu",
+      "Kod": "2DF"
+    },
+    {
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 4",
+      "Doğum Tarihi": "",
+      "Kod": "2DFA",
+      "Eş Adı": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Hatice"
+    },
+    {
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 4",
+      "Doğum Tarihi": "",
+      "Kod": "2DFB",
+      "Eş Adı": "",
+      "Ad": "Mustafa",
+      "Ölüm Tarihi": ""
+    },
+    {
+      "Kod": "2DFC",
+      "Ad": "Mehmet",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "",
+      "Nesil": "Nesil 4",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Doğum Tarihi": ""
+    },
+    {
+      "Eş Adı": "",
+      "Ad": "Şinasi",
+      "Ölüm Tarihi": "",
+      "Kod": "2DFD",
+      "Doğum Tarihi": "",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 4"
+    },
+    {
+      "Doğum Tarihi": "",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 4",
+      "Eş Adı": "",
+      "Ad": "Halim",
+      "Ölüm Tarihi": "",
+      "Kod": "2DFE"
+    },
+    {
+      "Doğum Tarihi": "H.1320",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "Fatima: D.H.1330, Ö.13.02.1998",
+      "Nesil": "Nesil 2",
+      "Eş Adı": "Hadise / Fatıma",
+      "Ad": "Rüfai",
+      "Ölüm Tarihi": "08.03.1969",
+      "Kod": "2E"
+    },
+    {
+      "Kod": "2EA",
+      "Eş Adı": "Abidin Kuş",
+      "Ölüm Tarihi": "15.07.1953",
+      "Ad": "Saime",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "Abidin: D.28.06.1924, Ö.06.01.1999",
+      "Nesil": "Nesil 3",
+      "Doğum Tarihi": "09.03.1927"
+    },
+    {
+      "Nesil": "Nesil 4",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Doğum Tarihi": "05.01.1953",
+      "Kod": "2EAA",
+      "Ad": "Erhan",
+      "Ölüm Tarihi": "11.10.1953",
+      "Eş Adı": ""
+    },
+    {
+      "Ad": "Yılmaz",
+      "Ölüm Tarihi": "02.08.1994",
+      "Eş Adı": "",
+      "Kod": "2EB",
+      "Doğum Tarihi": "01.06.1933",
+      "Nesil": "Nesil 3",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": ""
+    },
+    {
+      "Ad": "Yılmaz",
+      "Ölüm Tarihi": "04.10.2002",
+      "Eş Adı": "Niğmet [→2FI]",
+      "Kod": "2EC",
+      "Doğum Tarihi": "01.01.1936",
+      "Nesil": "Nesil 3",
+      "Notlar / Çapraz Ref": "Eşi=2FI; Niğmet: D.04.03.1947; ÇAPRAZ AKRABALİK",
+      "Eşin Kızlık Soyadı": "Baydemir"
+    },
+    {
+      "Nesil": "Nesil 4",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "Mahmut: D.01.10.1966; aynı kişi=2FIA",
+      "Doğum Tarihi": "06.03.1966",
+      "Kod": "2ECA",
+      "Ölüm Tarihi": "",
+      "Ad": "Nevin",
+      "Eş Adı": "Mahmut Özçelebi"
+    },
+    {
+      "Kod": "2ECAA",
+      "Eş Adı": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Murat",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "aynı kişi=2FIAA",
+      "Nesil": "Nesil 5",
+      "Doğum Tarihi": "11.10.1994"
+    },
+    {
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "aynı kişi=2FIAB",
+      "Doğum Tarihi": "01.01.2004",
+      "Kod": "2ECAB",
+      "Ölüm Tarihi": "",
+      "Ad": "Elif Begüm",
+      "Eş Adı": ""
+    },
+    {
+      "Nesil": "Nesil 4",
+      "Eşin Kızlık Soyadı": "Karahan",
+      "Notlar / Çapraz Ref": "",
+      "Doğum Tarihi": "31.03.1968",
+      "Kod": "2ECB",
+      "Ölüm Tarihi": "",
+      "Ad": "Ersin",
+      "Eş Adı": "Gülay"
+    },
+    {
+      "Doğum Tarihi": "",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 5",
+      "Eş Adı": "",
+      "Ad": "Yılmaz",
+      "Ölüm Tarihi": "",
+      "Kod": "2ECBA"
+    },
+    {
+      "Doğum Tarihi": "",
+      "Nesil": "Nesil 5",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Ad": "Ulaş",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "",
+      "Kod": "2ECBB"
+    },
+    {
+      "Notlar / Çapraz Ref": "Boşandı",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 4",
+      "Doğum Tarihi": "13.12.1971",
+      "Kod": "2ECC",
+      "Eş Adı": "Gülay",
+      "Ad": "Engin (Ergin)",
+      "Ölüm Tarihi": ""
+    },
+    {
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 5",
+      "Doğum Tarihi": "",
+      "Kod": "2ECCA",
+      "Eş Adı": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Melisa"
+    },
+    {
+      "Doğum Tarihi": "",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 5",
+      "Eş Adı": "",
+      "Ad": "Ayberk",
+      "Ölüm Tarihi": "",
+      "Kod": "2ECCB"
+    },
+    {
+      "Eş Adı": "Mehmet Gemici",
+      "Ad": "Zöhre (Zehra)",
+      "Ölüm Tarihi": "18.09.2017",
+      "Kod": "2ED",
+      "Doğum Tarihi": "15.09.1941",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 3"
+    },
+    {
+      "Doğum Tarihi": "",
+      "Eşin Kızlık Soyadı": "Çelik",
+      "Notlar / Çapraz Ref": "Boşandı",
+      "Nesil": "Nesil 4",
+      "Eş Adı": "Belma",
+      "Ölüm Tarihi": "",
+      "Ad": "Hakan",
+      "Kod": "2EDA"
+    },
+    {
+      "Kod": "2EDAA",
+      "Eş Adı": "Ünal Boran",
+      "Ad": "Melis",
+      "Ölüm Tarihi": "",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 5",
+      "Doğum Tarihi": ""
+    },
+    {
+      "Kod": "2EDAAA",
+      "Ölüm Tarihi": "",
+      "Ad": "Yaprak",
+      "Eş Adı": "",
+      "Nesil": "Nesil 6",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Doğum Tarihi": ""
+    },
+    {
+      "Kod": "2EDB",
+      "Eş Adı": "Şeniz",
+      "Ölüm Tarihi": "",
+      "Ad": "Okan",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "Ö.24.02.2021",
+      "Nesil": "Nesil 4",
+      "Doğum Tarihi": ""
+    },
+    {
+      "Nesil": "Nesil 5",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Doğum Tarihi": "",
+      "Kod": "2EDBA",
+      "Ad": "Irmak",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "Cengiz Akkuş"
+    },
+    {
+      "Nesil": "Nesil 6",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Doğum Tarihi": "",
+      "Kod": "2EDBAA",
+      "Ad": "Derin",
+      "Ölüm Tarihi": "",
+      "Eş Adı": ""
+    },
+    {
+      "Kod": "2EDBB",
+      "Eş Adı": "",
+      "Ad": "Nehir",
+      "Ölüm Tarihi": "",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 5",
+      "Doğum Tarihi": ""
+    },
+    {
+      "Nesil": "Nesil 3",
+      "Notlar / Çapraz Ref": "Cemile: D.29.10.1949",
+      "Eşin Kızlık Soyadı": "Okur",
+      "Doğum Tarihi": "15.06.1942",
+      "Kod": "2EE",
+      "Ad": "Ali (Hacı)",
+      "Ölüm Tarihi": "12.02.2022",
+      "Eş Adı": "Cemile"
+    },
+    {
+      "Nesil": "Nesil 4",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "Efrenk",
+      "Doğum Tarihi": "",
+      "Kod": "2EEA",
+      "Ad": "Erhan",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "Yasemin"
+    },
+    {
+      "Ad": "Çağatay",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "",
+      "Kod": "2EEAA",
+      "Doğum Tarihi": "",
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": ""
+    },
+    {
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 5",
+      "Doğum Tarihi": "",
+      "Kod": "2EEAB",
+      "Eş Adı": "",
+      "Ad": "İpek",
+      "Ölüm Tarihi": ""
+    },
+    {
+      "Kod": "2EEB",
+      "Eş Adı": "Serdar Uraz",
+      "Ad": "Nihan",
+      "Ölüm Tarihi": "",
+      "Notlar / Çapraz Ref": "Serdar: D.31.12.1975",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 4",
+      "Doğum Tarihi": "21.12.1978"
+    },
+    {
+      "Kod": "2EEBA",
+      "Eş Adı": "",
+      "Ad": "Ece Naz",
+      "Ölüm Tarihi": "",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 5",
+      "Doğum Tarihi": "21.12.2006"
+    },
+    {
+      "Kod": "2EEBB",
+      "Eş Adı": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Eylül",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 5",
+      "Doğum Tarihi": "24.03.2009"
+    },
+    {
+      "Nesil": "Nesil 4",
+      "Eşin Kızlık Soyadı": "Dehri",
+      "Notlar / Çapraz Ref": "Boşandı",
+      "Doğum Tarihi": "28.09.1982",
+      "Kod": "2EEC",
+      "Ölüm Tarihi": "",
+      "Ad": "Erman",
+      "Eş Adı": "Zeynep / Özlem"
+    },
+    {
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Doğum Tarihi": "25.06.2008",
+      "Kod": "2EECA",
+      "Ölüm Tarihi": "",
+      "Ad": "Alptuğ",
+      "Eş Adı": ""
+    },
+    {
+      "Kod": "2EECB",
+      "Eş Adı": "",
+      "Ad": "Mert",
+      "Ölüm Tarihi": "",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 5",
+      "Doğum Tarihi": ""
+    },
+    {
+      "Eş Adı": "Hayrullah Akdemir",
+      "Ad": "Aysel",
+      "Ölüm Tarihi": "",
+      "Kod": "2EF",
+      "Doğum Tarihi": "10.10.1943",
+      "Notlar / Çapraz Ref": "Boşandı",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 3"
+    },
+    {
+      "Doğum Tarihi": "",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 4",
+      "Eş Adı": "",
+      "Ad": "Duygu",
+      "Ölüm Tarihi": "",
+      "Kod": "2EFA"
+    },
+    {
+      "Nesil": "Nesil 4",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Doğum Tarihi": "",
+      "Kod": "2EFB",
+      "Ölüm Tarihi": "",
+      "Ad": "Damla",
+      "Eş Adı": ""
+    },
+    {
+      "Doğum Tarihi": "10.10.1943",
+      "Nesil": "Nesil 3",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "Birsoy: D.1946",
+      "Ad": "Gülsen (Yüksel)",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "Birsoy Karaduman",
+      "Kod": "2EG"
+    },
+    {
+      "Kod": "2EGA",
+      "Eş Adı": "Arzu",
+      "Ad": "Umut",
+      "Ölüm Tarihi": "",
+      "Notlar / Çapraz Ref": "Boşandı",
+      "Eşin Kızlık Soyadı": "Yıldırım",
+      "Nesil": "Nesil 4",
+      "Doğum Tarihi": "01.11.1972"
+    },
+    {
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Doğum Tarihi": "",
+      "Kod": "2EGAA",
+      "Ad": "Birsoy Can",
+      "Ölüm Tarihi": "",
+      "Eş Adı": ""
+    },
+    {
+      "Doğum Tarihi": "25.09.1945",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "Ayşe: Ö.05.03.2026",
+      "Nesil": "Nesil 3",
+      "Eş Adı": "Ayşe",
+      "Ad": "Ömer (Ali)",
+      "Ölüm Tarihi": "",
+      "Kod": "2EH"
+    },
+    {
+      "Ölüm Tarihi": "",
+      "Ad": "Erkan",
+      "Eş Adı": "",
+      "Kod": "2EHA",
+      "Doğum Tarihi": "",
+      "Nesil": "Nesil 4",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": ""
+    },
+    {
+      "Eşin Kızlık Soyadı": "Güngen",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 4",
+      "Doğum Tarihi": "",
+      "Kod": "2EHB",
+      "Eş Adı": "Feride",
+      "Ölüm Tarihi": "",
+      "Ad": "Rufai"
+    },
+    {
+      "Kod": "2EHBA",
+      "Ölüm Tarihi": "",
+      "Ad": "Sevde",
+      "Eş Adı": "",
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Doğum Tarihi": ""
+    },
+    {
+      "Doğum Tarihi": "10.06.2018",
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Mete",
+      "Eş Adı": "",
+      "Kod": "2EHBB"
+    },
+    {
+      "Doğum Tarihi": "",
+      "Nesil": "Nesil 4",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Ad": "Ahmet",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "Nazife",
+      "Kod": "2EHC"
+    },
+    {
+      "Doğum Tarihi": "22.07.1947",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 3",
+      "Eş Adı": "",
+      "Ölüm Tarihi": "05.03.1949",
+      "Ad": "Orhan",
+      "Kod": "2EI"
+    },
+    {
+      "Eş Adı": "Hamit Erdal (Serdar) Demiralay [→2BBA]",
+      "Ad": "Selva",
+      "Ölüm Tarihi": "",
+      "Kod": "2EJ",
+      "Doğum Tarihi": "15.02.1950",
+      "Notlar / Çapraz Ref": "Eşi=2BBA; ÇAPRAZ AKRABALİK",
+      "Eşin Kızlık Soyadı": "Demiralay",
+      "Nesil": "Nesil 3"
+    },
+    {
+      "Eş Adı": "Volkan Herken",
+      "Ölüm Tarihi": "",
+      "Ad": "Selcan Bahar",
+      "Kod": "2EJA",
+      "Doğum Tarihi": "17.04.1983",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "aynı kişi=2BBAA",
+      "Nesil": "Nesil 4"
+    },
+    {
+      "Kod": "2EJAA",
+      "Ad": "Duru",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "",
+      "Nesil": "Nesil 5",
+      "Notlar / Çapraz Ref": "aynı kişi=2BBAAA",
+      "Eşin Kızlık Soyadı": "",
+      "Doğum Tarihi": ""
+    },
+    {
+      "Kod": "2EJB",
+      "Ad": "Ersel Baha",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "",
+      "Nesil": "Nesil 4",
+      "Notlar / Çapraz Ref": "aynı kişi=2BBAB",
+      "Eşin Kızlık Soyadı": "",
+      "Doğum Tarihi": "21.11.1985"
+    },
+    {
+      "Kod": "2EK",
+      "Ad": "Solmaz (Sermin)",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "Alim Özdoğan",
+      "Nesil": "Nesil 3",
+      "Notlar / Çapraz Ref": "Alim: D.01.01.1946, Ö.05.08.2015",
+      "Eşin Kızlık Soyadı": "",
+      "Doğum Tarihi": "01.01.1953"
+    },
+    {
+      "Kod": "2EKA",
+      "Eş Adı": "Oral Çağlak / Orhan Parlak",
+      "Ölüm Tarihi": "",
+      "Ad": "Özlem",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "Boşandı",
+      "Nesil": "Nesil 4",
+      "Doğum Tarihi": "23.03.1972"
+    },
+    {
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 4",
+      "Doğum Tarihi": "05.07.1973",
+      "Kod": "2EKB",
+      "Eş Adı": "Dilek",
+      "Ad": "Mustafa",
+      "Ölüm Tarihi": ""
+    },
+    {
+      "Ad": "Altuğ",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "",
+      "Kod": "2EKBA",
+      "Doğum Tarihi": "",
+      "Nesil": "Nesil 5",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": ""
+    },
+    {
+      "Ad": "Evrem",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "Hilal Caran",
+      "Kod": "2EKC",
+      "Doğum Tarihi": "27.09.1977",
+      "Nesil": "Nesil 4",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "Boşandı"
+    },
+    {
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Doğum Tarihi": "",
+      "Kod": "2EKCA",
+      "Ad": "Alp",
+      "Ölüm Tarihi": "",
+      "Eş Adı": ""
+    },
+    {
+      "Kod": "2EL",
+      "Eş Adı": "M.Bozan Demirtürk / Şerafettin Yaldız",
+      "Ölüm Tarihi": "",
+      "Ad": "Sermin (Solmaz)",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "Mehmet: D.09.04.1958, Ö.26.08.2016; Şerafettin: D.25.03.1956, Ö.16.03.2021",
+      "Nesil": "Nesil 3",
+      "Doğum Tarihi": "20.06.1960"
+    },
+    {
+      "Kod": "2F",
+      "Eş Adı": "Behçet (Beset) Baydemir",
+      "Ölüm Tarihi": "05.06.1993",
+      "Ad": "Asiye",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "Behçet: D.H.1321, Ö.10.05.1981",
+      "Nesil": "Nesil 2",
+      "Doğum Tarihi": "H.01.03.1322"
+    },
+    {
+      "Doğum Tarihi": "28.02.1926",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 3",
+      "Eş Adı": "İsmail İşyar",
+      "Ad": "Nuriye",
+      "Ölüm Tarihi": "",
+      "Kod": "2FA"
+    },
+    {
+      "Nesil": "Nesil 4",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Doğum Tarihi": "",
+      "Kod": "2FAA",
+      "Ölüm Tarihi": "",
+      "Ad": "Hamdi",
+      "Eş Adı": "Naile"
+    },
+    {
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Doğum Tarihi": "",
+      "Kod": "2FAAA",
+      "Ad": "Sibel",
+      "Ölüm Tarihi": "",
+      "Eş Adı": ""
+    },
+    {
+      "Kod": "2FAAB",
+      "Ölüm Tarihi": "",
+      "Ad": "Hakan",
+      "Eş Adı": "",
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Doğum Tarihi": ""
+    },
+    {
+      "Nesil": "Nesil 4",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Doğum Tarihi": "",
+      "Kod": "2FAB",
+      "Ad": "Mehmet",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "Zekiye"
+    },
+    {
+      "Ad": "Nurdan",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "",
+      "Kod": "2FABA",
+      "Doğum Tarihi": "",
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": ""
+    },
+    {
+      "Eş Adı": "",
+      "Ad": "Gülden",
+      "Ölüm Tarihi": "",
+      "Kod": "2FABB",
+      "Doğum Tarihi": "",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 5"
+    },
+    {
+      "Kod": "2FAC",
+      "Ölüm Tarihi": "",
+      "Ad": "Emine",
+      "Eş Adı": "",
+      "Nesil": "Nesil 4",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Doğum Tarihi": ""
+    },
+    {
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 4",
+      "Doğum Tarihi": "",
+      "Kod": "2FAD",
+      "Eş Adı": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Keriman"
+    },
+    {
+      "Doğum Tarihi": "",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 4",
+      "Eş Adı": "",
+      "Ad": "Güler",
+      "Ölüm Tarihi": "",
+      "Kod": "2FAE"
+    },
+    {
+      "Nesil": "Nesil 4",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Doğum Tarihi": "",
+      "Kod": "2FAF",
+      "Ad": "Ali",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "Gönül"
+    },
+    {
+      "Kod": "2FAFA",
+      "Eş Adı": "",
+      "Ad": "Selma",
+      "Ölüm Tarihi": "",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 5",
+      "Doğum Tarihi": ""
+    },
+    {
+      "Nesil": "Nesil 5",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Doğum Tarihi": "",
+      "Kod": "2FAFB",
+      "Ad": "Nur",
+      "Ölüm Tarihi": "",
+      "Eş Adı": ""
+    },
+    {
+      "Eş Adı": "(Hacı) Hüseyin Akalın",
+      "Ad": "Lütfiye",
+      "Ölüm Tarihi": "",
+      "Kod": "2FB",
+      "Doğum Tarihi": "20.03.1927",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 3"
+    },
+    {
+      "Eş Adı": "Durdu Zafer",
+      "Ad": "Zekiye",
+      "Ölüm Tarihi": "",
+      "Kod": "2FBA",
+      "Doğum Tarihi": "",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 4"
+    },
+    {
+      "Doğum Tarihi": "",
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Ufuk",
+      "Eş Adı": "",
+      "Kod": "2FBAA"
+    },
+    {
+      "Nesil": "Nesil 5",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Doğum Tarihi": "",
+      "Kod": "2FBAB",
+      "Ad": "Umut",
+      "Ölüm Tarihi": "",
+      "Eş Adı": ""
+    },
+    {
+      "Nesil": "Nesil 4",
+      "Notlar / Çapraz Ref": "Eş adı belirsiz",
+      "Eşin Kızlık Soyadı": "",
+      "Doğum Tarihi": "",
+      "Kod": "2FBB",
+      "Ad": "Yıldız",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "Gülten"
+    },
+    {
+      "Kod": "2FBBA",
+      "Ad": "Bülent",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "",
+      "Nesil": "Nesil 5",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Doğum Tarihi": ""
+    },
+    {
+      "Doğum Tarihi": "",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 5",
+      "Eş Adı": "",
+      "Ad": "Hüseyin",
+      "Ölüm Tarihi": "",
+      "Kod": "2FBBB"
+    },
+    {
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Doğum Tarihi": "",
+      "Kod": "2FBBC",
+      "Ölüm Tarihi": "",
+      "Ad": "Hakan",
+      "Eş Adı": ""
+    },
+    {
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 5",
+      "Doğum Tarihi": "",
+      "Kod": "2FBBD",
+      "Eş Adı": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Hasan"
+    },
+    {
+      "Doğum Tarihi": "23.04.1959",
+      "Nesil": "Nesil 4",
+      "Eşin Kızlık Soyadı": "Demiralay",
+      "Notlar / Çapraz Ref": "Eşi=2BDA; ÇAPRAZ AKRABALİK",
+      "Ad": "Osman",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "Mualla [→2BDA]",
+      "Kod": "2FBC"
+    },
+    {
+      "Eş Adı": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Funda",
+      "Kod": "2FBCA",
+      "Doğum Tarihi": "22.01.1984",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "aynı kişi=2BDAA",
+      "Nesil": "Nesil 5"
+    },
+    {
+      "Eş Adı": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Mesut",
+      "Kod": "2FBCB",
+      "Doğum Tarihi": "23.06.1989",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "aynı kişi=2BDAB",
+      "Nesil": "Nesil 5"
+    },
+    {
+      "Kod": "2FBD",
+      "Ölüm Tarihi": "",
+      "Ad": "İskender",
+      "Eş Adı": "Yıldız",
+      "Nesil": "Nesil 4",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Doğum Tarihi": ""
+    },
+    {
+      "Doğum Tarihi": "",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 5",
+      "Eş Adı": "",
+      "Ad": "Gamze",
+      "Ölüm Tarihi": "",
+      "Kod": "2FBDA"
+    },
+    {
+      "Kod": "2FBDB",
+      "Eş Adı": "",
+      "Ad": "Aybüke",
+      "Ölüm Tarihi": "",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 5",
+      "Doğum Tarihi": ""
+    },
+    {
+      "Ölüm Tarihi": "",
+      "Ad": "Nurettin",
+      "Eş Adı": "Emine",
+      "Kod": "2FC",
+      "Doğum Tarihi": "12.09.1929",
+      "Nesil": "Nesil 3",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": ""
+    },
+    {
+      "Nesil": "Nesil 4",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Doğum Tarihi": "",
+      "Kod": "2FCA",
+      "Ad": "Naci",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "Turcihan"
+    },
+    {
+      "Doğum Tarihi": "",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 4",
+      "Eş Adı": "Aysun",
+      "Ad": "Ergün",
+      "Ölüm Tarihi": "",
+      "Kod": "2FCB"
+    },
+    {
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Doğum Tarihi": "",
+      "Kod": "2FCBA",
+      "Ölüm Tarihi": "",
+      "Ad": "Merve",
+      "Eş Adı": ""
+    },
+    {
+      "Eş Adı": "Şema",
+      "Ad": "Erdoğan",
+      "Ölüm Tarihi": "",
+      "Kod": "2FCC",
+      "Doğum Tarihi": "",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 4"
+    },
+    {
+      "Ad": "Mustafa",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "Elif",
+      "Kod": "2FCD",
+      "Doğum Tarihi": "",
+      "Nesil": "Nesil 4",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": ""
+    },
+    {
+      "Kod": "2FD",
+      "Ölüm Tarihi": "",
+      "Ad": "Remzi",
+      "Eş Adı": "Fatma",
+      "Nesil": "Nesil 3",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Doğum Tarihi": "08.01.1931"
+    },
+    {
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 4",
+      "Doğum Tarihi": "",
+      "Kod": "2FDA",
+      "Eş Adı": "Adem Koç",
+      "Ölüm Tarihi": "",
+      "Ad": "Aynur"
+    },
+    {
+      "Doğum Tarihi": "",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 5",
+      "Eş Adı": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Koray",
+      "Kod": "2FDAA"
+    },
+    {
+      "Doğum Tarihi": "",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 4",
+      "Eş Adı": "",
+      "Ad": "Nurcan",
+      "Ölüm Tarihi": "",
+      "Kod": "2FDB"
+    },
+    {
+      "Eş Adı": "Mehmet Akçakaya",
+      "Ad": "Gülcan",
+      "Ölüm Tarihi": "",
+      "Kod": "2FDC",
+      "Doğum Tarihi": "",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 4"
+    },
+    {
+      "Nesil": "Nesil 5",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Doğum Tarihi": "",
+      "Kod": "2FDCA",
+      "Ad": "Osman",
+      "Ölüm Tarihi": "",
+      "Eş Adı": ""
+    },
+    {
+      "Eş Adı": "",
+      "Ad": "?",
+      "Ölüm Tarihi": "",
+      "Kod": "2FDCB",
+      "Doğum Tarihi": "",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "Belgede isim yok",
+      "Nesil": "Nesil 5"
+    },
+    {
+      "Kod": "2FDD",
+      "Eş Adı": "Fatma",
+      "Ölüm Tarihi": "",
+      "Ad": "Aydın",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 4",
+      "Doğum Tarihi": ""
+    },
+    {
+      "Ölüm Tarihi": "",
+      "Ad": "Gökay",
+      "Eş Adı": "",
+      "Kod": "2FDDA",
+      "Doğum Tarihi": "",
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": ""
+    },
+    {
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 3",
+      "Doğum Tarihi": "09.04.1933",
+      "Kod": "2FE",
+      "Eş Adı": "Semiha",
+      "Ad": "Tahsin",
+      "Ölüm Tarihi": ""
+    },
+    {
+      "Eş Adı": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Niyazi",
+      "Kod": "2FE-1",
+      "Doğum Tarihi": "",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "2FE çocuğu; belgede kod yok",
+      "Nesil": "Nesil 3"
+    },
+    {
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "2FE çocuğu; belgede kod yok",
+      "Nesil": "Nesil 3",
+      "Doğum Tarihi": "",
+      "Kod": "2FE-2",
+      "Eş Adı": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Alaattin"
+    },
+    {
+      "Kod": "2FE-3",
+      "Ad": "Naziye",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "",
+      "Nesil": "Nesil 3",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "2FE çocuğu; belgede kod yok",
+      "Doğum Tarihi": ""
+    },
+    {
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "2FE çocuğu; belgede kod yok",
+      "Nesil": "Nesil 3",
+      "Doğum Tarihi": "",
+      "Kod": "2FE-4",
+      "Eş Adı": "",
+      "Ad": "Necla",
+      "Ölüm Tarihi": ""
+    },
+    {
+      "Kod": "2FE-5",
+      "Eş Adı": "",
+      "Ad": "Zekiye",
+      "Ölüm Tarihi": "",
+      "Notlar / Çapraz Ref": "2FE çocuğu; belgede kod yok",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 3",
+      "Doğum Tarihi": ""
+    },
+    {
+      "Doğum Tarihi": "04.02.1938",
+      "Nesil": "Nesil 3",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Ad": "Rasim",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "Ayten (Gümüş)",
+      "Kod": "2FF"
+    },
+    {
+      "Nesil": "Nesil 3",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "2FF çocuğu; belgede kod yok",
+      "Doğum Tarihi": "",
+      "Kod": "2FF-1",
+      "Ölüm Tarihi": "",
+      "Ad": "Nadi",
+      "Eş Adı": ""
+    },
+    {
+      "Nesil": "Nesil 3",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "2FF çocuğu; belgede kod yok",
+      "Doğum Tarihi": "",
+      "Kod": "2FF-2",
+      "Ölüm Tarihi": "",
+      "Ad": "Narin",
+      "Eş Adı": ""
+    },
+    {
+      "Doğum Tarihi": "",
+      "Nesil": "Nesil 3",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "2FF çocuğu; belgede kod yok",
+      "Ad": "Hasan",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "",
+      "Kod": "2FF-3"
+    },
+    {
+      "Doğum Tarihi": "04.02.1938",
+      "Nesil": "Nesil 3",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Ad": "Fatma",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "Saffet Ömürlüoğlu",
+      "Kod": "2FG"
+    },
+    {
+      "Kod": "2FGA",
+      "Eş Adı": "",
+      "Ad": "Mehmet",
+      "Ölüm Tarihi": "",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 4",
+      "Doğum Tarihi": ""
+    },
+    {
+      "Kod": "2FGB",
+      "Ölüm Tarihi": "",
+      "Ad": "Nürten",
+      "Eş Adı": "Bilal Çepkuner",
+      "Nesil": "Nesil 4",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Doğum Tarihi": ""
+    },
+    {
+      "Kod": "2FGBA",
+      "Eş Adı": "",
+      "Ad": "Zeynep",
+      "Ölüm Tarihi": "",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 5",
+      "Doğum Tarihi": ""
+    },
+    {
+      "Kod": "2FGBB",
+      "Eş Adı": "",
+      "Ad": "Zafer",
+      "Ölüm Tarihi": "",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 5",
+      "Doğum Tarihi": ""
+    },
+    {
+      "Kod": "2FGC",
+      "Eş Adı": "",
+      "Ad": "Serdar",
+      "Ölüm Tarihi": "",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 4",
+      "Doğum Tarihi": ""
+    },
+    {
+      "Eş Adı": "Hüseyin Yalçınkaya",
+      "Ölüm Tarihi": "",
+      "Ad": "Hatice (Hatime)",
+      "Kod": "2FH",
+      "Doğum Tarihi": "10.09.1944",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 3"
+    },
+    {
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "2FH çocuğu; belgede kod yok",
+      "Nesil": "Nesil 3",
+      "Doğum Tarihi": "",
+      "Kod": "2FH-2",
+      "Eş Adı": "",
+      "Ad": "Ayşe",
+      "Ölüm Tarihi": ""
+    },
+    {
+      "Kod": "2FH-3",
+      "Ölüm Tarihi": "",
+      "Ad": "Selime",
+      "Eş Adı": "",
+      "Nesil": "Nesil 3",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "2FH çocuğu; belgede kod yok",
+      "Doğum Tarihi": ""
+    },
+    {
+      "Eş Adı": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Salim",
+      "Kod": "2FH-4",
+      "Doğum Tarihi": "",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "2FH çocuğu; belgede kod yok",
+      "Nesil": "Nesil 3"
+    },
+    {
+      "Nesil": "Nesil 3",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "2FH çocuğu; belgede kod yok",
+      "Doğum Tarihi": "",
+      "Kod": "2FH-5",
+      "Ad": "Ahmet",
+      "Ölüm Tarihi": "",
+      "Eş Adı": ""
+    },
+    {
+      "Ad": "Fatma",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "Ekrem Conker",
+      "Kod": "2FHA",
+      "Doğum Tarihi": "",
+      "Nesil": "Nesil 4",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": ""
+    },
+    {
+      "Ad": "Saime",
+      "Ölüm Tarihi": "",
+      "Eş Adı": "",
+      "Kod": "2FHAA",
+      "Doğum Tarihi": "",
+      "Nesil": "Nesil 5",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": ""
+    },
+    {
+      "Doğum Tarihi": "",
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Nigar",
+      "Eş Adı": "",
+      "Kod": "2FHAB"
+    },
+    {
+      "Kod": "2FHAC",
+      "Eş Adı": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Abdullah",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Nesil": "Nesil 5",
+      "Doğum Tarihi": ""
+    },
+    {
+      "Doğum Tarihi": "",
+      "Nesil": "Nesil 5",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Ölüm Tarihi": "",
+      "Ad": "Nilay",
+      "Eş Adı": "",
+      "Kod": "2FHAD"
+    },
+    {
+      "Notlar / Çapraz Ref": "Eşi=2EC; ÇAPRAZ AKRABALİK; çocuklar 2EC* altında",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 3",
+      "Doğum Tarihi": "04.03.1947",
+      "Kod": "2FI",
+      "Eş Adı": "Yılmaz Demiralay [→2EC]",
+      "Ad": "Niğmet (Nimet)",
+      "Ölüm Tarihi": ""
+    },
+    {
+      "Doğum Tarihi": "m.1854",
+      "Nesil": "Nesil 1",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": "",
+      "Ölüm Tarihi": "1923",
+      "Ad": "Murat",
+      "Eş Adı": "",
+      "Kod": "3"
+    },
+    {
+      "Kod": "4",
+      "Eş Adı": "",
+      "Ad": "Zülfikar",
+      "Ölüm Tarihi": "",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 1",
+      "Doğum Tarihi": ""
+    },
+    {
+      "Ölüm Tarihi": "",
+      "Ad": "Elmas",
+      "Eş Adı": "",
+      "Kod": "5",
+      "Doğum Tarihi": "",
+      "Nesil": "Nesil 1",
+      "Eşin Kızlık Soyadı": "",
+      "Notlar / Çapraz Ref": ""
+    },
+    {
+      "Eş Adı": "",
+      "Ad": "Münevver",
+      "Ölüm Tarihi": "",
+      "Kod": "6",
+      "Doğum Tarihi": "",
+      "Notlar / Çapraz Ref": "",
+      "Eşin Kızlık Soyadı": "",
+      "Nesil": "Nesil 1"
+    }
+  ],
+  "crossLinks": [
+    {
+      "Kişi 1 Adı": "Serap",
+      "Kişi 1 Kodu": "2BBB",
+      "Kişi 2 Adı": "Mustafa",
+      "Açıklama": "Çocuklar: Pınar & Elif",
+      "Kişi 2 Kodu": "2DCC"
+    },
+    {
+      "Kişi 2 Adı": "Niğmet (2FI)",
+      "Kişi 1 Kodu": "2EC",
+      "Kişi 1 Adı": "Yılmaz (2EC)",
+      "Kişi 2 Kodu": "2FI",
+      "Açıklama": "Evlendiler; çocuklar 2EC* altında"
+    },
+    {
+      "Kişi 1 Adı": "Mualla",
+      "Kişi 1 Kodu": "2BDA",
+      "Kişi 2 Adı": "Osman Akalın",
+      "Açıklama": "Çocuklar: Funda & Mesut",
+      "Kişi 2 Kodu": "2FBC"
+    },
+    {
+      "Açıklama": "Çocuklar: Selcan Bahar & Ersel Baha",
+      "Kişi 2 Kodu": "2EJ",
+      "Kişi 1 Kodu": "2BBA",
+      "Kişi 2 Adı": "Selva",
+      "Kişi 1 Adı": "Hamit Erdal Serdar"
+    }
+  ]
+}
