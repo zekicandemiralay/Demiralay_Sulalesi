@@ -141,7 +141,19 @@ svg:active { cursor:grabbing; }
     display:block; width:36px; height:4px; border-radius:2px;
     background:#2c4a6a; margin:8px auto 0; flex-shrink:0;
   }
-  #p-expand-btn { display:inline-flex; }
+  #p-expand-btn { display:none; }
+  #minibar.vis { display:flex; }
+}
+#minibar {
+  display:none; position:fixed;
+  bottom:0; left:0; right:0;
+  background:#122340; border-top:1px solid #1c3a5c;
+  padding:10px 14px; align-items:center; gap:10px;
+  z-index:15;
+}
+#mb-name {
+  flex:1; font-weight:600; color:#d4a843;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:14px;
 }
 /* Loading / Error overlays */
 #loading, #errscreen {
@@ -237,6 +249,10 @@ svg:active { cursor:grabbing; }
   </div>
 </div>
 <div id="overlay"></div>
+<div id="minibar">
+  <div id="mb-name">—</div>
+  <button class="btn" id="mb-detail">Detayı Göster</button>
+</div>
 
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
@@ -430,11 +446,16 @@ function update(src) {
     .on("click", (evt, d) => {
       evt.stopPropagation();
       const mobile = window.innerWidth <= 768;
-      if (!mobile) toggleNode(d);
+      if (mobile) {
+        document.getElementById("panel").classList.remove("open");
+        document.getElementById("overlay").classList.remove("vis");
+      }
+      toggleNode(d);
       selId   = d.data.id;
       selNode = d;
       update(d);
-      showPanel(d);
+      if (mobile) showMinibar(d);
+      else showPanel(d);
     });
 
   enter.append("rect").attr("class", "bg")
@@ -553,26 +574,21 @@ function showPanel(d) {
   if (window.innerWidth <= 768) {
     document.getElementById("overlay").classList.add("vis");
   }
-  updateExpandBtn(d);
 }
 
-function updateExpandBtn(d) {
-  const btn = document.getElementById("p-expand-btn");
-  const hasOpen   = d.children  && d.children.length;
-  const hasHidden = d._children && d._children.length;
-  if (hasOpen || hasHidden) {
-    btn.style.display = "";
-    btn.textContent = hasHidden
-      ? `▶ Alt ağacı aç (+${d._children.length})`
-      : "▼ Alt ağacı kapat";
-  } else {
-    btn.style.display = "none";
-  }
+function showMinibar(d) {
+  document.getElementById("mb-name").textContent = d.data.name;
+  document.getElementById("minibar").classList.add("vis");
+}
+
+function hideMinibar() {
+  document.getElementById("minibar").classList.remove("vis");
 }
 
 function closePanel() {
   document.getElementById("panel").classList.remove("open");
   document.getElementById("overlay").classList.remove("vis");
+  hideMinibar();
   selId   = null;
   selNode = null;
   if (root) update(root);
@@ -584,12 +600,18 @@ function row(label, value) {
 
 document.getElementById("pclose").onclick = closePanel;
 document.getElementById("overlay").onclick = closePanel;
-document.getElementById("p-expand-btn").onclick = () => {
+document.getElementById("mb-detail").onclick = () => {
   if (!selNode) return;
-  toggleNode(selNode);
-  update(selNode);
-  updateExpandBtn(selNode);
+  hideMinibar();
+  showPanel(selNode);
 };
+svg.on("click", () => {
+  if (window.innerWidth <= 768) {
+    hideMinibar();
+    selId = null; selNode = null;
+    if (root) update(root);
+  }
+});
 
 /* ── Search ────────────────────────────────────────── */
 document.getElementById("search").addEventListener("input", e => {
