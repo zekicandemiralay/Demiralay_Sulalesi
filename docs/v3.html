@@ -312,21 +312,21 @@ async function loadFromSheets() {
 /* ════════════════════════════════════════════════════
    LAYOUT (mirrors Python v3 algorithm)
    ════════════════════════════════════════════════════ */
-const SCALE      = 10;   // px per data unit
-const MIN_ARC    = 6.0;  // data units
-const MIN_GAP    = 14.0; // data units
-const LANE_DELTA = 4.0;  // data units
-const NUDGE_GAP  = 5;    // px
-const N_ITER     = 35;
+const SCALE      = 13;   // px per data unit
+const MIN_ARC    = 8.0;  // data units
+const MIN_GAP    = 18.0; // data units
+const LANE_DELTA = 5.0;  // data units
+const NUDGE_GAP  = 6;    // px
+const N_ITER     = 60;
 
 function nodeBoxPx(label, depth) {
   const lines = label.split("\n");
   const maxChars = Math.max(...lines.map(l => l.length));
   const nLines   = lines.length;
-  const fs = depth === 0 ? 14 : depth === 1 ? 12 : 10;
+  const fs = depth === 0 ? 20 : depth === 1 ? 16 : 13;
   return {
-    w: maxChars * fs * 0.58 + 16,
-    h: nLines   * fs * 1.50 + 10,
+    w: maxChars * fs * 0.62 + 18,
+    h: nLines   * fs * 1.60 + 12,
   };
 }
 
@@ -555,7 +555,7 @@ function render(nodes, childrenMap, cross, layout) {
     const depth = depthOf[nd] || 0;
     const style = GEN_STYLE[info.gen] || DEF_STYLE;
     const { w, h } = nodeBoxPx(info.label, depth);
-    const fs = depth === 0 ? 14 : depth === 1 ? 12 : 10;
+    const fs = depth === 0 ? 20 : depth === 1 ? 16 : 13;
     const fw = depth <= 1 ? "bold" : "normal";
     const g  = d3.select(this);
 
@@ -588,7 +588,7 @@ function render(nodes, childrenMap, cross, layout) {
         .attr("text-anchor", "middle").attr("y", h / 4)
         .attr("dominant-baseline", "middle")
         .attr("fill", style.text)
-        .attr("font-size", Math.max(8, fs - 1))
+        .attr("font-size", Math.max(11, fs - 2))
         .text(lines[1]);
     }
   });
@@ -709,7 +709,7 @@ function fitView() {
   const W = svgNode.clientWidth  || 900;
   const H = svgNode.clientHeight || 700;
   const pad   = 50;
-  const scale = Math.min((W - pad) / bb.width, (H - pad) / bb.height, 1.0);
+  const scale = Math.min((W - pad) / bb.width, (H - pad) / bb.height, 1.8);
   const tx    = (W - bb.width  * scale) / 2 - bb.x * scale;
   const ty    = (H - bb.height * scale) / 2 - bb.y * scale;
   svgSel.transition().duration(600)
