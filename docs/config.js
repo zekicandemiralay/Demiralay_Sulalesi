@@ -13,7 +13,7 @@
 //   Google Sheets → Paylaş → "Bağlantısı olan herkes görüntüleyebilir"
 //   seçeneğini etkinleştirin; aksi hâlde sayfa veri çekemez.
 
-const CONFIG = {
+var CONFIG = {
   SHEET_ID:        "1AQbbZDsCLqlDmoRjneLdRCdfk4K_cMkt",
   SHEET_GID_MAIN:  "1198216924",   // "Sülale Listesi" sekmesi
   SHEET_GID_CROSS: "1863671787",   // "Çapraz Akrabalıklar" sekmesi
