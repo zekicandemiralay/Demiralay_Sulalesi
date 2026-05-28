@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Demiralay Sülalesi — V3 Dairesel Harita</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Segoe UI',system-ui,sans-serif;
+  background:#0d1b2a;
+  color:#dde;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+#header {
+  background:#122340;
+  padding:9px 16px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  border-bottom:1px solid #1c3a5c;
+  flex-shrink:0;
+  flex-wrap:wrap;
+}
+#title { font-size:16px; font-weight:700; color:#d4a843; white-space:nowrap; }
+#search {
+  padding:5px 14px;
+  border-radius:20px;
+  border:1px solid #1c3a5c;
+  background:#0d1b2a;
+  color:#dde;
+  font-size:13px;
+  outline:none;
+  width:210px;
+  transition:border-color .2s;
+}
+#search:focus { border-color:#d4a843; }
+#search::placeholder { color:#445; }
+.btn {
+  padding:5px 12px;
+  border-radius:6px;
+  border:1px solid #1c3a5c;
+  background:#172f4a;
+  color:#bbc;
+  cursor:pointer;
+  font-size:12px;
+  white-space:nowrap;
+  transition:background .15s,color .15s;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+}
+.btn:hover { background:#1c3a5c; color:#fff; }
+.btn.on    { background:#d4a843; color:#0d1b2a; border-color:#d4a843; }
+#stat { color:#445; font-size:12px; margin-left:auto; white-space:nowrap; }
+#main { flex:1; display:flex; overflow:hidden; }
+#canvas { flex:1; position:relative; overflow:hidden; background:#FAFAF8; }
+svg { width:100%; height:100%; cursor:grab; display:block; }
+svg:active { cursor:grabbing; }
+.node { cursor:pointer; }
+.node.sel rect { stroke:#F6AE2D !important; stroke-width:3 !important; }
+.node.hit rect { filter:drop-shadow(0 0 8px rgba(255,224,102,.9)); }
+.node text { pointer-events:none; }
+#controls {
+  position:absolute; bottom:16px; left:16px;
+  display:flex; flex-direction:column; gap:5px;
+}
+.ctl {
+  width:30px; height:30px; border-radius:6px;
+  border:1px solid #1c3a5c; background:#122340cc;
+  color:#bbc; cursor:pointer; font-size:15px;
+  display:flex; align-items:center; justify-content:center;
+  backdrop-filter:blur(4px);
+}
+.ctl:hover { background:#1c3a5c; color:#fff; }
+#legend {
+  position:absolute; top:12px; left:12px;
+  background:rgba(250,250,248,.92);
+  border:1px solid #ddd;
+  border-radius:8px; padding:10px 13px;
+  font-size:12px; color:#333;
+  box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+.leg-title { color:#888; text-transform:uppercase; letter-spacing:.5px; font-size:10px; margin-bottom:7px; }
+.leg-row { display:flex; align-items:center; gap:7px; margin-bottom:4px; color:#333; }
+.leg-dot { width:11px; height:11px; border-radius:3px; flex-shrink:0; }
+/* Detail panel */
+#panel {
+  width:0; background:#122340; border-left:1px solid #1c3a5c;
+  display:flex; flex-direction:column; overflow:hidden;
+  transition:width .25s ease; flex-shrink:0;
+}
+#panel.open { width:288px; }
+#ph {
+  padding:13px 15px; border-bottom:1px solid #1c3a5c;
+  display:flex; justify-content:space-between; align-items:flex-start; flex-shrink:0;
+}
+#pname { font-size:15px; font-weight:700; color:#d4a843; line-height:1.3; }
+#pcode { font-size:11px; color:#445; font-family:monospace; margin-top:2px; }
+#pbody { flex:1; overflow-y:auto; padding:13px 15px; }
+#pbody::-webkit-scrollbar { width:5px; }
+#pbody::-webkit-scrollbar-thumb { background:#1c3a5c; border-radius:3px; }
+.pr { margin-bottom:11px; }
+.pl { font-size:10px; color:#445; text-transform:uppercase; letter-spacing:.5px; margin-bottom:3px; }
+.pv { font-size:13px; color:#ccd; line-height:1.45; }
+.gen-chip { display:inline-block; padding:2px 9px; border-radius:10px; font-size:11px; font-weight:600; color:#fff; }
+#pcross { padding:11px 15px; border-top:1px solid #1c3a5c; flex-shrink:0; }
+.cx-title { font-size:10px; color:#d4a843; text-transform:uppercase; letter-spacing:.5px; margin-bottom:6px; }
+.cx-row { font-size:12px; color:#99a; margin-bottom:5px; line-height:1.4; }
+/* Loading / Error */
+#loading, #errscreen {
+  position:fixed; inset:0; background:rgba(250,250,248,.85);
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  z-index:999; gap:14px; color:#333;
+}
+#errscreen { display:none; }
+.spinner {
+  width:38px; height:38px; border-radius:50%;
+  border:3px solid #ddd; border-top-color:#F6AE2D;
+  animation:spin .8s linear infinite;
+}
+@keyframes spin { to { transform:rotate(360deg); } }
+.load-text { color:#888; font-size:14px; }
+.load-sub  { color:#aaa; font-size:12px; }
+.err-box {
+  background:#fff; border:1px solid #f5c6c6;
+  border-radius:10px; padding:24px 28px;
+  max-width:460px; text-align:center; color:#333;
+}
+.err-title { color:#c0392b; font-size:15px; font-weight:700; margin-bottom:10px; }
+.err-msg { color:#667; font-size:13px; line-height:1.6; }
+</style>
+</head>
+<body>
+
+<div id="loading">
+  <div class="spinner"></div>
+  <div class="load-text">Google Sheets'ten veriler yükleniyor…</div>
+  <div class="load-sub" id="load-sub">Bağlantı kuruluyor</div>
+</div>
+
+<div id="errscreen">
+  <div class="err-box">
+    <div class="err-title">⚠️ Veri yüklenemedi</div>
+    <div class="err-msg" id="err-msg"></div>
+  </div>
+</div>
+
+<div id="header">
+  <a class="btn" href="index.html">← Ana</a>
+  <div id="title">🔵 Demiralay Sülalesi — V3</div>
+  <input id="search" type="text" placeholder="İsim ara…" autocomplete="off" spellcheck="false">
+  <button class="btn" id="btn-fit">Ekrana Sığdır</button>
+  <button class="btn on" id="btn-cross">Çapraz Bağlar</button>
+  <a class="btn" href="v2.html">V2 →</a>
+  <div id="stat">Yükleniyor…</div>
+</div>
+
+<div id="main">
+  <div id="canvas">
+    <svg id="svg"></svg>
+    <div id="legend">
+      <div class="leg-title">Nesil</div>
+      <div class="leg-row"><div class="leg-dot" style="background:#2B2D42"></div>Kök</div>
+      <div class="leg-row"><div class="leg-dot" style="background:#4A5568"></div>Nesil 1</div>
+      <div class="leg-row"><div class="leg-dot" style="background:#C53030"></div>Nesil 2</div>
+      <div class="leg-row"><div class="leg-dot" style="background:#9C4221"></div>Nesil 3</div>
+      <div class="leg-row"><div class="leg-dot" style="background:#2B6CB0"></div>Nesil 4</div>
+      <div class="leg-row"><div class="leg-dot" style="background:#276749"></div>Nesil 5</div>
+      <div class="leg-row"><div class="leg-dot" style="background:#234E52"></div>Nesil 6</div>
+      <div class="leg-row" style="margin-top:7px;border-top:1px solid #ddd;padding-top:7px">
+        <svg width="22" height="8" style="flex-shrink:0">
+          <line x1="1" y1="4" x2="21" y2="4" stroke="#F6AE2D" stroke-width="2" stroke-dasharray="5,3"/>
+        </svg>
+        Çapraz Evlilik
+      </div>
+    </div>
+    <div id="controls">
+      <button class="ctl" id="z-in"  title="Yakınlaştır">+</button>
+      <button class="ctl" id="z-fit" title="Ekrana Sığdır">⊙</button>
+      <button class="ctl" id="z-out" title="Uzaklaştır">−</button>
+    </div>
+  </div>
+
+  <div id="panel">
+    <div id="ph">
+      <div>
+        <div id="pname">—</div>
+        <div id="pcode"></div>
+      </div>
+      <button class="ctl" id="pclose" style="flex-shrink:0">✕</button>
+    </div>
+    <div id="pbody"></div>
+    <div id="pcross" style="display:none">
+      <div class="cx-title">⚡ Çapraz Akrabalıklar</div>
+      <div id="pcross-list"></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script src="config.js"></script>
+<script>
+/* ════════════════════════════════════════════════════
+   HELPERS
+   ════════════════════════════════════════════════════ */
+function safe(v) {
+  if (v == null) return "";
+  const s = String(v).trim();
+  return (s.toLowerCase() === "nan" || s.toLowerCase() === "none") ? "" : s;
+}
+
+function normaliseRow(row) {
+  const out = {};
+  for (const [k, v] of Object.entries(row)) out[k.trim()] = v;
+  return out;
+}
+
+function findParent(code) {
+  if (!code || code === "0") return null;
+  if (code.length === 1) return "0";
+  if (code.includes("-")) {
+    const base = code.split("-")[0];
+    return base.length > 1 ? base.slice(0, -1) : "0";
+  }
+  return code.slice(0, -1);
+}
+
+/* ════════════════════════════════════════════════════
+   GOOGLE SHEETS FETCH
+   ════════════════════════════════════════════════════ */
+async function loadFromSheets() {
+  if (!window.CONFIG || CONFIG.SHEET_ID === "YOUR_SHEET_ID_HERE") {
+    throw new Error(
+      "config.js dosyasındaki SHEET_ID henüz doldurulmamış.\n" +
+      "Google Sheets tablonuzun ID'sini girin ve GitHub'a yükleyin."
+    );
+  }
+
+  document.getElementById("load-sub").textContent = "Sülale Listesi alınıyor…";
+  const base = `https://docs.google.com/spreadsheets/d/${CONFIG.SHEET_ID}/export?format=csv&gid=`;
+
+  const [mainRes, crossRes] = await Promise.all([
+    fetch(base + CONFIG.SHEET_GID_MAIN),
+    fetch(base + CONFIG.SHEET_GID_CROSS),
+  ]);
+
+  if (!mainRes.ok) throw new Error(
+    `Tablo yüklenemedi (HTTP ${mainRes.status}).\n` +
+    "Google Sheets'in herkese açık paylaşım ayarını kontrol edin."
+  );
+
+  document.getElementById("load-sub").textContent = "Veriler işleniyor…";
+
+  const mainRows  = Papa.parse(await mainRes.text(),  { header:true, skipEmptyLines:true }).data.map(normaliseRow);
+  const crossRows = crossRes.ok
+    ? Papa.parse(await crossRes.text(), { header:true, skipEmptyLines:true }).data.map(normaliseRow)
+    : [];
+
+  const nodes = {};
+  for (const row of mainRows) {
+    let code = safe(row["Kod"]).split(".")[0];
+    if (!code || code === "nan") continue;
+    const spouse = safe(row["Eş Adı"]);
+    nodes[code] = {
+      id:     code,
+      name:   safe(row["Ad"]) || "Bilinmiyor",
+      spouse,
+      spouseSurname: safe(row["Eşin Kızlık Soyadı"]),
+      birth:  safe(row["Doğum Tarihi"]),
+      death:  safe(row["Ölüm Tarihi"]),
+      gen:    safe(row["Nesil"]),
+      notes:  safe(row["Notlar / Çapraz Ref"]),
+      label:  spouse ? `${safe(row["Ad"]) || "Bilinmiyor"}\n(${spouse})` : (safe(row["Ad"]) || "Bilinmiyor"),
+    };
+  }
+
+  const childrenMap = {};
+  for (const code of Object.keys(nodes)) childrenMap[code] = [];
+  for (const code of Object.keys(nodes)) {
+    const p = findParent(code);
+    if (p && p in nodes) childrenMap[p].push(code);
+  }
+
+  function countAll(id) { return 1 + (childrenMap[id] || []).reduce((s, c) => s + countAll(c), 0); }
+  if (!nodes["0"]) throw new Error("Tabloda '0' kodlu kök kayıt bulunamadı.");
+  const total = countAll("0");
+
+  const cross = [];
+  for (const row of crossRows) {
+    const p1 = safe(row["Kişi 1 Kodu"]).split(".")[0];
+    const p2 = safe(row["Kişi 2 Kodu"]).split(".")[0];
+    if (p1 && p2 && nodes[p1] && nodes[p2]) {
+      cross.push({
+        source:  p1,
+        target:  p2,
+        person1: safe(row["Kişi 1 Adı"]),
+        person2: safe(row["Kişi 2 Adı"]),
+        desc:    safe(row["Açıklama"]),
+      });
+    }
+  }
+
+  return { nodes, childrenMap, cross, total };
+}
+
+/* ════════════════════════════════════════════════════
+   LAYOUT (mirrors Python v3 algorithm)
+   ════════════════════════════════════════════════════ */
+const SCALE      = 10;   // px per data unit
+const MIN_ARC    = 6.0;  // data units
+const MIN_GAP    = 14.0; // data units
+const LANE_DELTA = 4.0;  // data units
+const NUDGE_GAP  = 5;    // px
+const N_ITER     = 35;
+
+function nodeBoxPx(label, depth) {
+  const lines = label.split("\n");
+  const maxChars = Math.max(...lines.map(l => l.length));
+  const nLines   = lines.length;
+  const fs = depth === 0 ? 14 : depth === 1 ? 12 : 10;
+  return {
+    w: maxChars * fs * 0.58 + 16,
+    h: nLines   * fs * 1.50 + 10,
+  };
+}
+
+function computeLayout(nodes, childrenMap) {
+  /* 1. BFS depths */
+  const depthOf = { "0": 0 };
+  const levelN  = { 0: 1 };
+  let   maxD    = 0;
+  const queue   = ["0"];
+  while (queue.length) {
+    const nd = queue.shift();
+    for (const child of (childrenMap[nd] || [])) {
+      if (!(child in depthOf)) {
+        const d = depthOf[nd] + 1;
+        depthOf[child] = d;
+        levelN[d] = (levelN[d] || 0) + 1;
+        if (d > maxD) maxD = d;
+        queue.push(child);
+      }
+    }
+  }
+
+  /* 2. Band-centre radii (data units) */
+  const depthRadii = { 0: 0.0 };
+  for (let d = 1; d <= maxD; d++) {
+    const n        = levelN[d] || 1;
+    const nPerLane = Math.ceil(n / 2);
+    const rOuter   = (nPerLane * MIN_ARC) / (2 * Math.PI);
+    const rByCount = Math.max(0.0, rOuter - LANE_DELTA);
+    const rByGap   = depthRadii[d - 1] + MIN_GAP;
+    depthRadii[d]  = Math.max(rByCount, rByGap);
+  }
+
+  /* 3. Leaf counts (memoised) */
+  const memo = {};
+  function leafCount(nd) {
+    if (nd in memo) return memo[nd];
+    const kids = childrenMap[nd] || [];
+    return (memo[nd] = kids.length ? kids.reduce((s, c) => s + leafCount(c), 0) : 1);
+  }
+
+  /* 4. Angle assignment */
+  const angleOf = {};
+  function assignAngles(nd, a0, a1, depth) {
+    angleOf[nd] = { angle: (a0 + a1) / 2, depth };
+    const kids  = childrenMap[nd] || [];
+    if (!kids.length) return;
+    const total = kids.reduce((s, c) => s + leafCount(c), 0);
+    let cur = a0;
+    for (const child of kids) {
+      const span = (leafCount(child) / total) * (a1 - a0);
+      assignAngles(child, cur, cur + span, depth + 1);
+      cur += span;
+    }
+  }
+  if ("0" in childrenMap) assignAngles("0", 0, 2 * Math.PI, 0);
+
+  /* 5. Group by depth, sort by angle */
+  const buckets = {};
+  for (const [nd, { angle, depth }] of Object.entries(angleOf)) {
+    if (!buckets[depth]) buckets[depth] = [];
+    buckets[depth].push({ nd, angle });
+  }
+  for (const d of Object.keys(buckets)) buckets[d].sort((a, b) => a.angle - b.angle);
+
+  /* 6. Stagger into inner/outer lanes → data units */
+  const posDU = {};
+  for (const [depth, arr] of Object.entries(buckets)) {
+    const d = parseInt(depth);
+    if (d === 0) { posDU[arr[0].nd] = { x: 0, y: 0 }; continue; }
+    const rBase = depthRadii[d];
+    arr.forEach(({ nd, angle }, i) => {
+      const r = (i % 2 === 0) ? rBase - LANE_DELTA : rBase + LANE_DELTA;
+      posDU[nd] = { x: r * Math.cos(angle), y: r * Math.sin(angle) };
+    });
+  }
+  for (const nd of Object.keys(nodes)) {
+    if (!(nd in posDU)) posDU[nd] = { x: 0, y: 0 };
+  }
+
+  /* 7. Convert to SVG pixels */
+  const pos = {};
+  for (const [nd, { x, y }] of Object.entries(posDU)) {
+    pos[nd] = { x: x * SCALE, y: y * SCALE };
+  }
+  const depthRadiiPx = {};
+  for (const [d, r] of Object.entries(depthRadii)) depthRadiiPx[d] = r * SCALE;
+
+  /* 8. Node sizes in px */
+  const sizes = {};
+  for (const nd of Object.keys(pos)) {
+    sizes[nd] = nd in nodes
+      ? nodeBoxPx(nodes[nd].label, depthOf[nd] || 0)
+      : { w: 10, h: 5 };
+  }
+
+  /* 9. Collision nudge */
+  nudge(pos, sizes);
+
+  return { pos, depthOf, depthRadiiPx, maxD };
+}
+
+function nudge(pos, sizes) {
+  const ids = Object.keys(pos);
+  for (let iter = 0; iter < N_ITER; iter++) {
+    let moved = false;
+    for (let i = 0; i < ids.length; i++) {
+      for (let j = i + 1; j < ids.length; j++) {
+        const a = ids[i], b = ids[j];
+        const ax = pos[a].x, ay = pos[a].y;
+        const bx = pos[b].x, by = pos[b].y;
+        const wa = sizes[a].w, ha = sizes[a].h;
+        const wb = sizes[b].w, hb = sizes[b].h;
+
+        const ovX = (wa + wb) / 2 + NUDGE_GAP - Math.abs(ax - bx);
+        const ovY = (ha + hb) / 2 + NUDGE_GAP - Math.abs(ay - by);
+        if (ovX <= 0 || ovY <= 0) continue;
+
+        moved = true;
+        if (ovX <= ovY) {
+          const sh = ovX / 2 + 0.5;
+          const sg = ax >= bx ? 1 : -1;
+          pos[a] = { x: ax + sg * sh, y: ay };
+          pos[b] = { x: bx - sg * sh, y: by };
+        } else {
+          const sh = ovY / 2 + 0.5;
+          const sg = ay >= by ? 1 : -1;
+          pos[a] = { x: ax, y: ay + sg * sh };
+          pos[b] = { x: bx, y: by - sg * sh };
+        }
+      }
+    }
+    if (!moved) break;
+  }
+}
+
+/* ════════════════════════════════════════════════════
+   GENERATION STYLES  (matches Python GEN_STYLE)
+   ════════════════════════════════════════════════════ */
+const GEN_STYLE = {
+  "Kök":     { face:"#2B2D42", text:"#FFFFFF" },
+  "Nesil 1": { face:"#4A5568", text:"#FFFFFF" },
+  "Nesil 2": { face:"#C53030", text:"#FFFFFF" },
+  "Nesil 3": { face:"#9C4221", text:"#FFFFFF" },
+  "Nesil 4": { face:"#2B6CB0", text:"#FFFFFF" },
+  "Nesil 5": { face:"#276749", text:"#FFFFFF" },
+  "Nesil 6": { face:"#234E52", text:"#E6FFFA" },
+};
+const DEF_STYLE = { face:"#718096", text:"#FFFFFF" };
+
+/* ════════════════════════════════════════════════════
+   RENDER
+   ════════════════════════════════════════════════════ */
+let svgSel, zoomBeh, rootG, nodeGs, crossG;
+let CROSS_LINKS = [];
+let showCross   = true;
+let currentNodes, currentLayout;
+
+function render(nodes, childrenMap, cross, layout) {
+  const { pos, depthOf, depthRadiiPx, maxD } = layout;
+  currentNodes  = nodes;
+  currentLayout = layout;
+  CROSS_LINKS   = cross;
+
+  svgSel = d3.select("#svg");
+  svgSel.selectAll("*").remove();
+
+  rootG = svgSel.append("g");
+
+  zoomBeh = d3.zoom()
+    .scaleExtent([0.02, 10])
+    .on("zoom", e => rootG.attr("transform", e.transform));
+  svgSel.call(zoomBeh);
+
+  const gArcs  = rootG.append("g");
+  const gEdges = rootG.append("g");
+  crossG       = rootG.append("g");
+  const gNodes = rootG.append("g");
+
+  /* Guide arcs */
+  for (let d = 1; d <= maxD; d++) {
+    const rBase = depthRadiiPx[d];
+    for (const dr of [-LANE_DELTA * SCALE, LANE_DELTA * SCALE]) {
+      gArcs.append("circle")
+        .attr("cx", 0).attr("cy", 0)
+        .attr("r", Math.max(0, rBase + dr))
+        .attr("fill", "none")
+        .attr("stroke", "#DCDCDC")
+        .attr("stroke-width", 0.4)
+        .attr("stroke-dasharray", "3,6")
+        .attr("opacity", 0.55);
+    }
+  }
+
+  /* Tree edges */
+  for (const [nd, children] of Object.entries(childrenMap)) {
+    if (!(nd in pos)) continue;
+    const dSrc = depthOf[nd] || 0;
+    const lw   = Math.max(0.6, 2.4 - dSrc * 0.30);
+    for (const child of children) {
+      if (!(child in pos)) continue;
+      gEdges.append("line")
+        .attr("x1", pos[nd].x).attr("y1", pos[nd].y)
+        .attr("x2", pos[child].x).attr("y2", pos[child].y)
+        .attr("stroke", "#C4C4C4")
+        .attr("stroke-width", lw)
+        .attr("opacity", 0.75);
+    }
+  }
+
+  /* Cross edges */
+  drawCrossLinks(pos);
+
+  /* Nodes */
+  const nodeIds = Object.keys(pos).filter(nd => nd in nodes);
+  nodeGs = gNodes.selectAll("g.node")
+    .data(nodeIds)
+    .enter()
+    .append("g")
+    .attr("class", "node")
+    .attr("data-id", nd => nd)
+    .attr("transform", nd => `translate(${pos[nd].x},${pos[nd].y})`);
+
+  nodeGs.each(function(nd) {
+    const info  = nodes[nd];
+    const depth = depthOf[nd] || 0;
+    const style = GEN_STYLE[info.gen] || DEF_STYLE;
+    const { w, h } = nodeBoxPx(info.label, depth);
+    const fs = depth === 0 ? 14 : depth === 1 ? 12 : 10;
+    const fw = depth <= 1 ? "bold" : "normal";
+    const g  = d3.select(this);
+
+    g.append("rect")
+      .attr("x", -w / 2).attr("y", -h / 2)
+      .attr("width", w).attr("height", h)
+      .attr("rx", 4).attr("ry", 4)
+      .attr("fill", style.face)
+      .attr("stroke", depth === 0 ? "#F6AE2D" : "rgba(255,255,255,0.35)")
+      .attr("stroke-width", depth === 0 ? 4 : 0.8)
+      .attr("opacity", 0.95);
+
+    const lines = info.label.split("\n");
+    if (lines.length === 1) {
+      g.append("text")
+        .attr("text-anchor", "middle")
+        .attr("dominant-baseline", "middle")
+        .attr("fill", style.text)
+        .attr("font-size", fs)
+        .attr("font-weight", fw)
+        .text(lines[0]);
+    } else {
+      g.append("text")
+        .attr("text-anchor", "middle").attr("y", -h / 4)
+        .attr("dominant-baseline", "middle")
+        .attr("fill", style.text)
+        .attr("font-size", fs).attr("font-weight", fw)
+        .text(lines[0]);
+      g.append("text")
+        .attr("text-anchor", "middle").attr("y", h / 4)
+        .attr("dominant-baseline", "middle")
+        .attr("fill", style.text)
+        .attr("font-size", Math.max(8, fs - 1))
+        .text(lines[1]);
+    }
+  });
+
+  /* Node click */
+  nodeGs.on("click", (evt, nd) => {
+    evt.stopPropagation();
+    nodeGs.classed("sel", d => d === nd);
+    showPanel(nd, cross);
+  });
+
+  /* Background click: close panel */
+  svgSel.on("click", () => {
+    document.getElementById("panel").classList.remove("open");
+    nodeGs.classed("sel", false);
+  });
+
+  /* Initial fit */
+  setTimeout(fitView, 150);
+}
+
+function drawCrossLinks(pos) {
+  if (!pos) {
+    if (!currentLayout) return;
+    pos = currentLayout.pos;
+  }
+  crossG.selectAll("*").remove();
+  if (!showCross) return;
+
+  for (const { source, target, person1, person2, desc } of CROSS_LINKS) {
+    if (!(source in pos) || !(target in pos)) continue;
+    const p1 = pos[source], p2 = pos[target];
+    const dx = p2.x - p1.x, dy = p2.y - p1.y;
+    const len = Math.sqrt(dx * dx + dy * dy) || 1;
+    const bend = len * 0.18;
+    const cpx  = (p1.x + p2.x) / 2 - (dy / len) * bend;
+    const cpy  = (p1.y + p2.y) / 2 + (dx / len) * bend;
+
+    crossG.append("path")
+      .attr("d", `M${p1.x},${p1.y} Q${cpx},${cpy} ${p2.x},${p2.y}`)
+      .attr("fill", "none")
+      .attr("stroke", "#F6AE2D")
+      .attr("stroke-width", 3.0)
+      .attr("stroke-dasharray", "8,5")
+      .attr("opacity", 0.8)
+      .append("title").text(`${person1} × ${person2}\n${desc}`);
+  }
+}
+
+/* ════════════════════════════════════════════════════
+   DETAIL PANEL
+   ════════════════════════════════════════════════════ */
+const GEN_COLOR = {
+  "Kök":"#2B2D42","Nesil 1":"#4A5568","Nesil 2":"#C53030",
+  "Nesil 3":"#9C4221","Nesil 4":"#2B6CB0","Nesil 5":"#276749","Nesil 6":"#234E52",
+};
+
+function showPanel(nd, cross) {
+  const info = currentNodes[nd];
+  const col  = GEN_COLOR[info.gen] || "#718096";
+
+  document.getElementById("pname").textContent = info.name;
+  document.getElementById("pcode").textContent = "Kod: " + nd;
+
+  let html = "";
+  if (info.gen)    html += `<div class="pr"><div class="pl">Nesil</div><span class="gen-chip" style="background:${col}">${info.gen}</span></div>`;
+  if (info.spouse) html += prow("Eş", info.spouse + (info.spouseSurname ? ` (${info.spouseSurname})` : ""));
+  if (info.birth)  html += prow("Doğum", info.birth);
+  if (info.death)  html += prow("Ölüm",  info.death);
+  if (info.notes)  html += prow("Notlar", info.notes);
+
+  document.getElementById("pbody").innerHTML = html || "<div style='color:#445;font-size:13px;margin-top:8px'>Detay yok</div>";
+
+  const cx = cross.filter(c => c.source === nd || c.target === nd);
+  const cxEl = document.getElementById("pcross");
+  if (cx.length) {
+    cxEl.style.display = "";
+    document.getElementById("pcross-list").innerHTML = cx.map(c =>
+      `<div class="cx-row">↔ <b>${c.person1}</b> × <b>${c.person2}</b><br><span style="color:#556">${c.desc}</span></div>`
+    ).join("");
+  } else { cxEl.style.display = "none"; }
+
+  document.getElementById("panel").classList.add("open");
+}
+
+function prow(label, value) {
+  return `<div class="pr"><div class="pl">${label}</div><div class="pv">${value}</div></div>`;
+}
+
+document.getElementById("pclose").onclick = () => {
+  document.getElementById("panel").classList.remove("open");
+  if (nodeGs) nodeGs.classed("sel", false);
+};
+
+/* ════════════════════════════════════════════════════
+   SEARCH
+   ════════════════════════════════════════════════════ */
+document.getElementById("search").addEventListener("input", function() {
+  const term = this.value.trim().toLowerCase();
+  if (!nodeGs) return;
+  nodeGs.classed("hit", nd => {
+    if (!term) return false;
+    const info = currentNodes && currentNodes[nd];
+    if (!info) return false;
+    return info.name.toLowerCase().includes(term) ||
+           (info.spouse && info.spouse.toLowerCase().includes(term));
+  });
+});
+
+/* ════════════════════════════════════════════════════
+   ZOOM / FIT
+   ════════════════════════════════════════════════════ */
+function fitView() {
+  if (!rootG) return;
+  const bb = rootG.node().getBBox();
+  if (!bb.width) return;
+  const svgNode = document.getElementById("svg");
+  const W = svgNode.clientWidth  || 900;
+  const H = svgNode.clientHeight || 700;
+  const pad   = 50;
+  const scale = Math.min((W - pad) / bb.width, (H - pad) / bb.height, 1.0);
+  const tx    = (W - bb.width  * scale) / 2 - bb.x * scale;
+  const ty    = (H - bb.height * scale) / 2 - bb.y * scale;
+  svgSel.transition().duration(600)
+    .call(zoomBeh.transform, d3.zoomIdentity.translate(tx, ty).scale(scale));
+}
+
+document.getElementById("btn-fit").onclick = fitView;
+document.getElementById("z-in" ).onclick   = () => svgSel && svgSel.transition().call(zoomBeh.scaleBy, 1.4);
+document.getElementById("z-out").onclick   = () => svgSel && svgSel.transition().call(zoomBeh.scaleBy, 0.72);
+document.getElementById("z-fit").onclick   = fitView;
+
+document.getElementById("btn-cross").addEventListener("click", function() {
+  showCross = !showCross;
+  this.classList.toggle("on", showCross);
+  drawCrossLinks();
+});
+
+/* ════════════════════════════════════════════════════
+   INIT
+   ════════════════════════════════════════════════════ */
+async function init() {
+  try {
+    const { nodes, childrenMap, cross, total } = await loadFromSheets();
+
+    document.getElementById("load-sub").textContent = "Yerleşim hesaplanıyor…";
+    /* Small delay so the browser can repaint the loading text */
+    await new Promise(r => setTimeout(r, 30));
+
+    const layout = computeLayout(nodes, childrenMap);
+
+    document.getElementById("stat").textContent = `${total} kişi · ${cross.length} çapraz akrabalık`;
+    document.getElementById("loading").style.display = "none";
+
+    render(nodes, childrenMap, cross, layout);
+  } catch (err) {
+    document.getElementById("loading").style.display = "none";
+    document.getElementById("err-msg").textContent   = err.message;
+    document.getElementById("errscreen").style.display = "flex";
+    console.error(err);
+  }
+}
+
+init();
+</script>
+</body>
+</html>

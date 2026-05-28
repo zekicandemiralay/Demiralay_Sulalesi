@@ -1,0 +1,14 @@
+# Generated outputs (run Python scripts locally to regenerate)
+*.png
+*.pdf
+
+# Excel temp files
+~$*
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Debug/temp
+inspect_out.txt
+"Adobe Scan*.pdf"

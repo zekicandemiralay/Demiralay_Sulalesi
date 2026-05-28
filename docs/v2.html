@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Demiralay Sülalesi — V2 Yatay Ağaç</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Segoe UI',system-ui,sans-serif;
+  background:#0d1b2a;
+  color:#dde;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+#header {
+  background:#122340;
+  padding:9px 16px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  border-bottom:1px solid #1c3a5c;
+  flex-shrink:0;
+  flex-wrap:wrap;
+}
+#title { font-size:16px; font-weight:700; color:#d4a843; white-space:nowrap; }
+#search {
+  padding:5px 14px;
+  border-radius:20px;
+  border:1px solid #1c3a5c;
+  background:#0d1b2a;
+  color:#dde;
+  font-size:13px;
+  outline:none;
+  width:210px;
+  transition:border-color .2s;
+}
+#search:focus { border-color:#d4a843; }
+#search::placeholder { color:#445; }
+.btn {
+  padding:5px 12px;
+  border-radius:6px;
+  border:1px solid #1c3a5c;
+  background:#172f4a;
+  color:#bbc;
+  cursor:pointer;
+  font-size:12px;
+  white-space:nowrap;
+  transition:background .15s,color .15s;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+}
+.btn:hover { background:#1c3a5c; color:#fff; }
+.btn.on    { background:#d4a843; color:#0d1b2a; border-color:#d4a843; }
+#stat { color:#445; font-size:12px; margin-left:auto; white-space:nowrap; }
+#main { flex:1; display:flex; overflow:hidden; }
+#canvas { flex:1; position:relative; overflow:hidden; }
+svg { width:100%; height:100%; cursor:grab; display:block; }
+svg:active { cursor:grabbing; }
+.link { fill:none; stroke:rgba(255,255,255,.08); stroke-width:1.5; }
+.cross-link { fill:none; stroke:#d4a843; stroke-width:1.5; stroke-dasharray:7,4; opacity:.6; }
+.node rect.bg { cursor:pointer; transition:filter .15s; }
+.node:hover rect.bg { filter:brightness(1.3) drop-shadow(0 3px 10px rgba(0,0,0,.7)); }
+.node.sel rect.bg { stroke:#d4a843 !important; stroke-width:2.5 !important; }
+.node.hit rect.bg { filter:drop-shadow(0 0 9px #ffe066) brightness(1.35); }
+.node text { pointer-events:none; }
+#controls {
+  position:absolute; bottom:16px; left:16px;
+  display:flex; flex-direction:column; gap:5px;
+}
+.ctl {
+  width:30px; height:30px; border-radius:6px;
+  border:1px solid #1c3a5c; background:#122340cc;
+  color:#bbc; cursor:pointer; font-size:15px;
+  display:flex; align-items:center; justify-content:center;
+  backdrop-filter:blur(4px);
+}
+.ctl:hover { background:#1c3a5c; color:#fff; }
+#legend {
+  position:absolute; top:12px; left:12px;
+  background:#122340dd; border:1px solid #1c3a5c;
+  border-radius:8px; padding:10px 13px;
+  backdrop-filter:blur(4px); font-size:12px;
+}
+.leg-title { color:#445; text-transform:uppercase; letter-spacing:.5px; font-size:10px; margin-bottom:7px; }
+.leg-row { display:flex; align-items:center; gap:7px; margin-bottom:4px; }
+.leg-dot { width:11px; height:11px; border-radius:3px; flex-shrink:0; }
+#panel {
+  width:0; background:#122340; border-left:1px solid #1c3a5c;
+  display:flex; flex-direction:column; overflow:hidden;
+  transition:width .25s ease; flex-shrink:0;
+}
+#panel.open { width:288px; }
+#ph {
+  padding:13px 15px; border-bottom:1px solid #1c3a5c;
+  display:flex; justify-content:space-between; align-items:flex-start; flex-shrink:0;
+}
+#pname { font-size:15px; font-weight:700; color:#d4a843; line-height:1.3; }
+#pcode { font-size:11px; color:#445; font-family:monospace; margin-top:2px; }
+#pbody { flex:1; overflow-y:auto; padding:13px 15px; }
+#pbody::-webkit-scrollbar { width:5px; }
+#pbody::-webkit-scrollbar-thumb { background:#1c3a5c; border-radius:3px; }
+.pr { margin-bottom:11px; }
+.pl { font-size:10px; color:#445; text-transform:uppercase; letter-spacing:.5px; margin-bottom:3px; }
+.pv { font-size:13px; color:#ccd; line-height:1.45; }
+.gen-chip { display:inline-block; padding:2px 9px; border-radius:10px; font-size:11px; font-weight:600; color:#fff; }
+#pcross { padding:11px 15px; border-top:1px solid #1c3a5c; flex-shrink:0; }
+.cx-title { font-size:10px; color:#d4a843; text-transform:uppercase; letter-spacing:.5px; margin-bottom:6px; }
+.cx-row { font-size:12px; color:#99a; margin-bottom:5px; line-height:1.4; }
+/* Loading / Error overlays */
+#loading, #errscreen {
+  position:fixed; inset:0; background:#0d1b2acc;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  z-index:999; gap:14px;
+}
+#errscreen { display:none; }
+.spinner {
+  width:38px; height:38px; border-radius:50%;
+  border:3px solid #1c3a5c; border-top-color:#d4a843;
+  animation:spin .8s linear infinite;
+}
+@keyframes spin { to { transform:rotate(360deg); } }
+.load-text { color:#778; font-size:14px; }
+.err-box {
+  background:#122340; border:1px solid #8b4513;
+  border-radius:10px; padding:24px 28px;
+  max-width:460px; text-align:center;
+}
+.err-title { color:#c87; font-size:15px; font-weight:700; margin-bottom:10px; }
+.err-msg { color:#667; font-size:13px; line-height:1.6; }
+</style>
+</head>
+<body>
+
+<div id="loading">
+  <div class="spinner"></div>
+  <div class="load-text">Google Sheets'ten veriler yükleniyor…</div>
+</div>
+
+<div id="errscreen">
+  <div class="err-box">
+    <div class="err-title">⚠️ Veri yüklenemedi</div>
+    <div class="err-msg" id="err-msg"></div>
+  </div>
+</div>
+
+<div id="header">
+  <a class="btn" href="index.html" title="Ana Sayfa">← Ana</a>
+  <div id="title">🌿 Demiralay Sülalesi — V2</div>
+  <input id="search" type="text" placeholder="İsim ara…" autocomplete="off" spellcheck="false">
+  <button class="btn" id="btn-expand">Tümünü Aç</button>
+  <button class="btn" id="btn-collapse">Tümünü Kapat</button>
+  <button class="btn" id="btn-fit">Ekrana Sığdır</button>
+  <button class="btn on" id="btn-cross">Çapraz Bağlar</button>
+  <a class="btn" href="v3.html">V3 →</a>
+  <div id="stat">Yükleniyor…</div>
+</div>
+
+<div id="main">
+  <div id="canvas">
+    <svg id="svg"></svg>
+    <div id="legend">
+      <div class="leg-title">Nesil</div>
+      <div class="leg-row"><div class="leg-dot" style="background:#8d6e63"></div>Kök</div>
+      <div class="leg-row"><div class="leg-dot" style="background:#1976d2"></div>Nesil 1</div>
+      <div class="leg-row"><div class="leg-dot" style="background:#2e7d32"></div>Nesil 2</div>
+      <div class="leg-row"><div class="leg-dot" style="background:#e65100"></div>Nesil 3</div>
+      <div class="leg-row"><div class="leg-dot" style="background:#6a1b9a"></div>Nesil 4</div>
+      <div class="leg-row"><div class="leg-dot" style="background:#b71c1c"></div>Nesil 5</div>
+      <div class="leg-row"><div class="leg-dot" style="background:#00695c"></div>Nesil 6</div>
+      <div class="leg-row" style="margin-top:7px;border-top:1px solid #1c3a5c;padding-top:7px">
+        <svg width="22" height="8" style="flex-shrink:0">
+          <line x1="1" y1="4" x2="21" y2="4" stroke="#d4a843" stroke-width="1.5" stroke-dasharray="5,3"/>
+        </svg>
+        Çapraz Evlilik
+      </div>
+    </div>
+    <div id="controls">
+      <button class="ctl" id="z-in"  title="Yakınlaştır">+</button>
+      <button class="ctl" id="z-fit" title="Ekrana Sığdır">⊙</button>
+      <button class="ctl" id="z-out" title="Uzaklaştır">−</button>
+    </div>
+  </div>
+
+  <div id="panel">
+    <div id="ph">
+      <div>
+        <div id="pname">—</div>
+        <div id="pcode"></div>
+      </div>
+      <button class="ctl" id="pclose" style="flex-shrink:0">✕</button>
+    </div>
+    <div id="pbody"></div>
+    <div id="pcross" style="display:none">
+      <div class="cx-title">⚡ Çapraz Akrabalıklar</div>
+      <div id="pcross-list"></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script src="config.js"></script>
+<script>
+/* ── Helpers ────────────────────────────────────────── */
+function safe(v) {
+  if (v == null) return "";
+  const s = String(v).trim();
+  return (s.toLowerCase() === "nan" || s.toLowerCase() === "none") ? "" : s;
+}
+
+function findParent(code) {
+  if (!code || code === "0") return null;
+  if (code.length === 1) return "0";
+  if (code.includes("-")) {
+    const base = code.split("-")[0];
+    return base.length > 1 ? base.slice(0, -1) : "0";
+  }
+  return code.slice(0, -1);
+}
+
+function normaliseRow(row) {
+  const out = {};
+  for (const [k, v] of Object.entries(row)) out[k.trim()] = v;
+  return out;
+}
+
+/* ── Google Sheets fetch ───────────────────────────── */
+async function loadFromSheets() {
+  if (!window.CONFIG || CONFIG.SHEET_ID === "YOUR_SHEET_ID_HERE") {
+    throw new Error(
+      "config.js dosyasındaki SHEET_ID henüz doldurulmamış.\n" +
+      "Google Sheets tablonuzun ID'sini girin ve GitHub'a yükleyin."
+    );
+  }
+
+  const base = `https://docs.google.com/spreadsheets/d/${CONFIG.SHEET_ID}/export?format=csv&gid=`;
+
+  const [mainRes, crossRes] = await Promise.all([
+    fetch(base + CONFIG.SHEET_GID_MAIN),
+    fetch(base + CONFIG.SHEET_GID_CROSS),
+  ]);
+
+  if (!mainRes.ok) throw new Error(`Sülale tablosu yüklenemedi (HTTP ${mainRes.status}). Tablonun herkese açık olduğunu kontrol edin.`);
+
+  const mainRows  = Papa.parse(await mainRes.text(),  { header:true, skipEmptyLines:true }).data.map(normaliseRow);
+  const crossRows = crossRes.ok
+    ? Papa.parse(await crossRes.text(), { header:true, skipEmptyLines:true }).data.map(normaliseRow)
+    : [];
+
+  /* Build flat node map */
+  const nodes = {};
+  for (const row of mainRows) {
+    let code = safe(row["Kod"]).split(".")[0];
+    if (!code || code === "nan") continue;
+    nodes[code] = {
+      id:           code,
+      name:         safe(row["Ad"])                     || "Bilinmiyor",
+      spouse:       safe(row["Eş Adı"]),
+      spouseSurname:safe(row["Eşin Kızlık Soyadı"]),
+      birth:        safe(row["Doğum Tarihi"]),
+      death:        safe(row["Ölüm Tarihi"]),
+      generation:   safe(row["Nesil"]),
+      notes:        safe(row["Notlar / Çapraz Ref"]),
+    };
+  }
+
+  /* Children map */
+  const childrenMap = {};
+  for (const code of Object.keys(nodes)) childrenMap[code] = [];
+  for (const code of Object.keys(nodes)) {
+    const p = findParent(code);
+    if (p && p in nodes) childrenMap[p].push(code);
+  }
+
+  /* Recursive tree builder */
+  function build(code) {
+    const n = { ...nodes[code] };
+    const kids = (childrenMap[code] || []).sort();
+    if (kids.length) n.children = kids.map(build);
+    return n;
+  }
+  if (!("0" in nodes)) throw new Error("Tabloda '0' kodlu kök kayıt bulunamadı.");
+  const tree = build("0");
+
+  function countAll(n) { return 1 + (n.children || []).reduce((s, c) => s + countAll(c), 0); }
+  const total = countAll(tree);
+
+  /* Cross links */
+  const cross = [];
+  for (const row of crossRows) {
+    const p1 = safe(row["Kişi 1 Kodu"]).split(".")[0];
+    const p2 = safe(row["Kişi 2 Kodu"]).split(".")[0];
+    if (p1 && p2 && nodes[p1] && nodes[p2]) {
+      cross.push({
+        source:  p1,
+        target:  p2,
+        person1: safe(row["Kişi 1 Adı"]),
+        person2: safe(row["Kişi 2 Adı"]),
+        desc:    safe(row["Açıklama"]),
+      });
+    }
+  }
+
+  return { tree, cross, total };
+}
+
+/* ── Generation colours ────────────────────────────── */
+const GEN_COLOR = {
+  "Kök":    "#8d6e63",
+  "Nesil 1":"#1976d2",
+  "Nesil 2":"#2e7d32",
+  "Nesil 3":"#e65100",
+  "Nesil 4":"#6a1b9a",
+  "Nesil 5":"#b71c1c",
+  "Nesil 6":"#00695c",
+};
+const DEF_COLOR = "#37474f";
+
+/* ── Layout constants ──────────────────────────────── */
+const NW = 176, NH = 44;
+const DX = NH + 12;
+const DY = 210;
+
+/* ── SVG + zoom ────────────────────────────────────── */
+const svg   = d3.select("#svg");
+const rootG = svg.append("g");
+
+const zoomBeh = d3.zoom()
+  .scaleExtent([0.04, 4])
+  .on("zoom", e => rootG.attr("transform", e.transform));
+svg.call(zoomBeh);
+
+const gLinks = rootG.append("g");
+const gCross = rootG.append("g");
+const gNodes = rootG.append("g");
+
+const treeLayout = d3.tree().nodeSize([DX, DY]);
+
+let root        = null;
+let uid         = 0;
+let CROSS_LINKS = [];
+let selId       = null;
+let searchTerm  = "";
+let showCross   = true;
+const posMap    = new Map();
+
+/* ── Utilities ─────────────────────────────────────── */
+const trunc = (s, n) => s && s.length > n ? s.slice(0, n - 1) + "…" : (s || "");
+
+function countDesc(nodeArr) {
+  let n = 0;
+  const q = [...(nodeArr || [])];
+  while (q.length) {
+    const d = q.shift(); n++;
+    if (d._children) q.push(...d._children);
+    if (d.children)  q.push(...d.children);
+  }
+  return n;
+}
+
+/* ── Main update ───────────────────────────────────── */
+function update(src) {
+  treeLayout(root);
+  const nodes = root.descendants();
+  const links = root.links();
+
+  posMap.clear();
+  nodes.forEach(d => posMap.set(d.data.id, { sx: d.y, sy: d.x }));
+
+  const path = gLinks.selectAll("path.link").data(links, d => d.target._uid);
+  const pathEnter = path.enter().append("path").attr("class", "link")
+    .attr("d", () => {
+      const o = { x: src._sx0 ?? src.y, y: src._sy0 ?? src.x };
+      return d3.linkHorizontal()({ source: o, target: o });
+    });
+  path.merge(pathEnter).transition().duration(350)
+    .attr("d", d => d3.linkHorizontal()({
+      source: { x: d.source.y, y: d.source.x },
+      target: { x: d.target.y, y: d.target.x },
+    }));
+  path.exit().transition().duration(350)
+    .attr("d", () => { const o = { x: src.y, y: src.x }; return d3.linkHorizontal()({ source: o, target: o }); })
+    .remove();
+
+  const node = gNodes.selectAll("g.node").data(nodes, d => d._uid);
+  const enter = node.enter().append("g").attr("class", "node")
+    .attr("transform", () => `translate(${src._sx0 ?? src.y},${src._sy0 ?? src.x})`)
+    .on("click", (evt, d) => {
+      evt.stopPropagation();
+      toggleNode(d);
+      selId = d.data.id;
+      update(d);
+      showPanel(d);
+    });
+
+  enter.append("rect").attr("class", "bg")
+    .attr("x", -NW / 2).attr("y", -NH / 2)
+    .attr("width", NW).attr("height", NH)
+    .attr("rx", 7).attr("ry", 7)
+    .attr("stroke", "rgba(255,255,255,.1)").attr("stroke-width", 1);
+
+  enter.append("text").attr("class", "t-name")
+    .attr("text-anchor", "middle").attr("fill", "#fff")
+    .attr("font-size", 12).attr("font-weight", "bold");
+
+  enter.append("text").attr("class", "t-spouse")
+    .attr("text-anchor", "middle").attr("fill", "rgba(255,255,255,.65)")
+    .attr("font-size", 10).attr("font-style", "italic");
+
+  enter.append("rect").attr("class", "bdg-bg")
+    .attr("x", NW / 2 - 36).attr("y", -11)
+    .attr("width", 36).attr("height", 22).attr("rx", 5);
+
+  enter.append("text").attr("class", "t-bdg")
+    .attr("x", NW / 2 - 18).attr("y", 0)
+    .attr("text-anchor", "middle").attr("dominant-baseline", "middle")
+    .attr("fill", "rgba(255,255,255,.9)").attr("font-size", 10);
+
+  const merged = node.merge(enter);
+  merged.transition().duration(350)
+    .attr("transform", d => `translate(${d.y},${d.x})`);
+
+  merged.select("rect.bg")
+    .attr("fill", d => GEN_COLOR[d.data.generation] ?? DEF_COLOR);
+
+  merged.select("text.t-name")
+    .attr("y", d => d.data.spouse ? -11 : 1)
+    .text(d => trunc(d.data.name, 22));
+
+  merged.select("text.t-spouse")
+    .attr("y", d => d.data.spouse ? 9 : 0)
+    .text(d => trunc(d.data.spouse, 23));
+
+  merged.select("rect.bdg-bg")
+    .attr("display", d => (d._children || (d.children && d.children.length)) ? null : "none")
+    .attr("fill", d => d._children ? "rgba(0,0,0,.55)" : "rgba(255,255,255,.12)");
+
+  merged.select("text.t-bdg").text(d => {
+    if (d._children) return `▶ +${countDesc(d._children)}`;
+    if (d.children && d.children.length) return "▼";
+    return "";
+  });
+
+  merged
+    .classed("sel", d => d.data.id === selId)
+    .classed("hit", d => searchTerm !== "" && d.data.name.toLowerCase().includes(searchTerm));
+
+  node.exit().transition().duration(350)
+    .attr("transform", `translate(${src.y},${src.x})`).remove();
+
+  nodes.forEach(d => { d._sx0 = d.y; d._sy0 = d.x; });
+  drawCrossLinks();
+}
+
+function toggleNode(d) {
+  if (d.children) { d._children = d.children; d.children = null; }
+  else if (d._children) { d.children = d._children; d._children = null; }
+}
+
+/* ── Cross-link arcs ───────────────────────────────── */
+function drawCrossLinks() {
+  if (!showCross) { gCross.selectAll("*").remove(); return; }
+  const valid = CROSS_LINKS.filter(c => posMap.has(c.source) && posMap.has(c.target));
+  const arcs = gCross.selectAll("path.cross-link").data(valid, d => d.source + d.target);
+  arcs.enter().append("path").attr("class", "cross-link")
+    .merge(arcs)
+    .attr("d", d => {
+      const s = posMap.get(d.source), t = posMap.get(d.target);
+      const cx = (s.sx + t.sx) / 2 - 60;
+      return `M${s.sx},${s.sy} C${cx},${s.sy} ${cx},${t.sy} ${t.sx},${t.sy}`;
+    });
+  gCross.selectAll("path.cross-link").select("title").remove();
+  gCross.selectAll("path.cross-link").append("title")
+    .text(d => `${d.person1} × ${d.person2}\n${d.desc}`);
+  arcs.exit().remove();
+}
+
+/* ── Detail panel ──────────────────────────────────── */
+function showPanel(d) {
+  const p   = d.data;
+  const col = GEN_COLOR[p.generation] ?? DEF_COLOR;
+  document.getElementById("pname").textContent = p.name;
+  document.getElementById("pcode").textContent = "Kod: " + p.id;
+
+  let html = "";
+  if (p.generation) html += `<div class="pr"><div class="pl">Nesil</div><span class="gen-chip" style="background:${col}">${p.generation}</span></div>`;
+  if (p.spouse)     html += row("Eş", p.spouse + (p.spouseSurname ? ` (${p.spouseSurname})` : ""));
+  if (p.birth)      html += row("Doğum", p.birth);
+  if (p.death)      html += row("Ölüm",  p.death);
+  if (p.notes)      html += row("Notlar", p.notes);
+
+  const visible  = d.children  ? d.children.length  : 0;
+  const hidden   = d._children ? d._children.length : 0;
+  const kidCount = visible + hidden;
+  if (kidCount > 0) html += row("Çocuklar", kidCount + (hidden ? ` (${hidden} gizli)` : ""));
+
+  document.getElementById("pbody").innerHTML = html || "<div style='color:#445;font-size:13px;margin-top:8px'>Detay yok</div>";
+
+  const cx  = CROSS_LINKS.filter(c => c.source === p.id || c.target === p.id);
+  const cxEl = document.getElementById("pcross");
+  if (cx.length) {
+    cxEl.style.display = "";
+    document.getElementById("pcross-list").innerHTML = cx.map(c =>
+      `<div class="cx-row">↔ <b>${c.person1}</b> × <b>${c.person2}</b><br><span style="color:#556">${c.desc}</span></div>`
+    ).join("");
+  } else { cxEl.style.display = "none"; }
+
+  document.getElementById("panel").classList.add("open");
+}
+
+function row(label, value) {
+  return `<div class="pr"><div class="pl">${label}</div><div class="pv">${value}</div></div>`;
+}
+
+document.getElementById("pclose").onclick = () => {
+  document.getElementById("panel").classList.remove("open");
+  selId = null;
+  if (root) update(root);
+};
+
+/* ── Search ────────────────────────────────────────── */
+document.getElementById("search").addEventListener("input", e => {
+  searchTerm = e.target.value.trim().toLowerCase();
+  if (searchTerm && root) expandForSearch(root, searchTerm);
+  if (root) update(root);
+});
+
+function hasMatch(d, term) {
+  if (d.data.name.toLowerCase().includes(term)) return true;
+  return [...(d.children || []), ...(d._children || [])].some(k => hasMatch(k, term));
+}
+
+function expandForSearch(d, term) {
+  if (d._children && d._children.some(k => hasMatch(k, term))) {
+    d.children = [...(d.children || []), ...d._children];
+    d._children = null;
+  }
+  (d.children || []).forEach(k => expandForSearch(k, term));
+}
+
+/* ── Toolbar ───────────────────────────────────────── */
+document.getElementById("btn-expand").onclick = () => {
+  if (!root) return;
+  root.descendants().forEach(d => { if (d._children) { d.children = d._children; d._children = null; } });
+  update(root);
+};
+document.getElementById("btn-collapse").onclick = () => {
+  if (!root) return;
+  root.descendants().forEach(d => { if (d.depth >= 2 && d.children) { d._children = d.children; d.children = null; } });
+  update(root);
+};
+document.getElementById("btn-fit").onclick = fitView;
+document.getElementById("btn-cross").addEventListener("click", function() {
+  showCross = !showCross;
+  this.classList.toggle("on", showCross);
+  drawCrossLinks();
+});
+
+/* ── Zoom buttons ──────────────────────────────────── */
+document.getElementById("z-in" ).onclick = () => svg.transition().call(zoomBeh.scaleBy, 1.4);
+document.getElementById("z-out").onclick = () => svg.transition().call(zoomBeh.scaleBy, 0.72);
+document.getElementById("z-fit").onclick = fitView;
+
+function fitView() {
+  const bb = rootG.node().getBBox();
+  if (!bb.width) return;
+  const svgEl = document.getElementById("svg");
+  const W = svgEl.clientWidth || 900, H = svgEl.clientHeight || 600;
+  const pad = 60;
+  const scale = Math.min((W - pad) / bb.width, (H - pad) / bb.height, 1.6);
+  const tx = (W - bb.width  * scale) / 2 - bb.x * scale;
+  const ty = (H - bb.height * scale) / 2 - bb.y * scale;
+  svg.transition().duration(600)
+     .call(zoomBeh.transform, d3.zoomIdentity.translate(tx, ty).scale(scale));
+}
+
+/* ── Initialise ────────────────────────────────────── */
+async function init() {
+  try {
+    const { tree, cross, total } = await loadFromSheets();
+    CROSS_LINKS = cross;
+
+    root = d3.hierarchy(tree);
+    root.descendants().forEach(d => {
+      d._uid = ++uid;
+      if (d.depth >= 2 && d.children) { d._children = d.children; d.children = null; }
+    });
+
+    document.getElementById("stat").textContent = `${total} kişi · ${cross.length} çapraz akrabalık`;
+    document.getElementById("loading").style.display = "none";
+
+    update(root);
+    setTimeout(fitView, 120);
+  } catch (err) {
+    document.getElementById("loading").style.display = "none";
+    document.getElementById("err-msg").textContent = err.message;
+    document.getElementById("errscreen").style.display = "flex";
+    console.error(err);
+  }
+}
+
+init();
+</script>
+</body>
+</html>
