@@ -281,30 +281,40 @@ function normaliseRow(row) {
   return out;
 }
 
-/* ── Google Sheets fetch ───────────────────────────── */
+/* ── Data loading: JSON-first, fall back to Google Sheets ── */
 async function loadFromSheets() {
+  // Try admin-managed JSON file first
+  try {
+    const res = await fetch("data/family.json");
+    if (res.ok) {
+      const json = await res.json();
+      if (json.people && json.people.length > 0) {
+        return buildData(json.people.map(normaliseRow), (json.crossLinks || []).map(normaliseRow));
+      }
+    }
+  } catch (_) {}
+
+  // Fall back to Google Sheets
   if (!window.CONFIG || CONFIG.SHEET_ID === "YOUR_SHEET_ID_HERE") {
     throw new Error(
       "config.js dosyasındaki SHEET_ID henüz doldurulmamış.\n" +
       "Google Sheets tablonuzun ID'sini girin ve GitHub'a yükleyin."
     );
   }
-
   const base = `https://docs.google.com/spreadsheets/d/${CONFIG.SHEET_ID}/export?format=csv&gid=`;
-
   const [mainRes, crossRes] = await Promise.all([
     fetch(base + CONFIG.SHEET_GID_MAIN),
     fetch(base + CONFIG.SHEET_GID_CROSS),
   ]);
-
   if (!mainRes.ok) throw new Error(`Sülale tablosu yüklenemedi (HTTP ${mainRes.status}). Tablonun herkese açık olduğunu kontrol edin.`);
-
   const mainRows  = Papa.parse(await mainRes.text(),  { header:true, skipEmptyLines:true }).data.map(normaliseRow);
   const crossRows = crossRes.ok
     ? Papa.parse(await crossRes.text(), { header:true, skipEmptyLines:true }).data.map(normaliseRow)
     : [];
+  return buildData(mainRows, crossRows);
+}
 
-  /* Build flat node map */
+function buildData(mainRows, crossRows) {
   const nodes = {};
   for (const row of mainRows) {
     let code = safe(row["Kod"]).split(".")[0];
@@ -321,7 +331,6 @@ async function loadFromSheets() {
     };
   }
 
-  /* Children map */
   const childrenMap = {};
   for (const code of Object.keys(nodes)) childrenMap[code] = [];
   for (const code of Object.keys(nodes)) {
@@ -329,7 +338,6 @@ async function loadFromSheets() {
     if (p && p in nodes) childrenMap[p].push(code);
   }
 
-  /* Recursive tree builder */
   function build(code) {
     const n = { ...nodes[code] };
     const kids = (childrenMap[code] || []).sort();
@@ -342,7 +350,6 @@ async function loadFromSheets() {
   function countAll(n) { return 1 + (n.children || []).reduce((s, c) => s + countAll(c), 0); }
   const total = countAll(tree);
 
-  /* Cross links */
   const cross = [];
   for (const row of crossRows) {
     const p1 = safe(row["Kişi 1 Kodu"]).split(".")[0];
@@ -357,7 +364,6 @@ async function loadFromSheets() {
       });
     }
   }
-
   return { tree, cross, total };
 }
 

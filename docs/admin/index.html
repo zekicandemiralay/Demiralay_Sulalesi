@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Demiralay — Yönetim Paneli</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Segoe UI',system-ui,sans-serif; background:#0d1b2a; color:#dde; min-height:100vh; }
+
+/* ── Auth loading ── */
+#auth-loading { position:fixed; inset:0; background:#0d1b2a; display:flex; align-items:center; justify-content:center; font-size:14px; color:#445; z-index:999; }
+#app { display:none; }
+
+/* ── Header ── */
+header {
+  background:#122340; border-bottom:1px solid #1c3a5c;
+  padding:10px 20px; display:flex; align-items:center; gap:12px;
+  position:sticky; top:0; z-index:50; flex-shrink:0;
+}
+.h-logo { font-size:15px; font-weight:700; color:#d4a843; white-space:nowrap; }
+.h-backup { font-size:11px; padding:3px 10px; border-radius:10px; white-space:nowrap; }
+.h-backup.idle    { background:rgba(68,85,80,.3); color:#556; }
+.h-backup.saving  { background:rgba(212,168,67,.15); color:#d4a843; }
+.h-backup.ok      { background:rgba(46,125,50,.2); color:#81c784; }
+.h-backup.err     { background:rgba(198,40,40,.2); color:#e57373; }
+.h-user { margin-left:auto; display:flex; align-items:center; gap:10px; font-size:12px; color:#556; }
+.h-user a { color:#556; text-decoration:none; font-size:12px; }
+.h-user a:hover { color:#bbc; }
+.btn-sm {
+  padding:5px 12px; border-radius:6px; border:1px solid #1c3a5c;
+  background:#172f4a; color:#bbc; cursor:pointer; font-size:12px;
+  white-space:nowrap; transition:background .15s,color .15s; text-decoration:none; display:inline-flex; align-items:center;
+}
+.btn-sm:hover { background:#1c3a5c; color:#fff; }
+.btn-primary { background:#d4a843 !important; color:#0d1b2a !important; border-color:#d4a843 !important; font-weight:700; }
+.btn-primary:hover { opacity:.88; }
+.btn-danger { border-color:#7f2a2a; color:#e57; }
+.btn-danger:hover { background:#7f2a2a !important; color:#fff; }
+
+/* ── Tabs ── */
+.tabs { background:#0d1b2a; border-bottom:1px solid #1c3a5c; padding:0 20px; display:flex; gap:4px; }
+.tab {
+  padding:10px 16px; font-size:13px; cursor:pointer; color:#445;
+  background:none; border:none; border-bottom:2px solid transparent;
+  transition:color .15s,border-color .15s;
+}
+.tab:hover { color:#bbc; }
+.tab.active { color:#d4a843; border-bottom-color:#d4a843; }
+
+/* ── Content ── */
+.tab-content { display:none; padding:20px; }
+.tab-content.active { display:block; }
+
+/* ── Toolbar ── */
+.toolbar { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; align-items:center; }
+.toolbar input[type=text] {
+  padding:6px 14px; border-radius:20px; border:1px solid #1c3a5c;
+  background:#0d1b2a; color:#dde; font-size:13px; outline:none; width:220px;
+  transition:border-color .2s;
+}
+.toolbar input:focus { border-color:#d4a843; }
+.toolbar-right { margin-left:auto; display:flex; gap:8px; flex-wrap:wrap; }
+
+/* ── Table ── */
+.tbl-wrap { overflow-x:auto; border-radius:8px; border:1px solid #1c3a5c; }
+table { width:100%; border-collapse:collapse; font-size:13px; }
+thead tr { background:#122340; }
+th { padding:10px 12px; text-align:left; color:#445; font-size:11px; text-transform:uppercase; letter-spacing:.5px; white-space:nowrap; border-bottom:1px solid #1c3a5c; }
+td { padding:9px 12px; border-bottom:1px solid rgba(28,58,92,.5); vertical-align:middle; }
+tbody tr:last-child td { border-bottom:none; }
+tbody tr:hover { background:#1a3355; }
+.code-chip { font-family:monospace; font-size:11px; background:#0d1b2a; padding:2px 7px; border-radius:4px; color:#7ab; }
+.gen-chip { display:inline-block; padding:2px 8px; border-radius:8px; font-size:11px; font-weight:600; color:#fff; white-space:nowrap; }
+.td-actions { display:flex; gap:6px; }
+.empty-msg { text-align:center; padding:40px; color:#334; font-size:13px; }
+.stats { font-size:12px; color:#445; margin-bottom:12px; }
+
+/* ── Modal ── */
+.modal-backdrop {
+  position:fixed; inset:0; background:rgba(0,0,0,.65);
+  display:none; align-items:center; justify-content:center; z-index:200;
+}
+.modal-backdrop.show { display:flex; }
+.modal-box {
+  background:#122340; border:1px solid #1c3a5c; border-radius:12px;
+  width:520px; max-width:95vw; max-height:90vh; display:flex; flex-direction:column;
+}
+.modal-head {
+  padding:16px 20px; border-bottom:1px solid #1c3a5c;
+  display:flex; justify-content:space-between; align-items:center; flex-shrink:0;
+}
+.modal-head h2 { font-size:16px; color:#d4a843; font-weight:700; }
+.modal-close { background:none; border:none; color:#445; font-size:18px; cursor:pointer; padding:2px 6px; }
+.modal-close:hover { color:#fff; }
+.modal-body { padding:20px; overflow-y:auto; flex:1; }
+.modal-foot { padding:14px 20px; border-top:1px solid #1c3a5c; display:flex; justify-content:flex-end; gap:8px; flex-shrink:0; }
+.field { margin-bottom:16px; }
+.field label { display:block; font-size:11px; color:#445; text-transform:uppercase; letter-spacing:.5px; margin-bottom:5px; }
+.field input, .field select, .field textarea {
+  width:100%; padding:9px 13px; border-radius:7px;
+  border:1px solid #1c3a5c; background:#0d1b2a; color:#dde;
+  font-size:13px; outline:none; transition:border-color .2s; font-family:inherit;
+}
+.field textarea { resize:vertical; min-height:70px; }
+.field input:focus, .field select:focus, .field textarea:focus { border-color:#d4a843; }
+.field select option { background:#122340; }
+.field-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.field-help { font-size:11px; color:#334; margin-top:4px; line-height:1.4; }
+.field-required { color:#e57; }
+
+/* ── Settings ── */
+.settings-card { max-width:520px; }
+.settings-card h2 { font-size:15px; font-weight:700; color:#d4a843; margin-bottom:16px; }
+.settings-section { background:#122340; border:1px solid #1c3a5c; border-radius:10px; padding:20px; margin-bottom:20px; }
+.settings-section h3 { font-size:13px; color:#bbc; margin-bottom:14px; border-bottom:1px solid #1c3a5c; padding-bottom:8px; }
+
+/* ── Toast ── */
+#toast {
+  position:fixed; bottom:24px; right:24px;
+  padding:11px 18px; border-radius:8px; font-size:13px;
+  z-index:500; opacity:0; transition:opacity .2s; pointer-events:none;
+}
+#toast.show { opacity:1; }
+#toast.ok  { background:#2e7d32; color:#fff; }
+#toast.err { background:#c62828; color:#fff; }
+#toast.info { background:#1565c0; color:#fff; }
+
+/* ── Import progress ── */
+.progress-bar-wrap { background:#0d1b2a; border-radius:4px; height:6px; margin-top:8px; overflow:hidden; }
+.progress-bar { height:100%; background:#d4a843; transition:width .3s; border-radius:4px; }
+</style>
+</head>
+<body>
+
+<div id="auth-loading">Doğrulanıyor…</div>
+
+<div id="app">
+  <header>
+    <div class="h-logo">🌿 Demiralay Yönetim</div>
+    <span class="h-backup idle" id="backup-status">Yedek bekleniyor</span>
+    <div class="h-user">
+      <span id="user-email"></span>
+      <a href="../index.html" class="btn-sm">🌳 Ağaç</a>
+      <button class="btn-sm" id="btn-logout">Çıkış</button>
+    </div>
+  </header>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="people">Kişiler</button>
+    <button class="tab" data-tab="crosslinks">Çapraz Bağlar</button>
+    <button class="tab" data-tab="settings">Ayarlar</button>
+  </div>
+
+  <!-- ── PEOPLE TAB ── -->
+  <div class="tab-content active" id="tab-people">
+    <div class="toolbar">
+      <input type="text" id="search" placeholder="İsim veya kod ara…">
+      <button class="btn-sm btn-primary" id="btn-add-person">+ Kişi Ekle</button>
+      <div class="toolbar-right">
+        <button class="btn-sm" id="btn-import">↓ Sheets'ten İçe Aktar</button>
+        <button class="btn-sm" id="btn-backup">☁ GitHub'a Yedekle</button>
+      </div>
+    </div>
+    <div class="stats" id="people-stats"></div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Kod</th><th>Ad</th><th>Eş</th><th>Nesil</th><th>Doğum</th><th>İşlemler</th></tr></thead>
+        <tbody id="people-tbody"><tr><td colspan="6" class="empty-msg">Yükleniyor…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── CROSS LINKS TAB ── -->
+  <div class="tab-content" id="tab-crosslinks">
+    <div class="toolbar">
+      <button class="btn-sm btn-primary" id="btn-add-cross">+ Bağlantı Ekle</button>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Kişi 1 Kodu</th><th>Kişi 1</th><th>Kişi 2 Kodu</th><th>Kişi 2</th><th>Açıklama</th><th>İşlemler</th></tr></thead>
+        <tbody id="cross-tbody"><tr><td colspan="6" class="empty-msg">Yükleniyor…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── SETTINGS TAB ── -->
+  <div class="tab-content" id="tab-settings">
+    <div class="settings-card">
+      <div class="settings-section">
+        <h3>GitHub Yedekleme</h3>
+        <div class="field-row">
+          <div class="field">
+            <label>Repo Sahibi</label>
+            <input type="text" id="s-owner" value="zekicandemiralay">
+          </div>
+          <div class="field">
+            <label>Repo Adı</label>
+            <input type="text" id="s-repo" value="Demiralay_Sulalesi">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Dal (Branch)</label>
+            <input type="text" id="s-branch" value="main">
+          </div>
+          <div class="field">
+            <label>Dosya Yolu</label>
+            <input type="text" id="s-path" value="docs/data/family.json">
+          </div>
+        </div>
+        <div class="field">
+          <label>GitHub Personal Access Token <span class="field-required">*</span></label>
+          <input type="password" id="s-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+          <div class="field-help">
+            GitHub → Settings → Developer settings → Personal access tokens (classic) → Generate new token.<br>
+            İzin: <strong>repo</strong> (tüm repo izinleri) seçin. Token bir kez gösterilir, güvenli yerde saklayın.
+          </div>
+        </div>
+        <button class="btn-sm btn-primary" id="btn-save-settings">Ayarları Kaydet</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PERSON MODAL ── -->
+<div class="modal-backdrop" id="modal-person">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h2 id="modal-person-title">Kişi Ekle</h2>
+      <button class="modal-close" data-close="modal-person">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="field">
+        <label>Kod <span class="field-required">*</span></label>
+        <input type="text" id="f-code" placeholder="Örn: 0, 1, 12, 123, 1-1">
+        <div class="field-help">Kök = "0". 1. nesil çocukları: "1", "2", "3"… İkinci nesil: "11", "12"… vs. Kesen kollar için tire: "1-1".</div>
+      </div>
+      <div class="field">
+        <label>Ad Soyad <span class="field-required">*</span></label>
+        <input type="text" id="f-name" placeholder="Ahmet Demiralay">
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Eş Adı</label>
+          <input type="text" id="f-spouse" placeholder="Fatma">
+        </div>
+        <div class="field">
+          <label>Eşin Kızlık Soyadı</label>
+          <input type="text" id="f-spouse-sn" placeholder="Yılmaz">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Doğum Tarihi</label>
+          <input type="text" id="f-birth" placeholder="1950 veya 01.01.1950">
+        </div>
+        <div class="field">
+          <label>Ölüm Tarihi</label>
+          <input type="text" id="f-death" placeholder="2010 veya boş">
+        </div>
+      </div>
+      <div class="field">
+        <label>Nesil</label>
+        <select id="f-gen">
+          <option value="">— Seçin —</option>
+          <option>Kök</option>
+          <option>Nesil 1</option>
+          <option>Nesil 2</option>
+          <option>Nesil 3</option>
+          <option>Nesil 4</option>
+          <option>Nesil 5</option>
+          <option>Nesil 6</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Notlar / Çapraz Ref</label>
+        <textarea id="f-notes" placeholder="Ek bilgiler, çapraz akrabalık notları…"></textarea>
+      </div>
+      <div class="field" id="f-err-wrap" style="display:none">
+        <div style="color:#f88;font-size:12px;background:rgba(200,50,50,.1);border:1px solid rgba(200,50,50,.3);border-radius:6px;padding:9px 13px" id="f-err"></div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-sm" data-close="modal-person">İptal</button>
+      <button class="btn-sm btn-primary" id="btn-save-person">Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── CROSS LINK MODAL ── -->
+<div class="modal-backdrop" id="modal-cross">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h2 id="modal-cross-title">Çapraz Bağlantı Ekle</h2>
+      <button class="modal-close" data-close="modal-cross">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="field-row">
+        <div class="field">
+          <label>Kişi 1 Kodu <span class="field-required">*</span></label>
+          <input type="text" id="cx-code1" placeholder="Örn: 123">
+        </div>
+        <div class="field">
+          <label>Kişi 1 Adı</label>
+          <input type="text" id="cx-name1" placeholder="Ahmet">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Kişi 2 Kodu <span class="field-required">*</span></label>
+          <input type="text" id="cx-code2" placeholder="Örn: 456">
+        </div>
+        <div class="field">
+          <label>Kişi 2 Adı</label>
+          <input type="text" id="cx-name2" placeholder="Fatma">
+        </div>
+      </div>
+      <div class="field">
+        <label>Açıklama</label>
+        <input type="text" id="cx-desc" placeholder="Çapraz evlilik, kuzen evliliği…">
+      </div>
+      <div class="field" id="cx-err-wrap" style="display:none">
+        <div style="color:#f88;font-size:12px;background:rgba(200,50,50,.1);border:1px solid rgba(200,50,50,.3);border-radius:6px;padding:9px 13px" id="cx-err"></div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-sm" data-close="modal-cross">İptal</button>
+      <button class="btn-sm btn-primary" id="btn-save-cross">Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── IMPORT MODAL ── -->
+<div class="modal-backdrop" id="modal-import">
+  <div class="modal-box" style="width:440px">
+    <div class="modal-head">
+      <h2>Google Sheets'ten İçe Aktar</h2>
+      <button class="modal-close" data-close="modal-import">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:13px;color:#bbc;line-height:1.6;margin-bottom:16px">
+        Mevcut Google Sheets tablonuzdaki tüm kişiler ve çapraz bağlantılar Firestore'a aktarılacak ve ardından GitHub'a yedeklenecek.<br><br>
+        <strong style="color:#e57">Uyarı:</strong> Mevcut Firestore verileri <strong>silinmez</strong>; aynı kodlu kayıtlar güncellenir.
+      </p>
+      <div id="import-status" style="font-size:13px;color:#556;min-height:24px"></div>
+      <div class="progress-bar-wrap" id="import-progress-wrap" style="display:none">
+        <div class="progress-bar" id="import-progress" style="width:0%"></div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-sm" data-close="modal-import" id="btn-import-cancel">İptal</button>
+      <button class="btn-sm btn-primary" id="btn-import-go">İçe Aktarmayı Başlat</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script src="firebase-config.js"></script>
+<script src="../config.js"></script>
+<script>
+/* ── Globals ─────────────────────────────────────────── */
+let db, auth;
+let people     = {};   // { code: {...} }
+let crossLinks = [];   // [{id, source, target, ...}]
+let searchTerm = '';
+let editingCode = null;
+let editingCrossId = null;
+
+const GEN_COLORS = {
+  'Kök':'#8d6e63','Nesil 1':'#1976d2','Nesil 2':'#2e7d32',
+  'Nesil 3':'#e65100','Nesil 4':'#6a1b9a','Nesil 5':'#b71c1c','Nesil 6':'#00695c',
+};
+
+/* ── Init ────────────────────────────────────────────── */
+if (!window.FIREBASE_CONFIG || FIREBASE_CONFIG.apiKey === 'YOUR_API_KEY') {
+  document.getElementById('auth-loading').innerHTML =
+    '<div style="text-align:center;padding:40px;max-width:400px"><p style="color:#d4a843;font-weight:700;margin-bottom:12px">Kurulum gerekli</p><p style="color:#556;font-size:13px;line-height:1.6"><code>admin/firebase-config.js</code> dosyasına Firebase proje bilgilerinizi girin ve sayfayı yenileyin.</p><br><a href="login.html" style="color:#445;font-size:12px">← Giriş sayfasına dön</a></div>';
+} else {
+  firebase.initializeApp(FIREBASE_CONFIG);
+  auth = firebase.auth();
+  db   = firebase.firestore();
+
+  auth.onAuthStateChanged(async user => {
+    if (!user) { location.href = 'login.html'; return; }
+    document.getElementById('user-email').textContent = user.email;
+    document.getElementById('auth-loading').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    await Promise.all([loadPeople(), loadCrossLinks(), loadSettings()]);
+  });
+}
+
+/* ── Data loaders ────────────────────────────────────── */
+async function loadPeople() {
+  const snap = await db.collection('people').get();
+  people = {};
+  snap.forEach(doc => { people[doc.id] = doc.data(); });
+  renderPeopleTable();
+}
+
+async function loadCrossLinks() {
+  const snap = await db.collection('crossLinks').get();
+  crossLinks = [];
+  snap.forEach(doc => { crossLinks.push({ _id: doc.id, ...doc.data() }); });
+  renderCrossTable();
+}
+
+async function loadSettings() {
+  try {
+    const doc = await db.collection('config').doc('github').get();
+    if (doc.exists) {
+      const d = doc.data();
+      document.getElementById('s-owner').value  = d.owner  || 'zekicandemiralay';
+      document.getElementById('s-repo').value   = d.repo   || 'Demiralay_Sulalesi';
+      document.getElementById('s-branch').value = d.branch || 'main';
+      document.getElementById('s-path').value   = d.path   || 'docs/data/family.json';
+      document.getElementById('s-token').value  = d.token  || '';
+    }
+  } catch (e) { /* settings not set yet */ }
+}
+
+/* ── Render People ───────────────────────────────────── */
+function renderPeopleTable() {
+  const tbody = document.getElementById('people-tbody');
+  const all   = Object.values(people);
+  const term  = searchTerm.toLowerCase();
+  const filtered = term
+    ? all.filter(p => (p['Ad']||'').toLowerCase().includes(term) || (p['Kod']||'').toLowerCase().includes(term))
+    : all;
+
+  filtered.sort((a, b) => {
+    const ca = String(a['Kod']||''), cb = String(b['Kod']||'');
+    return ca.localeCompare(cb, undefined, { numeric: true });
+  });
+
+  document.getElementById('people-stats').textContent =
+    `${all.length} kişi · ${filtered.length} gösteriliyor`;
+
+  if (!filtered.length) {
+    tbody.innerHTML = `<tr><td colspan="6" class="empty-msg">${term ? 'Sonuç bulunamadı.' : 'Henüz kişi eklenmemiş.'}</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = filtered.map(p => {
+    const col = GEN_COLORS[p['Nesil']] || '#37474f';
+    return `<tr>
+      <td><span class="code-chip">${esc(p['Kod'])}</span></td>
+      <td>${esc(p['Ad'])}</td>
+      <td style="color:#778;font-size:12px">${esc(p['Eş Adı']||'')}</td>
+      <td>${p['Nesil'] ? `<span class="gen-chip" style="background:${col}">${esc(p['Nesil'])}</span>` : ''}</td>
+      <td style="color:#556;font-size:12px">${esc(p['Doğum Tarihi']||'')}</td>
+      <td>
+        <div class="td-actions">
+          <button class="btn-sm" onclick="openPersonModal('${esc(p['Kod'])}')">Düzenle</button>
+          <button class="btn-sm btn-danger" onclick="deletePerson('${esc(p['Kod'])}')">Sil</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+/* ── Render Cross Links ──────────────────────────────── */
+function renderCrossTable() {
+  const tbody = document.getElementById('cross-tbody');
+  if (!crossLinks.length) {
+    tbody.innerHTML = '<tr><td colspan="6" class="empty-msg">Çapraz bağlantı yok.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = crossLinks.map(c => `<tr>
+    <td><span class="code-chip">${esc(c['Kişi 1 Kodu']||c.source||'')}</span></td>
+    <td>${esc(c['Kişi 1 Adı']||c.person1||'')}</td>
+    <td><span class="code-chip">${esc(c['Kişi 2 Kodu']||c.target||'')}</span></td>
+    <td>${esc(c['Kişi 2 Adı']||c.person2||'')}</td>
+    <td style="color:#778;font-size:12px">${esc(c['Açıklama']||c.desc||'')}</td>
+    <td>
+      <div class="td-actions">
+        <button class="btn-sm" onclick="openCrossModal('${esc(c._id)}')">Düzenle</button>
+        <button class="btn-sm btn-danger" onclick="deleteCross('${esc(c._id)}')">Sil</button>
+      </div>
+    </td>
+  </tr>`).join('');
+}
+
+/* ── Person CRUD ─────────────────────────────────────── */
+function openPersonModal(code) {
+  editingCode = code || null;
+  const p = code ? (people[code] || {}) : {};
+  document.getElementById('modal-person-title').textContent = code ? 'Kişiyi Düzenle' : 'Kişi Ekle';
+  document.getElementById('f-code').value     = p['Kod']                    || '';
+  document.getElementById('f-code').readOnly  = !!code;
+  document.getElementById('f-code').style.opacity = code ? '.5' : '1';
+  document.getElementById('f-name').value     = p['Ad']                     || '';
+  document.getElementById('f-spouse').value   = p['Eş Adı']                 || '';
+  document.getElementById('f-spouse-sn').value= p['Eşin Kızlık Soyadı']    || '';
+  document.getElementById('f-birth').value    = p['Doğum Tarihi']            || '';
+  document.getElementById('f-death').value    = p['Ölüm Tarihi']             || '';
+  document.getElementById('f-gen').value      = p['Nesil']                  || '';
+  document.getElementById('f-notes').value    = p['Notlar / Çapraz Ref']    || '';
+  document.getElementById('f-err-wrap').style.display = 'none';
+  openModal('modal-person');
+}
+
+document.getElementById('btn-save-person').addEventListener('click', async () => {
+  const code = document.getElementById('f-code').value.trim();
+  const name = document.getElementById('f-name').value.trim();
+  if (!code) return showFieldError('f-err', 'Kod zorunludur.');
+  if (!name) return showFieldError('f-err', 'Ad zorunludur.');
+
+  const data = {
+    'Kod':                   code,
+    'Ad':                    name,
+    'Eş Adı':                document.getElementById('f-spouse').value.trim(),
+    'Eşin Kızlık Soyadı':   document.getElementById('f-spouse-sn').value.trim(),
+    'Doğum Tarihi':          document.getElementById('f-birth').value.trim(),
+    'Ölüm Tarihi':           document.getElementById('f-death').value.trim(),
+    'Nesil':                 document.getElementById('f-gen').value,
+    'Notlar / Çapraz Ref':   document.getElementById('f-notes').value.trim(),
+  };
+
+  const btn = document.getElementById('btn-save-person');
+  btn.disabled = true; btn.textContent = 'Kaydediliyor…';
+  try {
+    await db.collection('people').doc(code).set(data);
+    people[code] = data;
+    renderPeopleTable();
+    closeModal('modal-person');
+    toast('Kaydedildi ✓', 'ok');
+    await autoBackup();
+  } catch (e) {
+    showFieldError('f-err', e.message);
+  } finally {
+    btn.disabled = false; btn.textContent = 'Kaydet';
+  }
+});
+
+async function deletePerson(code) {
+  if (!confirm(`"${people[code]?.['Ad'] || code}" kişisini silmek istediğinizden emin misiniz?`)) return;
+  try {
+    await db.collection('people').doc(code).delete();
+    delete people[code];
+    renderPeopleTable();
+    toast('Silindi', 'ok');
+    await autoBackup();
+  } catch (e) { toast(e.message, 'err'); }
+}
+
+/* ── Cross Link CRUD ─────────────────────────────────── */
+function openCrossModal(id) {
+  editingCrossId = id || null;
+  const c = id ? (crossLinks.find(x => x._id === id) || {}) : {};
+  document.getElementById('modal-cross-title').textContent = id ? 'Bağlantıyı Düzenle' : 'Çapraz Bağlantı Ekle';
+  document.getElementById('cx-code1').value = c['Kişi 1 Kodu'] || c.source  || '';
+  document.getElementById('cx-name1').value = c['Kişi 1 Adı']  || c.person1 || '';
+  document.getElementById('cx-code2').value = c['Kişi 2 Kodu'] || c.target  || '';
+  document.getElementById('cx-name2').value = c['Kişi 2 Adı']  || c.person2 || '';
+  document.getElementById('cx-desc').value  = c['Açıklama']     || c.desc    || '';
+  document.getElementById('cx-err-wrap').style.display = 'none';
+  openModal('modal-cross');
+}
+
+document.getElementById('btn-save-cross').addEventListener('click', async () => {
+  const code1 = document.getElementById('cx-code1').value.trim();
+  const code2 = document.getElementById('cx-code2').value.trim();
+  if (!code1 || !code2) return showFieldError('cx-err', 'İki kişi kodu da zorunludur.');
+
+  const data = {
+    'Kişi 1 Kodu': code1,
+    'Kişi 1 Adı':  document.getElementById('cx-name1').value.trim(),
+    'Kişi 2 Kodu': code2,
+    'Kişi 2 Adı':  document.getElementById('cx-name2').value.trim(),
+    'Açıklama':    document.getElementById('cx-desc').value.trim(),
+  };
+
+  const btn = document.getElementById('btn-save-cross');
+  btn.disabled = true; btn.textContent = 'Kaydediliyor…';
+  try {
+    if (editingCrossId) {
+      await db.collection('crossLinks').doc(editingCrossId).set(data);
+      const idx = crossLinks.findIndex(x => x._id === editingCrossId);
+      if (idx >= 0) crossLinks[idx] = { _id: editingCrossId, ...data };
+    } else {
+      const ref = await db.collection('crossLinks').add(data);
+      crossLinks.push({ _id: ref.id, ...data });
+    }
+    renderCrossTable();
+    closeModal('modal-cross');
+    toast('Kaydedildi ✓', 'ok');
+    await autoBackup();
+  } catch (e) {
+    showFieldError('cx-err', e.message);
+  } finally {
+    btn.disabled = false; btn.textContent = 'Kaydet';
+  }
+});
+
+async function deleteCross(id) {
+  if (!confirm('Bu çapraz bağlantıyı silmek istediğinizden emin misiniz?')) return;
+  try {
+    await db.collection('crossLinks').doc(id).delete();
+    crossLinks = crossLinks.filter(x => x._id !== id);
+    renderCrossTable();
+    toast('Silindi', 'ok');
+    await autoBackup();
+  } catch (e) { toast(e.message, 'err'); }
+}
+
+/* ── GitHub Backup ───────────────────────────────────── */
+async function autoBackup() {
+  setBackupStatus('saving', '☁ Yedekleniyor…');
+  try {
+    await backupToGitHub();
+    setBackupStatus('ok', '✓ Yedeklendi — ' + new Date().toLocaleTimeString('tr'));
+  } catch (e) {
+    setBackupStatus('err', '⚠ Yedek başarısız');
+    console.warn('Backup error:', e.message);
+  }
+}
+
+async function backupToGitHub() {
+  const cfgDoc = await db.collection('config').doc('github').get();
+  if (!cfgDoc.exists) throw new Error('GitHub yapılandırması bulunamadı. Ayarlar sekmesini doldurun.');
+  const { owner, repo, branch, path, token } = cfgDoc.data();
+  if (!token) throw new Error('GitHub Personal Access Token girilmemiş.');
+
+  const json = {
+    version:    1,
+    updatedAt:  new Date().toISOString(),
+    people:     Object.values(people).sort((a, b) =>
+      String(a['Kod']||'').localeCompare(String(b['Kod']||''), undefined, { numeric: true })),
+    crossLinks: crossLinks.map(({ _id, ...rest }) => rest),
+  };
+  const content = btoa(unescape(encodeURIComponent(JSON.stringify(json, null, 2))));
+
+  const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+  const headers = { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' };
+
+  let sha;
+  try {
+    const infoRes = await fetch(apiUrl, { headers });
+    if (infoRes.ok) { const info = await infoRes.json(); sha = info.sha; }
+  } catch (_) {}
+
+  const body = { message: `Veri yedeklemesi — ${new Date().toLocaleString('tr')}`, content, branch };
+  if (sha) body.sha = sha;
+
+  const res = await fetch(apiUrl, { method: 'PUT', headers, body: JSON.stringify(body) });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.message || `GitHub API ${res.status}`);
+  }
+}
+
+document.getElementById('btn-backup').addEventListener('click', async () => {
+  const btn = document.getElementById('btn-backup');
+  btn.disabled = true;
+  try {
+    await backupToGitHub();
+    toast('GitHub\'a yedeklendi ✓', 'ok');
+    setBackupStatus('ok', '✓ Yedeklendi — ' + new Date().toLocaleTimeString('tr'));
+  } catch (e) {
+    toast(e.message, 'err');
+    setBackupStatus('err', '⚠ Yedek başarısız');
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+/* ── Settings Save ───────────────────────────────────── */
+document.getElementById('btn-save-settings').addEventListener('click', async () => {
+  const data = {
+    owner:  document.getElementById('s-owner').value.trim(),
+    repo:   document.getElementById('s-repo').value.trim(),
+    branch: document.getElementById('s-branch').value.trim() || 'main',
+    path:   document.getElementById('s-path').value.trim()   || 'docs/data/family.json',
+    token:  document.getElementById('s-token').value.trim(),
+  };
+  const btn = document.getElementById('btn-save-settings');
+  btn.disabled = true; btn.textContent = 'Kaydediliyor…';
+  try {
+    await db.collection('config').doc('github').set(data);
+    toast('Ayarlar kaydedildi ✓', 'ok');
+  } catch (e) { toast(e.message, 'err'); }
+  finally { btn.disabled = false; btn.textContent = 'Ayarları Kaydet'; }
+});
+
+/* ── Import from Google Sheets ───────────────────────── */
+document.getElementById('btn-import').addEventListener('click', () => {
+  document.getElementById('import-status').textContent = '';
+  document.getElementById('import-progress-wrap').style.display = 'none';
+  document.getElementById('import-progress').style.width = '0%';
+  document.getElementById('btn-import-go').disabled = false;
+  document.getElementById('btn-import-go').textContent = 'İçe Aktarmayı Başlat';
+  openModal('modal-import');
+});
+
+document.getElementById('btn-import-go').addEventListener('click', async () => {
+  if (!window.CONFIG || CONFIG.SHEET_ID === 'YOUR_SHEET_ID_HERE') {
+    document.getElementById('import-status').textContent = 'config.js dosyasında SHEET_ID tanımlı değil.';
+    return;
+  }
+  const btn = document.getElementById('btn-import-go');
+  btn.disabled = true;
+  document.getElementById('btn-import-cancel').disabled = true;
+
+  const setStatus = (msg, prog) => {
+    document.getElementById('import-status').textContent = msg;
+    if (prog !== undefined) {
+      document.getElementById('import-progress-wrap').style.display = 'block';
+      document.getElementById('import-progress').style.width = prog + '%';
+    }
+  };
+
+  try {
+    const base = `https://docs.google.com/spreadsheets/d/${CONFIG.SHEET_ID}/export?format=csv&gid=`;
+    setStatus('Google Sheets\'ten veriler indiriliyor…', 10);
+
+    const [mainRes, crossRes] = await Promise.all([
+      fetch(base + CONFIG.SHEET_GID_MAIN),
+      fetch(base + CONFIG.SHEET_GID_CROSS),
+    ]);
+    if (!mainRes.ok) throw new Error(`Tablo alınamadı (HTTP ${mainRes.status})`);
+
+    const mainRows  = Papa.parse(await mainRes.text(),  { header:true, skipEmptyLines:true }).data;
+    const crossRows = crossRes.ok ? Papa.parse(await crossRes.text(), { header:true, skipEmptyLines:true }).data : [];
+
+    const norm = row => { const o = {}; for (const [k,v] of Object.entries(row)) o[k.trim()] = v; return o; };
+    const safe = v => { const s = String(v||'').trim(); return ['nan','none'].includes(s.toLowerCase()) ? '' : s; };
+
+    setStatus(`${mainRows.length} kişi bulundu. Firestore'a yazılıyor…`, 30);
+
+    let written = 0;
+    const batch_size = 20;
+    const allPeople = mainRows.map(norm).filter(r => safe(r['Kod']));
+
+    for (let i = 0; i < allPeople.length; i += batch_size) {
+      const batch = db.batch();
+      const chunk = allPeople.slice(i, i + batch_size);
+      for (const row of chunk) {
+        const code = safe(row['Kod']).split('.')[0];
+        if (!code) continue;
+        const data = {
+          'Kod':                 code,
+          'Ad':                  safe(row['Ad'])                    || 'Bilinmiyor',
+          'Eş Adı':              safe(row['Eş Adı'])                || '',
+          'Eşin Kızlık Soyadı': safe(row['Eşin Kızlık Soyadı'])   || '',
+          'Doğum Tarihi':        safe(row['Doğum Tarihi'])           || '',
+          'Ölüm Tarihi':         safe(row['Ölüm Tarihi'])            || '',
+          'Nesil':               safe(row['Nesil'])                  || '',
+          'Notlar / Çapraz Ref': safe(row['Notlar / Çapraz Ref'])   || '',
+        };
+        batch.set(db.collection('people').doc(code), data);
+      }
+      await batch.commit();
+      written += chunk.length;
+      const pct = 30 + Math.round((written / allPeople.length) * 40);
+      setStatus(`${written} / ${allPeople.length} kişi aktarıldı…`, pct);
+    }
+
+    setStatus('Çapraz bağlantılar aktarılıyor…', 72);
+    const crossNorm = crossRows.map(norm).filter(r => safe(r['Kişi 1 Kodu']) && safe(r['Kişi 2 Kodu']));
+    for (const row of crossNorm) {
+      await db.collection('crossLinks').add({
+        'Kişi 1 Kodu': safe(row['Kişi 1 Kodu']).split('.')[0],
+        'Kişi 1 Adı':  safe(row['Kişi 1 Adı']),
+        'Kişi 2 Kodu': safe(row['Kişi 2 Kodu']).split('.')[0],
+        'Kişi 2 Adı':  safe(row['Kişi 2 Adı']),
+        'Açıklama':    safe(row['Açıklama']),
+      });
+    }
+
+    setStatus('GitHub\'a yedekleniyor…', 85);
+    await Promise.all([loadPeople(), loadCrossLinks()]);
+    await backupToGitHub();
+
+    setStatus(`✓ Tamamlandı: ${allPeople.length} kişi + ${crossNorm.length} çapraz bağlantı aktarıldı.`, 100);
+    btn.textContent = 'Tamamlandı';
+    toast('İçe aktarma tamamlandı ✓', 'ok');
+    setBackupStatus('ok', '✓ Yedeklendi — ' + new Date().toLocaleTimeString('tr'));
+  } catch (e) {
+    setStatus('Hata: ' + e.message);
+    toast(e.message, 'err');
+    btn.disabled = false;
+    btn.textContent = 'İçe Aktarmayı Başlat';
+    document.getElementById('btn-import-cancel').disabled = false;
+  }
+});
+
+/* ── Logout ──────────────────────────────────────────── */
+document.getElementById('btn-logout').addEventListener('click', async () => {
+  await auth.signOut();
+  location.href = 'login.html';
+});
+
+/* ── Tabs ────────────────────────────────────────────── */
+document.querySelectorAll('.tab').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(s => s.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+/* ── Search ──────────────────────────────────────────── */
+document.getElementById('search').addEventListener('input', e => {
+  searchTerm = e.target.value.trim();
+  renderPeopleTable();
+});
+
+/* ── Modal helpers ───────────────────────────────────── */
+function openModal(id) { document.getElementById(id).classList.add('show'); }
+function closeModal(id){ document.getElementById(id).classList.remove('show'); }
+
+document.querySelectorAll('[data-close]').forEach(btn => {
+  btn.addEventListener('click', () => closeModal(btn.dataset.close));
+});
+document.querySelectorAll('.modal-backdrop').forEach(el => {
+  el.addEventListener('click', e => { if (e.target === el) closeModal(el.id); });
+});
+
+document.getElementById('btn-add-person').addEventListener('click', () => openPersonModal(null));
+document.getElementById('btn-add-cross').addEventListener('click', () => openCrossModal(null));
+
+/* ── Utility ─────────────────────────────────────────── */
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function showFieldError(elId, msg) {
+  const el = document.getElementById(elId);
+  el.textContent = msg;
+  el.parentElement.style.display = 'block';
+}
+
+function setBackupStatus(state, msg) {
+  const el = document.getElementById('backup-status');
+  el.className = 'h-backup ' + state;
+  el.textContent = msg;
+}
+
+let toastTimer;
+function toast(msg, type) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'show ' + (type || 'info');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 3000);
+}
+</script>
+</body>
+</html>

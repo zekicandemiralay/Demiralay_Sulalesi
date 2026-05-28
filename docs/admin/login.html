@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Demiralay — Yönetim Girişi</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Segoe UI',system-ui,sans-serif;
+  background:#0d1b2a; color:#dde;
+  min-height:100vh; display:flex;
+  align-items:center; justify-content:center;
+}
+.card {
+  background:#122340; border:1px solid #1c3a5c;
+  border-radius:12px; padding:38px 42px; width:380px;
+}
+.logo { font-size:22px; font-weight:700; color:#d4a843; text-align:center; margin-bottom:4px; }
+.sub  { color:#445; text-align:center; font-size:13px; margin-bottom:30px; }
+label { display:block; font-size:11px; color:#445; text-transform:uppercase; letter-spacing:.5px; margin-bottom:5px; }
+input[type=email], input[type=password] {
+  width:100%; padding:10px 14px; border-radius:7px;
+  border:1px solid #1c3a5c; background:#0d1b2a;
+  color:#dde; font-size:14px; outline:none; margin-bottom:18px;
+  transition:border-color .2s;
+}
+input:focus { border-color:#d4a843; }
+.btn {
+  width:100%; padding:11px; border-radius:7px; border:none;
+  background:#d4a843; color:#0d1b2a; font-size:14px;
+  font-weight:700; cursor:pointer; transition:opacity .15s;
+}
+.btn:hover { opacity:.88; }
+.btn:disabled { opacity:.45; cursor:default; }
+.err {
+  color:#f88; font-size:12px; background:rgba(200,50,50,.12);
+  border:1px solid rgba(200,50,50,.3); border-radius:6px;
+  padding:9px 13px; margin-bottom:16px; display:none;
+}
+.setup-note {
+  background:rgba(212,168,67,.1); border:1px solid rgba(212,168,67,.3);
+  border-radius:8px; padding:14px; font-size:12px; color:#b8934a;
+  line-height:1.6; margin-bottom:18px;
+}
+.setup-note strong { color:#d4a843; }
+.back { text-align:center; margin-top:18px; }
+.back a { color:#445; font-size:12px; text-decoration:none; }
+.back a:hover { color:#bbc; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">🌿 Demiralay Sülalesi</div>
+  <div class="sub">Yönetim Paneli</div>
+
+  <div id="setup-note" class="setup-note" style="display:none">
+    <strong>Kurulum gerekli.</strong><br>
+    <code>admin/firebase-config.js</code> dosyasındaki değerleri Firebase Console'dan doldurun, ardından sayfayı yenileyin.
+  </div>
+
+  <div class="err" id="err"></div>
+  <label for="email">E-posta</label>
+  <input type="email" id="email" placeholder="admin@example.com" autocomplete="email">
+  <label for="pass">Şifre</label>
+  <input type="password" id="pass" placeholder="••••••••" autocomplete="current-password">
+  <button class="btn" id="btn-login">Giriş Yap</button>
+  <div class="back"><a href="../index.html">← Ağaca Dön</a></div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script>
+const btn = document.getElementById('btn-login');
+const errEl = document.getElementById('err');
+
+if (!window.FIREBASE_CONFIG || FIREBASE_CONFIG.apiKey === 'YOUR_API_KEY') {
+  document.getElementById('setup-note').style.display = 'block';
+  btn.disabled = true;
+} else {
+  firebase.initializeApp(FIREBASE_CONFIG);
+  const auth = firebase.auth();
+
+  auth.onAuthStateChanged(user => {
+    if (user) location.href = 'index.html';
+  });
+
+  btn.addEventListener('click', async () => {
+    const email = document.getElementById('email').value.trim();
+    const pass  = document.getElementById('pass').value;
+    errEl.style.display = 'none';
+    btn.disabled = true;
+    btn.textContent = 'Giriş yapılıyor…';
+    try {
+      await auth.signInWithEmailAndPassword(email, pass);
+    } catch (e) {
+      errEl.textContent = ['auth/user-not-found','auth/wrong-password','auth/invalid-credential'].includes(e.code)
+        ? 'E-posta veya şifre hatalı.'
+        : e.message;
+      errEl.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'Giriş Yap';
+    }
+  });
+
+  document.addEventListener('keydown', e => { if (e.key === 'Enter') btn.click(); });
+}
+</script>
+</body>
+</html>
