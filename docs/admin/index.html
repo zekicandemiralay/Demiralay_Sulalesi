@@ -142,6 +142,7 @@ tbody tr:hover { background:#1a3355; }
     <div class="h-user">
       <span id="user-email"></span>
       <a href="../index.html" class="btn-sm">🌳 Ağaç</a>
+      <button class="btn-sm" id="btn-chpw">Şifremi Değiştir</button>
       <button class="btn-sm" id="btn-logout">Çıkış</button>
     </div>
   </header>
@@ -149,7 +150,8 @@ tbody tr:hover { background:#1a3355; }
   <div class="tabs">
     <button class="tab active" data-tab="people">Kişiler</button>
     <button class="tab" data-tab="crosslinks">Çapraz Bağlar</button>
-    <button class="tab" data-tab="settings">Ayarlar</button>
+    <button class="tab admin-only" data-tab="accounts" style="display:none">Hesaplar</button>
+    <button class="tab admin-only" data-tab="settings" style="display:none">Ayarlar</button>
   </div>
 
   <!-- ── PEOPLE TAB ── -->
@@ -158,7 +160,7 @@ tbody tr:hover { background:#1a3355; }
       <input type="text" id="search" placeholder="İsim veya kod ara…">
       <button class="btn-sm btn-primary" id="btn-add-person">+ Kişi Ekle</button>
       <div class="toolbar-right">
-        <button class="btn-sm" id="btn-import">↓ Sheets'ten İçe Aktar</button>
+        <button class="btn-sm admin-only" id="btn-import" style="display:none">↓ Sheets'ten İçe Aktar</button>
         <button class="btn-sm" id="btn-backup">☁ GitHub'a Yedekle</button>
       </div>
     </div>
@@ -219,6 +221,81 @@ tbody tr:hover { background:#1a3355; }
         </div>
         <button class="btn-sm btn-primary" id="btn-save-settings">Ayarları Kaydet</button>
       </div>
+    </div>
+  </div>
+
+  <!-- ── ACCOUNTS TAB ── -->
+  <div class="tab-content" id="tab-accounts">
+    <div class="toolbar">
+      <button class="btn-sm btn-primary" id="btn-add-user">+ Hesap Ekle</button>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>E-posta</th><th>Rol</th><th>Oluşturma</th><th>İşlemler</th></tr></thead>
+        <tbody id="users-tbody"><tr><td colspan="4" class="empty-msg">Yükleniyor…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ── USER MODAL ── -->
+<div class="modal-backdrop" id="modal-user">
+  <div class="modal-box" style="width:420px">
+    <div class="modal-head">
+      <h2>Hesap Ekle</h2>
+      <button class="modal-close" data-close="modal-user">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="field">
+        <label>E-posta <span class="field-required">*</span></label>
+        <input type="email" id="u-email" placeholder="kisi@example.com">
+      </div>
+      <div class="field">
+        <label>Şifre <span class="field-required">*</span></label>
+        <input type="password" id="u-pass" placeholder="En az 6 karakter">
+        <div class="field-help">Kullanıcı giriş yaptıktan sonra kendi şifresini değiştirebilir.</div>
+      </div>
+      <div class="field">
+        <label>Rol</label>
+        <select id="u-role">
+          <option value="editor">Editör — kişi ekleyip düzenleyebilir, Ayarlar'a erişemez</option>
+          <option value="admin">Admin — tüm yetkiler</option>
+        </select>
+      </div>
+      <div class="field" id="u-err-wrap" style="display:none">
+        <div style="color:#f88;font-size:12px;background:rgba(200,50,50,.1);border:1px solid rgba(200,50,50,.3);border-radius:6px;padding:9px 13px" id="u-err"></div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-sm" data-close="modal-user">İptal</button>
+      <button class="btn-sm btn-primary" id="btn-save-user">Hesabı Oluştur</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── CHANGE PASSWORD MODAL ── -->
+<div class="modal-backdrop" id="modal-chpw">
+  <div class="modal-box" style="width:380px">
+    <div class="modal-head">
+      <h2>Şifremi Değiştir</h2>
+      <button class="modal-close" data-close="modal-chpw">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="field">
+        <label>Yeni Şifre <span class="field-required">*</span></label>
+        <input type="password" id="pw-new" placeholder="En az 6 karakter">
+      </div>
+      <div class="field">
+        <label>Yeni Şifre (tekrar)</label>
+        <input type="password" id="pw-new2" placeholder="Aynı şifreyi tekrar girin">
+      </div>
+      <div class="field" id="pw-err-wrap" style="display:none">
+        <div style="color:#f88;font-size:12px;background:rgba(200,50,50,.1);border:1px solid rgba(200,50,50,.3);border-radius:6px;padding:9px 13px" id="pw-err"></div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-sm" data-close="modal-chpw">İptal</button>
+      <button class="btn-sm btn-primary" id="btn-save-pw">Değiştir</button>
     </div>
   </div>
 </div>
@@ -368,9 +445,11 @@ tbody tr:hover { background:#1a3355; }
 let db, auth;
 let people     = {};   // { code: {...} }
 let crossLinks = [];   // [{id, source, target, ...}]
+let allUsers   = [];   // [{uid, email, role, ...}]
 let searchTerm = '';
 let editingCode = null;
 let editingCrossId = null;
+let currentUserRole = 'editor';
 
 const GEN_COLORS = {
   'Kök':'#8d6e63','Nesil 1':'#1976d2','Nesil 2':'#2e7d32',
@@ -391,7 +470,16 @@ if (!window.FIREBASE_CONFIG || FIREBASE_CONFIG.apiKey === 'YOUR_API_KEY') {
     document.getElementById('user-email').textContent = user.email;
     document.getElementById('auth-loading').style.display = 'none';
     document.getElementById('app').style.display = 'block';
-    await Promise.all([loadPeople(), loadCrossLinks(), loadSettings()]);
+
+    // Ensure user record exists in Firestore (creates admin record on first login if no users exist)
+    await ensureUserRecord(user);
+    currentUserRole = await getUserRole(user.uid);
+
+    if (currentUserRole === 'admin') {
+      document.querySelectorAll('.admin-only').forEach(el => el.style.display = '');
+    }
+
+    await Promise.all([loadPeople(), loadCrossLinks(), loadSettings(), loadUsers()]);
   });
 }
 
@@ -788,6 +876,132 @@ document.getElementById('btn-import-go').addEventListener('click', async () => {
     btn.textContent = 'İçe Aktarmayı Başlat';
     document.getElementById('btn-import-cancel').disabled = false;
   }
+});
+
+/* ── User Role & Records ─────────────────────────────── */
+async function getUserRole(uid) {
+  try {
+    const doc = await db.collection('users').doc(uid).get();
+    return doc.exists ? (doc.data().role || 'editor') : 'editor';
+  } catch (_) { return 'editor'; }
+}
+
+async function ensureUserRecord(user) {
+  const ref = db.collection('users').doc(user.uid);
+  const doc = await ref.get();
+  if (!doc.exists) {
+    // First user ever → make them admin; otherwise editor
+    const snap = await db.collection('users').limit(1).get();
+    const role = snap.empty ? 'admin' : 'editor';
+    await ref.set({ email: user.email, role, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+  }
+}
+
+async function loadUsers() {
+  try {
+    const snap = await db.collection('users').get();
+    allUsers = [];
+    snap.forEach(doc => allUsers.push({ uid: doc.id, ...doc.data() }));
+    renderUsersTable();
+  } catch (_) {}
+}
+
+function renderUsersTable() {
+  const tbody = document.getElementById('users-tbody');
+  if (!allUsers.length) {
+    tbody.innerHTML = '<tr><td colspan="4" class="empty-msg">Kullanıcı yok.</td></tr>';
+    return;
+  }
+  const me = auth.currentUser?.uid;
+  tbody.innerHTML = allUsers.map(u => `<tr>
+    <td>${esc(u.email)}</td>
+    <td><span class="gen-chip" style="background:${u.role==='admin'?'#d4a843;color:#0d1b2a':'#1c3a5c'}">${u.role === 'admin' ? 'Admin' : 'Editör'}</span></td>
+    <td style="color:#556;font-size:12px">${u.createdAt?.toDate ? u.createdAt.toDate().toLocaleDateString('tr') : '—'}</td>
+    <td>
+      <div class="td-actions">
+        ${u.uid !== me ? `<button class="btn-sm btn-danger" onclick="deleteUser('${esc(u.uid)}','${esc(u.email)}')">Sil</button>` : '<span style="color:#334;font-size:12px">Sen</span>'}
+      </div>
+    </td>
+  </tr>`).join('');
+}
+
+document.getElementById('btn-add-user').addEventListener('click', () => {
+  document.getElementById('u-email').value = '';
+  document.getElementById('u-pass').value  = '';
+  document.getElementById('u-role').value  = 'editor';
+  document.getElementById('u-err-wrap').style.display = 'none';
+  openModal('modal-user');
+});
+
+document.getElementById('btn-save-user').addEventListener('click', async () => {
+  const email = document.getElementById('u-email').value.trim();
+  const pass  = document.getElementById('u-pass').value;
+  const role  = document.getElementById('u-role').value;
+  if (!email) return showFieldError('u-err', 'E-posta zorunludur.');
+  if (pass.length < 6) return showFieldError('u-err', 'Şifre en az 6 karakter olmalıdır.');
+
+  const btn = document.getElementById('btn-save-user');
+  btn.disabled = true; btn.textContent = 'Oluşturuluyor…';
+  try {
+    // Create Firebase Auth user via REST API (doesn't sign out current user)
+    const res = await fetch(
+      `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${FIREBASE_CONFIG.apiKey}`,
+      { method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ email, password: pass, returnSecureToken: false }) }
+    );
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error?.message || 'Kullanıcı oluşturulamadı');
+    const uid = data.localId;
+    await db.collection('users').doc(uid).set({
+      email, role,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    allUsers.push({ uid, email, role });
+    renderUsersTable();
+    closeModal('modal-user');
+    toast(`${email} hesabı oluşturuldu ✓`, 'ok');
+  } catch (e) {
+    const msg = e.message === 'EMAIL_EXISTS' ? 'Bu e-posta zaten kayıtlı.' : e.message;
+    showFieldError('u-err', msg);
+  } finally {
+    btn.disabled = false; btn.textContent = 'Hesabı Oluştur';
+  }
+});
+
+async function deleteUser(uid, email) {
+  if (!confirm(`"${email}" hesabını silmek istediğinizden emin misiniz?\n\nKullanıcı giriş yapamayacak.`)) return;
+  try {
+    await db.collection('users').doc(uid).delete();
+    allUsers = allUsers.filter(u => u.uid !== uid);
+    renderUsersTable();
+    toast('Hesap silindi', 'ok');
+  } catch (e) { toast(e.message, 'err'); }
+}
+
+/* ── Change Password ─────────────────────────────────── */
+document.getElementById('btn-chpw').addEventListener('click', () => {
+  document.getElementById('pw-new').value  = '';
+  document.getElementById('pw-new2').value = '';
+  document.getElementById('pw-err-wrap').style.display = 'none';
+  openModal('modal-chpw');
+});
+
+document.getElementById('btn-save-pw').addEventListener('click', async () => {
+  const pw1 = document.getElementById('pw-new').value;
+  const pw2 = document.getElementById('pw-new2').value;
+  if (pw1.length < 6) return showFieldError('pw-err', 'Şifre en az 6 karakter olmalıdır.');
+  if (pw1 !== pw2)    return showFieldError('pw-err', 'Şifreler eşleşmiyor.');
+  const btn = document.getElementById('btn-save-pw');
+  btn.disabled = true; btn.textContent = 'Değiştiriliyor…';
+  try {
+    await auth.currentUser.updatePassword(pw1);
+    closeModal('modal-chpw');
+    toast('Şifre değiştirildi ✓', 'ok');
+  } catch (e) {
+    showFieldError('pw-err', e.code === 'auth/requires-recent-login'
+      ? 'Güvenlik için çıkış yapıp tekrar giriş yapın, ardından şifrenizi değiştirin.'
+      : e.message);
+  } finally { btn.disabled = false; btn.textContent = 'Değiştir'; }
 });
 
 /* ── Logout ──────────────────────────────────────────── */
