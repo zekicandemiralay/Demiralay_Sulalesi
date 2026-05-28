@@ -110,6 +110,39 @@ svg:active { cursor:grabbing; }
 #pcross { padding:11px 15px; border-top:1px solid #1c3a5c; flex-shrink:0; }
 .cx-title { font-size:10px; color:#d4a843; text-transform:uppercase; letter-spacing:.5px; margin-bottom:6px; }
 .cx-row { font-size:12px; color:#99a; margin-bottom:5px; line-height:1.4; }
+/* ── Mobile bottom-sheet ───────────────────────────── */
+#overlay {
+  display:none; position:fixed; inset:0;
+  background:rgba(0,0,0,.5); z-index:10;
+  touch-action:none;
+}
+#overlay.vis { display:block; }
+#sheet-handle { display:none; }
+#p-expand-btn { display:none; margin-top:8px; width:100%; justify-content:center; }
+@media (max-width:768px) {
+  #panel {
+    position:fixed !important;
+    bottom:0; left:0; right:0;
+    width:100% !important;
+    height:0;
+    border-left:none;
+    border-top:1px solid #1c3a5c;
+    border-radius:14px 14px 0 0;
+    transition:height .28s ease !important;
+    z-index:20;
+    overflow:hidden;
+  }
+  #panel.open { height:58vh; }
+  #controls { display:none; }
+  #legend { display:none; }
+  #stat { display:none; }
+  #header { flex-wrap:nowrap; overflow-x:auto; }
+  #sheet-handle {
+    display:block; width:36px; height:4px; border-radius:2px;
+    background:#2c4a6a; margin:8px auto 0; flex-shrink:0;
+  }
+  #p-expand-btn { display:inline-flex; }
+}
 /* Loading / Error overlays */
 #loading, #errscreen {
   position:fixed; inset:0; background:#0d1b2acc;
@@ -187,10 +220,12 @@ svg:active { cursor:grabbing; }
   </div>
 
   <div id="panel">
+    <div id="sheet-handle"></div>
     <div id="ph">
-      <div>
+      <div style="flex:1;min-width:0;">
         <div id="pname">—</div>
         <div id="pcode"></div>
+        <button class="btn" id="p-expand-btn">▶ Alt ağacı aç</button>
       </div>
       <button class="ctl" id="pclose" style="flex-shrink:0">✕</button>
     </div>
@@ -201,6 +236,7 @@ svg:active { cursor:grabbing; }
     </div>
   </div>
 </div>
+<div id="overlay"></div>
 
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
@@ -345,6 +381,7 @@ let root        = null;
 let uid         = 0;
 let CROSS_LINKS = [];
 let selId       = null;
+let selNode     = null;
 let searchTerm  = "";
 let showCross   = true;
 const posMap    = new Map();
@@ -392,8 +429,10 @@ function update(src) {
     .attr("transform", () => `translate(${src._sx0 ?? src.y},${src._sy0 ?? src.x})`)
     .on("click", (evt, d) => {
       evt.stopPropagation();
-      toggleNode(d);
-      selId = d.data.id;
+      const mobile = window.innerWidth <= 768;
+      if (!mobile) toggleNode(d);
+      selId   = d.data.id;
+      selNode = d;
       update(d);
       showPanel(d);
     });
@@ -511,16 +550,45 @@ function showPanel(d) {
   } else { cxEl.style.display = "none"; }
 
   document.getElementById("panel").classList.add("open");
+  if (window.innerWidth <= 768) {
+    document.getElementById("overlay").classList.add("vis");
+  }
+  updateExpandBtn(d);
+}
+
+function updateExpandBtn(d) {
+  const btn = document.getElementById("p-expand-btn");
+  const hasOpen   = d.children  && d.children.length;
+  const hasHidden = d._children && d._children.length;
+  if (hasOpen || hasHidden) {
+    btn.style.display = "";
+    btn.textContent = hasHidden
+      ? `▶ Alt ağacı aç (+${d._children.length})`
+      : "▼ Alt ağacı kapat";
+  } else {
+    btn.style.display = "none";
+  }
+}
+
+function closePanel() {
+  document.getElementById("panel").classList.remove("open");
+  document.getElementById("overlay").classList.remove("vis");
+  selId   = null;
+  selNode = null;
+  if (root) update(root);
 }
 
 function row(label, value) {
   return `<div class="pr"><div class="pl">${label}</div><div class="pv">${value}</div></div>`;
 }
 
-document.getElementById("pclose").onclick = () => {
-  document.getElementById("panel").classList.remove("open");
-  selId = null;
-  if (root) update(root);
+document.getElementById("pclose").onclick = closePanel;
+document.getElementById("overlay").onclick = closePanel;
+document.getElementById("p-expand-btn").onclick = () => {
+  if (!selNode) return;
+  toggleNode(selNode);
+  update(selNode);
+  updateExpandBtn(selNode);
 };
 
 /* ── Search ────────────────────────────────────────── */
