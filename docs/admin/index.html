@@ -247,8 +247,9 @@ tbody tr:hover { background:#1a3355; }
     </div>
     <div class="modal-body">
       <div class="field">
-        <label>E-posta <span class="field-required">*</span></label>
-        <input type="email" id="u-email" placeholder="kisi@example.com">
+        <label>Kullanıcı Adı <span class="field-required">*</span></label>
+        <input type="text" id="u-email" placeholder="ahmet" autocomplete="off" spellcheck="false">
+        <div class="field-help">Sadece harf ve rakam önerilir, boşluk olmadan. (Örn: ahmet, fatma2)</div>
       </div>
       <div class="field">
         <label>Şifre <span class="field-required">*</span></label>
@@ -467,7 +468,9 @@ if (!window.FIREBASE_CONFIG || FIREBASE_CONFIG.apiKey === 'YOUR_API_KEY') {
 
   auth.onAuthStateChanged(async user => {
     if (!user) { location.href = 'login.html'; return; }
-    document.getElementById('user-email').textContent = user.email;
+    document.getElementById('user-email').textContent = user.email.includes('@demiralay.local')
+      ? user.email.replace('@demiralay.local', '')
+      : user.email;
     document.getElementById('auth-loading').style.display = 'none';
     document.getElementById('app').style.display = 'block';
 
@@ -914,7 +917,7 @@ function renderUsersTable() {
   }
   const me = auth.currentUser?.uid;
   tbody.innerHTML = allUsers.map(u => `<tr>
-    <td>${esc(u.email)}</td>
+    <td>${esc(u.username || fromFakeEmail(u.email))}</td>
     <td><span class="gen-chip" style="background:${u.role==='admin'?'#d4a843;color:#0d1b2a':'#1c3a5c'}">${u.role === 'admin' ? 'Admin' : 'Editör'}</span></td>
     <td style="color:#556;font-size:12px">${u.createdAt?.toDate ? u.createdAt.toDate().toLocaleDateString('tr') : '—'}</td>
     <td>
@@ -933,17 +936,21 @@ document.getElementById('btn-add-user').addEventListener('click', () => {
   openModal('modal-user');
 });
 
+const FAKE_DOMAIN = '@demiralay.local';
+function toFakeEmail(username) { return username.toLowerCase() + FAKE_DOMAIN; }
+function fromFakeEmail(email)  { return email.replace(FAKE_DOMAIN, ''); }
+
 document.getElementById('btn-save-user').addEventListener('click', async () => {
-  const email = document.getElementById('u-email').value.trim();
-  const pass  = document.getElementById('u-pass').value;
-  const role  = document.getElementById('u-role').value;
-  if (!email) return showFieldError('u-err', 'E-posta zorunludur.');
+  const username = document.getElementById('u-email').value.trim();
+  const pass     = document.getElementById('u-pass').value;
+  const role     = document.getElementById('u-role').value;
+  if (!username) return showFieldError('u-err', 'Kullanıcı adı zorunludur.');
   if (pass.length < 6) return showFieldError('u-err', 'Şifre en az 6 karakter olmalıdır.');
 
+  const email = toFakeEmail(username);
   const btn = document.getElementById('btn-save-user');
   btn.disabled = true; btn.textContent = 'Oluşturuluyor…';
   try {
-    // Create Firebase Auth user via REST API (doesn't sign out current user)
     const res = await fetch(
       `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${FIREBASE_CONFIG.apiKey}`,
       { method:'POST', headers:{'Content-Type':'application/json'},
@@ -953,15 +960,15 @@ document.getElementById('btn-save-user').addEventListener('click', async () => {
     if (!res.ok) throw new Error(data.error?.message || 'Kullanıcı oluşturulamadı');
     const uid = data.localId;
     await db.collection('users').doc(uid).set({
-      email, role,
+      email, username, role,
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
-    allUsers.push({ uid, email, role });
+    allUsers.push({ uid, email, username, role });
     renderUsersTable();
     closeModal('modal-user');
-    toast(`${email} hesabı oluşturuldu ✓`, 'ok');
+    toast(`"${username}" hesabı oluşturuldu ✓`, 'ok');
   } catch (e) {
-    const msg = e.message === 'EMAIL_EXISTS' ? 'Bu e-posta zaten kayıtlı.' : e.message;
+    const msg = e.message === 'EMAIL_EXISTS' ? 'Bu kullanıcı adı zaten alınmış.' : e.message;
     showFieldError('u-err', msg);
   } finally {
     btn.disabled = false; btn.textContent = 'Hesabı Oluştur';
