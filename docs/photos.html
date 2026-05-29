@@ -305,6 +305,7 @@ header { background:#122340; border-bottom:1px solid #1c3a5c; padding:12px 24px;
 
 <div id="toast"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/exifr@7.1.3/dist/lite.umd.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
@@ -513,10 +514,18 @@ async function openAlbum(id) {
     '<div class="empty" style="grid-column:1/-1"><div class="icon" style="font-size:36px">⏳</div><div class="title">Yükleniyor…</div></div>';
   try {
     const snap = await db.collection('albums').doc(id).collection('photos')
-      .orderBy('uploadedAt', 'desc').get();
+      .orderBy('sortDate', 'desc').get();
     photos = [];
     snap.forEach(d => photos.push({ id: d.id, ...d.data() }));
-  } catch (_) {}
+  } catch (_) {
+    // fallback: older photos may not have sortDate yet
+    try {
+      const snap2 = await db.collection('albums').doc(id).collection('photos')
+        .orderBy('uploadedAt', 'desc').get();
+      photos = [];
+      snap2.forEach(d => photos.push({ id: d.id, ...d.data() }));
+    } catch (e2) { console.error(e2); }
+  }
   renderPhotos();
 }
 
@@ -634,6 +643,15 @@ async function uploadOne(file) {
   const status = (txt, cls) => { const el = document.getElementById(`s${uid}`); el.textContent = txt; el.className = 'upload-status ' + (cls||''); };
 
   try {
+    // Read EXIF date before compressing (compression strips EXIF)
+    let dateTaken = null;
+    try {
+      const exif = await exifr.parse(file, ['DateTimeOriginal', 'CreateDate', 'DateTime']);
+      dateTaken = exif?.DateTimeOriginal || exif?.CreateDate || exif?.DateTime || null;
+      if (dateTaken && !(dateTaken instanceof Date)) dateTaken = new Date(dateTaken);
+      if (dateTaken && isNaN(dateTaken.getTime())) dateTaken = null;
+    } catch (_) {}
+
     const [full, thumb] = await Promise.all([
       compressImage(file, 1600, 0.85),
       compressImage(file, 400,  0.80),
@@ -670,6 +688,11 @@ async function uploadOne(file) {
       uploaderName: currentUsername,
       uploaderUid:  currentUser.uid,
       uploadedAt:   firebase.firestore.FieldValue.serverTimestamp(),
+      dateTaken:    dateTaken ? firebase.firestore.Timestamp.fromDate(dateTaken) : null,
+      // sortDate = taken date if available, otherwise server time (upload date)
+      sortDate:     dateTaken
+        ? firebase.firestore.Timestamp.fromDate(dateTaken)
+        : firebase.firestore.FieldValue.serverTimestamp(),
     };
     const docRef = await db.collection('albums').doc(albumId).collection('photos').add(photoData);
 
@@ -685,7 +708,10 @@ async function uploadOne(file) {
     photos.unshift({ id: docRef.id, ...photoData });
     renderPhotos();
     URL.revokeObjectURL(previewUrl);
-    bar(100); status('✓ Yüklendi', 'ok');
+    const dateLabel = dateTaken
+      ? dateTaken.toLocaleDateString('tr', { day:'numeric', month:'short', year:'numeric' })
+      : '';
+    bar(100); status(dateLabel ? `✓ ${dateLabel}` : '✓ Yüklendi', 'ok');
   } catch (e) {
     status('Hata', 'err');
     console.error(e);
@@ -715,7 +741,17 @@ function showLbPhoto() {
   if (!p) return;
   document.getElementById('lb-img').src = p.fullURL || p.thumbURL || '';
   document.getElementById('lb-caption').textContent  = p.caption || '';
-  document.getElementById('lb-uploader').textContent = p.uploaderName ? `📤 ${p.uploaderName}` : '';
+
+  // Date: prefer taken date, fall back to upload month/year
+  let dateStr = '';
+  if (p.dateTaken?.toDate) {
+    dateStr = '📅 ' + p.dateTaken.toDate().toLocaleDateString('tr', { day:'numeric', month:'long', year:'numeric' });
+  } else if (p.uploadedAt?.toDate) {
+    dateStr = '📤 ' + p.uploadedAt.toDate().toLocaleDateString('tr', { month:'long', year:'numeric' });
+  }
+  document.getElementById('lb-uploader').textContent =
+    [dateStr, p.uploaderName ? `${p.uploaderName} tarafından yüklendi` : ''].filter(Boolean).join(' · ');
+
   document.getElementById('lb-counter').textContent  = `${lbIndex + 1} / ${photos.length}`;
   document.getElementById('lb-prev').disabled = lbIndex === 0;
   document.getElementById('lb-next').disabled = lbIndex === photos.length - 1;
