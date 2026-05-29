@@ -268,15 +268,26 @@ if (!window.FIREBASE_CONFIG || FIREBASE_CONFIG.apiKey === 'YOUR_API_KEY') {
       return;
     }
 
-    // Load user role + hidden IDs
+    // Load (or create) user record and role
     let username = user.email.replace(FAKE_DOMAIN, '');
     try {
-      const userDoc = await db.collection('users').doc(user.uid).get();
-      if (userDoc.exists) {
-        currentRole = userDoc.data().role || 'editor';
-        username    = userDoc.data().username || username;
+      const userRef = db.collection('users').doc(user.uid);
+      let userDoc   = await userRef.get();
+      if (!userDoc.exists) {
+        // No record yet — first user becomes admin, rest become editor
+        const anyUser = await db.collection('users').limit(1).get();
+        const role    = anyUser.empty ? 'admin' : 'editor';
+        await userRef.set({
+          email: user.email,
+          username,
+          role,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        });
+        userDoc = await userRef.get();
       }
-    } catch (_) {}
+      currentRole = userDoc.data().role || 'editor';
+      username    = userDoc.data().username || username;
+    } catch (e) { console.warn('user role load failed:', e); }
 
     try {
       const snap = await db.collection('calendarHidden').get();
