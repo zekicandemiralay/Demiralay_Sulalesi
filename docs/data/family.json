@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-29T21:14:45.959Z",
+  "updatedAt": "2026-05-29T21:15:55.607Z",
   "people": [
     {
       "Eşin Kızlık Soyadı": "",
@@ -1603,33 +1603,33 @@
       "Notlar / Çapraz Ref": ""
     },
     {
-      "Notlar / Çapraz Ref": "",
       "Kod": "2DABAA",
       "Ad": "Adnan Efe",
-      "Doğum Tarihi": "",
-      "Ölüm Tarihi": "",
-      "Nesil": "Nesil 6",
       "Eş Adı": "",
-      "Eşin Kızlık Soyadı": ""
-    },
-    {
-      "Notlar / Çapraz Ref": "",
-      "Kod": "2DABAB",
-      "Eş Adı": "",
-      "Ölüm Tarihi": "",
-      "Nesil": "Nesil 6",
-      "Doğum Tarihi": "",
-      "Ad": "Mert",
-      "Eşin Kızlık Soyadı": ""
-    },
-    {
       "Eşin Kızlık Soyadı": "",
-      "Nesil": "Nesil 5",
+      "Doğum Tarihi": "01.08.2010",
       "Ölüm Tarihi": "",
-      "Eş Adı": "Engin Irmaklı",
-      "Ad": "Pınar",
-      "Doğum Tarihi": "",
+      "Nesil": "Nesil 6",
+      "Notlar / Çapraz Ref": ""
+    },
+    {
+      "Kod": "2DABAB",
+      "Ad": "Mert",
+      "Eş Adı": "",
+      "Eşin Kızlık Soyadı": "",
+      "Doğum Tarihi": "15.09.2013",
+      "Ölüm Tarihi": "",
+      "Nesil": "Nesil 6",
+      "Notlar / Çapraz Ref": ""
+    },
+    {
       "Kod": "2DABB",
+      "Ad": "Pınar",
+      "Eş Adı": "Engin Irmaklı",
+      "Eşin Kızlık Soyadı": "",
+      "Doğum Tarihi": "25.06.1988",
+      "Ölüm Tarihi": "",
+      "Nesil": "Nesil 5",
       "Notlar / Çapraz Ref": ""
     },
     {
