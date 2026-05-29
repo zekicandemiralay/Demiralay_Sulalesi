@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Demiralay Sülalesi — Doğum Günleri</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Segoe UI',system-ui,sans-serif; background:#0d1b2a; color:#dde; min-height:100vh; }
+
+/* ── Loading ── */
+#auth-loading { position:fixed; inset:0; background:#0d1b2a; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; z-index:999; }
+
+/* ── Login ── */
+#login-screen { display:none; min-height:100vh; align-items:center; justify-content:center; padding:20px; }
+.login-card { background:#122340; border:1px solid #1c3a5c; border-radius:14px; padding:42px 46px; width:420px; max-width:100%; }
+.login-logo { font-size:24px; font-weight:700; color:#d4a843; text-align:center; margin-bottom:6px; }
+.login-sub  { color:#445; text-align:center; font-size:14px; margin-bottom:34px; }
+.inp { width:100%; padding:12px 16px; border-radius:8px; border:1px solid #1c3a5c; background:#0d1b2a; color:#dde; font-size:15px; outline:none; margin-bottom:18px; transition:border-color .2s; }
+.inp:focus { border-color:#d4a843; }
+.inp-label { display:block; font-size:12px; color:#445; text-transform:uppercase; letter-spacing:.5px; margin-bottom:7px; }
+.err-box { color:#f88; font-size:13px; background:rgba(200,50,50,.12); border:1px solid rgba(200,50,50,.3); border-radius:7px; padding:10px 14px; margin-bottom:16px; display:none; }
+
+/* ── Buttons ── */
+.btn { padding:9px 18px; border-radius:8px; border:1px solid #1c3a5c; background:#172f4a; color:#bbc; cursor:pointer; font-size:14px; white-space:nowrap; transition:background .15s,color .15s; text-decoration:none; display:inline-flex; align-items:center; gap:7px; }
+.btn:hover { background:#1c3a5c; color:#fff; }
+.btn-primary { background:#d4a843; color:#0d1b2a; border-color:#d4a843; font-weight:700; }
+.btn-primary:hover { opacity:.88; }
+.btn-lg { padding:14px 30px; font-size:16px; border-radius:10px; font-weight:600; }
+
+/* ── Header ── */
+header { background:#122340; border-bottom:1px solid #1c3a5c; padding:12px 24px; display:flex; align-items:center; gap:12px; position:sticky; top:0; z-index:50; }
+.h-logo { font-size:16px; font-weight:700; color:#d4a843; }
+.h-right { margin-left:auto; display:flex; align-items:center; gap:10px; }
+.profile-wrap { position:relative; }
+.profile-btn { background:none; border:1px solid #1c3a5c; border-radius:8px; color:#bbc; cursor:pointer; padding:7px 14px; font-size:13px; display:flex; align-items:center; gap:7px; transition:background .15s; }
+.profile-btn:hover { background:#1c3a5c; color:#fff; }
+.profile-btn .arrow { font-size:10px; color:#445; transition:transform .15s; }
+.profile-btn.open .arrow { transform:rotate(180deg); }
+.profile-drop { position:absolute; top:calc(100% + 8px); right:0; background:#122340; border:1px solid #1c3a5c; border-radius:10px; min-width:170px; padding:6px; box-shadow:0 8px 28px rgba(0,0,0,.55); display:none; z-index:100; }
+.profile-drop.open { display:block; }
+.pd-item { width:100%; text-align:left; padding:11px 15px; border-radius:7px; background:none; border:none; color:#bbc; cursor:pointer; font-size:14px; display:flex; align-items:center; gap:8px; }
+.pd-item:hover { background:#1c3a5c; color:#fff; }
+
+/* ── Page ── */
+.page { padding:28px 24px; max-width:1100px; margin:0 auto; }
+
+/* ── Calendar navigation ── */
+.cal-nav { display:flex; align-items:center; justify-content:center; gap:20px; margin-bottom:24px; }
+.cal-nav-btn { background:#122340; border:1px solid #1c3a5c; border-radius:8px; color:#bbc; cursor:pointer; width:42px; height:42px; font-size:22px; display:flex; align-items:center; justify-content:center; transition:background .15s,color .15s; }
+.cal-nav-btn:hover { background:#1c3a5c; color:#fff; }
+.cal-month-label { font-size:22px; font-weight:700; color:#d4a843; min-width:200px; text-align:center; }
+
+/* ── Calendar grid ── */
+.cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:3px; }
+.cal-dow { text-align:center; padding:8px 4px; font-size:12px; color:#445; text-transform:uppercase; letter-spacing:.4px; font-weight:600; }
+.cal-cell { background:#122340; border:1px solid #0f2035; border-radius:8px; min-height:72px; padding:8px 6px; cursor:default; transition:border-color .15s; display:flex; flex-direction:column; }
+.cal-cell.other-month { opacity:.3; }
+.cal-cell.today { border-color:#d4a843; background:#16293e; }
+.cal-cell.has-birthday { cursor:pointer; }
+.cal-cell.has-birthday:hover { border-color:#a0c4a0; background:#162a20; }
+.cal-day { font-size:14px; font-weight:600; color:#bbc; line-height:1; }
+.cal-cell.today .cal-day { color:#d4a843; }
+.cal-dots { display:flex; flex-wrap:wrap; gap:3px; margin-top:5px; flex:1; align-content:flex-start; }
+.cal-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+.cal-name { font-size:10px; color:#6a9; line-height:1.3; margin-top:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.today-badge { display:inline-block; background:#d4a843; color:#0d1b2a; font-size:9px; font-weight:700; padding:1px 5px; border-radius:4px; margin-left:4px; vertical-align:middle; }
+
+/* ── Birthday list ── */
+.section-title { font-size:16px; font-weight:700; color:#d4a843; margin-bottom:16px; display:flex; align-items:center; gap:10px; }
+.section-title .count { font-size:13px; color:#445; font-weight:400; }
+.bday-list { display:flex; flex-direction:column; gap:10px; }
+.bday-card { background:#122340; border:1px solid #1c3a5c; border-radius:10px; padding:14px 16px; display:flex; align-items:center; gap:14px; transition:border-color .15s; }
+.bday-card:hover { border-color:#2a5040; }
+.bday-card.today { border-color:#d4a843; background:#182e18; }
+.bday-avatar { width:44px; height:44px; border-radius:50%; background:#1c3a5c; display:flex; align-items:center; justify-content:center; font-size:18px; font-weight:700; color:#d4a843; flex-shrink:0; }
+.bday-info { flex:1; min-width:0; }
+.bday-name { font-size:15px; font-weight:600; color:#dde; margin-bottom:3px; }
+.bday-name.deceased { color:#667; }
+.bday-meta { font-size:12px; color:#445; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+.bday-date-badge { font-size:13px; font-weight:700; color:#6a9; white-space:nowrap; }
+.bday-age  { font-size:13px; color:#bbc; }
+.gen-chip  { display:inline-block; padding:2px 8px; border-radius:8px; font-size:11px; font-weight:600; color:#fff; }
+.today-label { background:#d4a843; color:#0d1b2a; font-size:12px; font-weight:700; padding:3px 10px; border-radius:10px; white-space:nowrap; }
+.deceased-icon { font-size:12px; color:#556; }
+
+/* ── Layout ── */
+.layout { display:grid; grid-template-columns:1fr 340px; gap:28px; align-items:start; }
+.upcoming-title { font-size:15px; font-weight:700; color:#d4a843; margin-bottom:14px; }
+.upcoming-item { display:flex; gap:12px; align-items:flex-start; padding:10px 14px; border-radius:8px; background:#122340; border:1px solid #1c3a5c; margin-bottom:8px; }
+.upcoming-item.today { border-color:#d4a843; background:#182e18; }
+.upcoming-day  { font-size:20px; font-weight:700; color:#d4a843; width:32px; text-align:center; line-height:1; flex-shrink:0; }
+.upcoming-month { font-size:11px; color:#445; text-align:center; margin-top:2px; }
+.upcoming-name  { font-size:14px; font-weight:600; color:#ccd; line-height:1.3; }
+.upcoming-age   { font-size:12px; color:#445; margin-top:2px; }
+
+/* ── Empty ── */
+.empty { text-align:center; padding:48px 20px; color:#334; }
+.empty .icon { font-size:40px; margin-bottom:14px; }
+.empty .text { font-size:15px; color:#445; }
+
+/* ── Toast ── */
+#toast { position:fixed; bottom:24px; right:24px; padding:12px 18px; border-radius:9px; font-size:14px; z-index:500; opacity:0; transition:opacity .2s; pointer-events:none; }
+#toast.show { opacity:1; }
+#toast.ok  { background:#2e7d32; color:#fff; }
+#toast.err { background:#c62828; color:#fff; }
+
+/* ── Responsive ── */
+@media (max-width:900px) {
+  .layout { grid-template-columns:1fr; }
+}
+@media (max-width:580px) {
+  .page { padding:16px; }
+  .cal-cell { min-height:52px; padding:6px 4px; }
+  .cal-day  { font-size:12px; }
+  .cal-dot  { width:6px; height:6px; }
+  .cal-name { display:none; }
+  .cal-month-label { font-size:18px; min-width:160px; }
+  .login-card { padding:32px 22px; }
+}
+</style>
+</head>
+<body>
+
+<div id="auth-loading">
+  <div style="font-size:36px">🎂</div>
+  <div style="color:#445;font-size:15px">Yükleniyor…</div>
+</div>
+
+<!-- ── LOGIN ── -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">🎂 Doğum Günleri</div>
+    <div class="login-sub">Görüntülemek için giriş yapın</div>
+    <div class="err-box" id="login-err"></div>
+    <label class="inp-label">Kullanıcı Adı</label>
+    <input class="inp" type="text" id="login-user" placeholder="kullanici_adi" autocomplete="username" spellcheck="false">
+    <label class="inp-label">Şifre</label>
+    <input class="inp" type="password" id="login-pass" placeholder="••••••••" autocomplete="current-password">
+    <button class="btn btn-primary btn-lg" id="btn-login" style="width:100%;justify-content:center">Giriş Yap</button>
+    <div style="text-align:center;margin-top:18px">
+      <a href="index.html" style="color:#334;font-size:13px;text-decoration:none">← Ana Sayfaya Dön</a>
+    </div>
+  </div>
+</div>
+
+<!-- ── MAIN APP ── -->
+<div id="app" style="display:none">
+  <header>
+    <span class="h-logo">🎂 Doğum Günleri</span>
+    <div class="h-right">
+      <a href="index.html" class="btn" style="font-size:13px;padding:7px 14px">🏠 Ana Sayfa</a>
+      <div class="profile-wrap">
+        <button class="profile-btn" id="profile-btn">
+          👤 <span id="h-username"></span>
+          <span class="arrow">▾</span>
+        </button>
+        <div class="profile-drop" id="profile-drop">
+          <button class="pd-item" id="btn-logout">🚪 Çıkış Yap</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="page">
+    <div class="cal-nav">
+      <button class="cal-nav-btn" id="cal-prev">‹</button>
+      <div class="cal-month-label" id="cal-label"></div>
+      <button class="cal-nav-btn" id="cal-next">›</button>
+    </div>
+
+    <div class="layout">
+      <div>
+        <!-- Calendar grid -->
+        <div class="cal-grid" id="cal-grid"></div>
+        <!-- This month list -->
+        <div style="margin-top:28px">
+          <div class="section-title">
+            <span id="list-title">Bu Ayki Doğum Günleri</span>
+            <span class="count" id="list-count"></span>
+          </div>
+          <div id="bday-list"></div>
+        </div>
+      </div>
+
+      <!-- Upcoming sidebar -->
+      <div>
+        <div class="upcoming-title">📅 Yaklaşan 30 Gün</div>
+        <div id="upcoming-list"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="admin/firebase-config.js"></script>
+<script src="config.js"></script>
+<script>
+/* ════════════════════════════════════════════════════
+   CONSTANTS
+   ════════════════════════════════════════════════════ */
+const FAKE_DOMAIN  = '@demiralay.local';
+const TR_MONTHS    = ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
+const TR_MONTHS_LC = {'ocak':1,'şubat':2,'mart':3,'nisan':4,'mayıs':5,'haziran':6,'temmuz':7,'ağustos':8,'eylül':9,'ekim':10,'kasım':11,'aralık':12};
+const DOW_LABELS   = ['Pzt','Sal','Çar','Per','Cum','Cmt','Paz'];
+const GEN_COLORS   = {'Kök':'#8d6e63','Nesil 1':'#1976d2','Nesil 2':'#2e7d32','Nesil 3':'#e65100','Nesil 4':'#6a1b9a','Nesil 5':'#b71c1c','Nesil 6':'#00695c'};
+
+/* ════════════════════════════════════════════════════
+   STATE
+   ════════════════════════════════════════════════════ */
+let auth, people = [];
+const today = new Date();
+let viewYear  = today.getFullYear();
+let viewMonth = today.getMonth() + 1; // 1-indexed
+
+/* ════════════════════════════════════════════════════
+   FIREBASE AUTH
+   ════════════════════════════════════════════════════ */
+if (!window.FIREBASE_CONFIG || FIREBASE_CONFIG.apiKey === 'YOUR_API_KEY') {
+  document.getElementById('auth-loading').innerHTML =
+    '<div style="text-align:center;padding:40px"><p style="color:#d4a843;font-weight:700;margin-bottom:12px">Firebase yapılandırılmamış</p><a href="index.html" style="color:#445;font-size:14px">← Ana Sayfaya Dön</a></div>';
+} else {
+  firebase.initializeApp(FIREBASE_CONFIG);
+  auth = firebase.auth();
+
+  auth.onAuthStateChanged(async user => {
+    const elLoad  = document.getElementById('auth-loading');
+    const elLogin = document.getElementById('login-screen');
+    const elApp   = document.getElementById('app');
+
+    if (!user) {
+      elLoad.style.display  = 'none';
+      elApp.style.display   = 'none';
+      elLogin.style.display = 'flex';
+      return;
+    }
+
+    // Get display name
+    let username = user.email.replace(FAKE_DOMAIN, '');
+    try {
+      const doc = await firebase.firestore ? null : null; // auth only on this page
+    } catch (_) {}
+    document.getElementById('h-username').textContent = username;
+
+    elLoad.style.display  = 'none';
+    elLogin.style.display = 'none';
+    elApp.style.display   = 'block';
+
+    await loadPeople();
+    renderAll();
+  });
+}
+
+/* ════════════════════════════════════════════════════
+   LOGIN
+   ════════════════════════════════════════════════════ */
+document.getElementById('btn-login').addEventListener('click', async () => {
+  const raw  = document.getElementById('login-user').value.trim();
+  const pass = document.getElementById('login-pass').value;
+  const err  = document.getElementById('login-err');
+  const btn  = document.getElementById('btn-login');
+  err.style.display = 'none';
+  btn.disabled = true; btn.textContent = 'Giriş yapılıyor…';
+  try {
+    const email = raw.includes('@') ? raw : raw + FAKE_DOMAIN;
+    await auth.signInWithEmailAndPassword(email, pass);
+  } catch (e) {
+    err.textContent = ['auth/user-not-found','auth/wrong-password','auth/invalid-credential'].includes(e.code)
+      ? 'Kullanıcı adı veya şifre hatalı.' : e.message;
+    err.style.display = 'block';
+    btn.disabled = false; btn.textContent = 'Giriş Yap';
+  }
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && document.getElementById('login-screen').style.display !== 'none')
+    document.getElementById('btn-login').click();
+});
+document.getElementById('btn-logout').addEventListener('click', () => auth.signOut());
+
+const profileBtn  = document.getElementById('profile-btn');
+const profileDrop = document.getElementById('profile-drop');
+profileBtn.addEventListener('click', e => {
+  e.stopPropagation();
+  const open = profileDrop.classList.toggle('open');
+  profileBtn.classList.toggle('open', open);
+});
+document.addEventListener('click', () => {
+  profileDrop.classList.remove('open');
+  profileBtn.classList.remove('open');
+});
+
+/* ════════════════════════════════════════════════════
+   DATA LOADING
+   ════════════════════════════════════════════════════ */
+async function loadPeople() {
+  // Try JSON first, then Google Sheets
+  try {
+    const res = await fetch('data/family.json');
+    if (res.ok) {
+      const json = await res.json();
+      if (json.people && json.people.length > 0) {
+        people = json.people.map(normalise);
+        return;
+      }
+    }
+  } catch (_) {}
+
+  if (!window.CONFIG || CONFIG.SHEET_ID === 'YOUR_SHEET_ID_HERE') return;
+  try {
+    const base = `https://docs.google.com/spreadsheets/d/${CONFIG.SHEET_ID}/export?format=csv&gid=`;
+    const res  = await fetch(base + CONFIG.SHEET_GID_MAIN);
+    if (!res.ok) return;
+    const rows = Papa.parse(await res.text(), { header:true, skipEmptyLines:true }).data;
+    people = rows.map(r => normalise({
+      'Kod':             safeStr(r['Kod']),
+      'Ad':              safeStr(r['Ad']),
+      'Doğum Tarihi':    safeStr(r['Doğum Tarihi']),
+      'Ölüm Tarihi':     safeStr(r['Ölüm Tarihi']),
+      'Nesil':           safeStr(r['Nesil']),
+    }));
+  } catch (_) {}
+}
+
+function safeStr(v) {
+  if (!v) return '';
+  const s = String(v).trim();
+  return ['nan','none',''].includes(s.toLowerCase()) ? '' : s;
+}
+
+function normalise(row) {
+  return {
+    id:        safeStr(row['Kod']).split('.')[0],
+    name:      safeStr(row['Ad']) || 'Bilinmiyor',
+    birth:     safeStr(row['Doğum Tarihi']),
+    death:     safeStr(row['Ölüm Tarihi']),
+    gen:       safeStr(row['Nesil']),
+  };
+}
+
+/* ════════════════════════════════════════════════════
+   BIRTHDAY PARSING
+   ════════════════════════════════════════════════════ */
+function parseBirth(str) {
+  if (!str) return null;
+  const s = str.replace(/~/g,'').trim();
+
+  // DD.MM.YYYY or DD/MM/YYYY
+  let m = s.match(/^(\d{1,2})[.\/](\d{1,2})[.\/](\d{4})$/);
+  if (m) return { d:+m[1], mo:+m[2], y:+m[3] };
+
+  // YYYY-MM-DD
+  m = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+  if (m) return { d:+m[3], mo:+m[2], y:+m[1] };
+
+  // DD Turkish_Month YYYY  e.g. "15 Mart 1965"
+  m = s.match(/^(\d{1,2})\s+([A-Za-zÇĞİÖŞÜçğışöşü]+)\s+(\d{4})$/);
+  if (m) {
+    const mo = TR_MONTHS_LC[m[2].toLowerCase()];
+    if (mo) return { d:+m[1], mo, y:+m[3] };
+  }
+
+  // Turkish_Month YYYY  e.g. "Mart 1965"
+  m = s.match(/^([A-Za-zÇĞİÖŞÜçğışöşü]+)\s+(\d{4})$/);
+  if (m) {
+    const mo = TR_MONTHS_LC[m[1].toLowerCase()];
+    if (mo) return { d:null, mo, y:+m[2] };
+  }
+
+  // MM.YYYY  e.g. "3.1965"
+  m = s.match(/^(\d{1,2})\.(\d{4})$/);
+  if (m && +m[1] >= 1 && +m[1] <= 12) return { d:null, mo:+m[1], y:+m[2] };
+
+  // Just year
+  m = s.match(/^(\d{4})$/);
+  if (m) return { d:null, mo:null, y:+m[1] };
+
+  return null;
+}
+
+function age(birthYear, deathStr) {
+  if (!birthYear) return null;
+  const endYear = deathStr ? parseDeath(deathStr) : today.getFullYear();
+  return endYear - birthYear;
+}
+
+function parseDeath(str) {
+  if (!str) return null;
+  const m = str.match(/(\d{4})/);
+  return m ? +m[1] : null;
+}
+
+/* ════════════════════════════════════════════════════
+   CALENDAR LOGIC
+   ════════════════════════════════════════════════════ */
+function getBirthdaysInMonth(year, month) {
+  const result = [];
+  for (const p of people) {
+    const b = parseBirth(p.birth);
+    if (!b || !b.mo) continue;
+    if (b.mo !== month) continue;
+    result.push({ person: p, birth: b });
+  }
+  result.sort((a, b) => (a.birth.d || 0) - (b.birth.d || 0));
+  return result;
+}
+
+function getUpcoming(days) {
+  const result = [];
+  const now = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  for (const p of people) {
+    const b = parseBirth(p.birth);
+    if (!b || !b.mo || !b.d) continue;
+    // Birthday this year or next
+    let bdayDate = new Date(now.getFullYear(), b.mo - 1, b.d);
+    if (bdayDate < now) bdayDate = new Date(now.getFullYear() + 1, b.mo - 1, b.d);
+    const diff = Math.round((bdayDate - now) / 86400000);
+    if (diff <= days) result.push({ person: p, birth: b, diff, bdayDate });
+  }
+  result.sort((a, b) => a.diff - b.diff);
+  return result;
+}
+
+/* ════════════════════════════════════════════════════
+   RENDER
+   ════════════════════════════════════════════════════ */
+function renderAll() {
+  document.getElementById('cal-label').textContent = `${TR_MONTHS[viewMonth-1]} ${viewYear}`;
+
+  const birthdays    = getBirthdaysInMonth(viewYear, viewMonth);
+  const birthdayMap  = {};
+  for (const b of birthdays) {
+    if (b.birth.d) {
+      if (!birthdayMap[b.birth.d]) birthdayMap[b.birth.d] = [];
+      birthdayMap[b.birth.d].push(b);
+    }
+  }
+
+  renderCalendarGrid(birthdayMap);
+  renderBirthdayList(birthdays);
+  renderUpcoming();
+}
+
+function renderCalendarGrid(birthdayMap) {
+  const grid     = document.getElementById('cal-grid');
+  const firstDow = new Date(viewYear, viewMonth - 1, 1).getDay(); // 0=Sun
+  const monFirst = (firstDow + 6) % 7; // 0=Mon
+  const daysInM  = new Date(viewYear, viewMonth, 0).getDate();
+  const daysInPrev = new Date(viewYear, viewMonth - 1, 0).getDate();
+
+  let html = DOW_LABELS.map(d => `<div class="cal-dow">${d}</div>`).join('');
+
+  const isCurrentMonthView = viewYear === today.getFullYear() && viewMonth === today.getMonth() + 1;
+
+  // Prev month filler
+  for (let i = monFirst - 1; i >= 0; i--) {
+    html += `<div class="cal-cell other-month"><div class="cal-day">${daysInPrev - i}</div></div>`;
+  }
+
+  // Current month
+  for (let d = 1; d <= daysInM; d++) {
+    const isToday   = isCurrentMonthView && d === today.getDate();
+    const bdays     = birthdayMap[d] || [];
+    const hasBday   = bdays.length > 0;
+    let cls = 'cal-cell';
+    if (isToday)   cls += ' today';
+    if (hasBday)   cls += ' has-birthday';
+
+    let inner = `<div class="cal-day">${d}${isToday ? '<span class="today-badge">Bugün</span>' : ''}</div>`;
+    if (hasBday) {
+      inner += '<div class="cal-dots">';
+      for (const b of bdays.slice(0, 4)) {
+        const col = GEN_COLORS[b.person.gen] || '#37474f';
+        inner += `<div class="cal-dot" style="background:${col}" title="${esc(b.person.name)}"></div>`;
+      }
+      if (bdays.length > 4) inner += `<div style="font-size:9px;color:#445">+${bdays.length-4}</div>`;
+      inner += '</div>';
+      // Show first name on desktop (hidden on mobile via CSS)
+      inner += `<div class="cal-name">${esc(bdays[0].person.name.split(' ')[0])}${bdays.length > 1 ? ` +${bdays.length-1}` : ''}</div>`;
+    }
+    html += `<div class="${cls}" onclick="scrollToBirthday(${d})">${inner}</div>`;
+  }
+
+  // Next month filler
+  const total = monFirst + daysInM;
+  const remaining = total % 7 === 0 ? 0 : 7 - (total % 7);
+  for (let d = 1; d <= remaining; d++) {
+    html += `<div class="cal-cell other-month"><div class="cal-day">${d}</div></div>`;
+  }
+
+  grid.innerHTML = html;
+}
+
+function scrollToBirthday(day) {
+  const el = document.getElementById(`bday-day-${day}`);
+  if (el) el.scrollIntoView({ behavior:'smooth', block:'center' });
+}
+
+function renderBirthdayList(birthdays) {
+  const listEl    = document.getElementById('bday-list');
+  const titleEl   = document.getElementById('list-title');
+  const countEl   = document.getElementById('list-count');
+  const isThisMonth = viewYear === today.getFullYear() && viewMonth === today.getMonth() + 1;
+
+  titleEl.textContent = `${TR_MONTHS[viewMonth-1]} Ayı Doğum Günleri`;
+  countEl.textContent = birthdays.length ? `${birthdays.length} kişi` : '';
+
+  if (!birthdays.length) {
+    listEl.innerHTML = '<div class="empty"><div class="icon">🎈</div><div class="text">Bu ayda doğum günü yok</div></div>';
+    return;
+  }
+
+  listEl.innerHTML = birthdays.map(b => {
+    const { person, birth } = b;
+    const isDeceased = !!person.death;
+    const isTodayBday = isThisMonth && birth.d === today.getDate();
+    const a = age(birth.y, person.death);
+    const col = GEN_COLORS[person.gen] || '#37474f';
+    const initial = person.name.charAt(0).toUpperCase();
+
+    let dateStr = birth.d ? `${birth.d} ${TR_MONTHS[birth.mo-1]}` : TR_MONTHS[birth.mo-1];
+    let ageStr  = birth.y ? (isDeceased ? `${birth.y} · ${parseDeath(person.death) - birth.y} yaşında vefat etti` : `${birth.y} · ${a} yaşında`) : '';
+
+    return `<div class="bday-card${isTodayBday ? ' today' : ''}" id="bday-day-${birth.d || ''}">
+      <div class="bday-avatar" style="background:${col}22;color:${col}">${initial}</div>
+      <div class="bday-info">
+        <div class="bday-name${isDeceased ? ' deceased' : ''}">${esc(person.name)}${isDeceased ? ' <span class="deceased-icon">†</span>' : ''}</div>
+        <div class="bday-meta">
+          <span class="bday-date-badge">🎂 ${dateStr}</span>
+          ${person.gen ? `<span class="gen-chip" style="background:${col}">${esc(person.gen)}</span>` : ''}
+          ${ageStr ? `<span class="bday-age">${ageStr}</span>` : ''}
+        </div>
+      </div>
+      ${isTodayBday ? '<span class="today-label">🎉 Bugün!</span>' : ''}
+    </div>`;
+  }).join('');
+}
+
+function renderUpcoming() {
+  const list = document.getElementById('upcoming-list');
+  const upcoming = getUpcoming(30);
+
+  if (!upcoming.length) {
+    list.innerHTML = '<div class="empty" style="padding:24px 0"><div class="text" style="font-size:14px">Önümüzdeki 30 günde doğum günü yok</div></div>';
+    return;
+  }
+
+  list.innerHTML = upcoming.map(({ person, birth, diff, bdayDate }) => {
+    const isToday = diff === 0;
+    const a = birth.y ? `${today.getFullYear() - birth.y} yaşına girecek` : '';
+    const dateLabel = isToday ? 'Bugün! 🎉' : `${birth.d} ${TR_MONTHS[birth.mo-1]}`;
+    return `<div class="upcoming-item${isToday ? ' today' : ''}">
+      <div>
+        <div class="upcoming-day">${birth.d}</div>
+        <div class="upcoming-month">${TR_MONTHS[birth.mo-1].slice(0,3)}</div>
+      </div>
+      <div>
+        <div class="upcoming-name">${esc(person.name)}</div>
+        <div class="upcoming-age">${a}${isToday ? '' : ` · ${diff} gün sonra`}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ════════════════════════════════════════════════════
+   NAVIGATION
+   ════════════════════════════════════════════════════ */
+document.getElementById('cal-prev').addEventListener('click', () => {
+  viewMonth--;
+  if (viewMonth < 1) { viewMonth = 12; viewYear--; }
+  renderAll();
+});
+document.getElementById('cal-next').addEventListener('click', () => {
+  viewMonth++;
+  if (viewMonth > 12) { viewMonth = 1; viewYear++; }
+  renderAll();
+});
+
+/* ════════════════════════════════════════════════════
+   HELPERS
+   ════════════════════════════════════════════════════ */
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+let toastTimer;
+function toast(msg, type) {
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.className = 'show ' + (type||'ok');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 3500);
+}
+</script>
+</body>
+</html>
