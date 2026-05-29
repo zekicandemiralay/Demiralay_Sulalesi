@@ -418,10 +418,14 @@ document.addEventListener('click', () => {
    ════════════════════════════════════════════════════ */
 async function loadAlbums() {
   try {
-    const snap = await db.collection('albums').orderBy('createdAt', 'desc').get();
+    const snap = await db.collection('albums').get();
+    albums = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    albums.sort((a, b) => (b.createdAt?.toMillis?.() || 0) - (a.createdAt?.toMillis?.() || 0));
+  } catch (e) {
+    console.error('loadAlbums:', e);
     albums = [];
-    snap.forEach(d => albums.push({ id: d.id, ...d.data() }));
-  } catch (_) {}
+    toast('Albümler yüklenemedi. Sayfayı yenileyin.', 'err');
+  }
   renderAlbums();
 }
 
@@ -513,18 +517,18 @@ async function openAlbum(id) {
   document.getElementById('photo-grid').innerHTML =
     '<div class="empty" style="grid-column:1/-1"><div class="icon" style="font-size:36px">⏳</div><div class="title">Yükleniyor…</div></div>';
   try {
-    const snap = await db.collection('albums').doc(id).collection('photos')
-      .orderBy('sortDate', 'desc').get();
+    const snap = await db.collection('albums').doc(id).collection('photos').get();
+    photos = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    // Sort by taken date → upload date, newest first. No Firestore index needed.
+    photos.sort((a, b) => {
+      const ta = a.sortDate?.toMillis?.() || a.dateTaken?.toMillis?.() || a.uploadedAt?.toMillis?.() || 0;
+      const tb = b.sortDate?.toMillis?.() || b.dateTaken?.toMillis?.() || b.uploadedAt?.toMillis?.() || 0;
+      return tb - ta;
+    });
+  } catch (e) {
+    console.error('openAlbum photos:', e);
     photos = [];
-    snap.forEach(d => photos.push({ id: d.id, ...d.data() }));
-  } catch (_) {
-    // fallback: older photos may not have sortDate yet
-    try {
-      const snap2 = await db.collection('albums').doc(id).collection('photos')
-        .orderBy('uploadedAt', 'desc').get();
-      photos = [];
-      snap2.forEach(d => photos.push({ id: d.id, ...d.data() }));
-    } catch (e2) { console.error(e2); }
+    toast('Fotoğraflar yüklenemedi: ' + e.message, 'err');
   }
   renderPhotos();
 }
