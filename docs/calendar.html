@@ -94,6 +94,22 @@ header { background:#122340; border-bottom:1px solid #1c3a5c; padding:12px 24px;
 .upcoming-name  { font-size:14px; font-weight:600; color:#ccd; line-height:1.3; }
 .upcoming-age   { font-size:12px; color:#445; margin-top:2px; }
 
+/* ── Hide button ── */
+.btn-hide { background:none; border:1px solid #2a3d4f; border-radius:6px; color:#445; cursor:pointer; padding:5px 10px; font-size:12px; white-space:nowrap; transition:background .15s,color .15s,border-color .15s; }
+.btn-hide:hover { background:#7f2a2a; border-color:#7f2a2a; color:#f99; }
+/* ── Hidden section ── */
+.hidden-section { margin-top:32px; border-top:1px solid #1c3a5c; padding-top:20px; }
+.hidden-toggle { background:none; border:none; color:#445; cursor:pointer; font-size:14px; display:flex; align-items:center; gap:8px; padding:0; }
+.hidden-toggle:hover { color:#bbc; }
+.hidden-toggle .arrow { font-size:11px; transition:transform .2s; }
+.hidden-toggle.open .arrow { transform:rotate(90deg); }
+.hidden-list { margin-top:14px; display:flex; flex-direction:column; gap:8px; }
+.hidden-card { background:#0f1e2d; border:1px solid #1c3a5c; border-radius:9px; padding:12px 14px; display:flex; align-items:center; gap:12px; }
+.hidden-card .hc-info { flex:1; min-width:0; }
+.hidden-card .hc-name { font-size:14px; color:#556; }
+.hidden-card .hc-meta { font-size:11px; color:#334; margin-top:2px; }
+.btn-unhide { background:#172f4a; border:1px solid #1c3a5c; border-radius:6px; color:#6a9; cursor:pointer; padding:6px 12px; font-size:12px; white-space:nowrap; transition:background .15s; }
+.btn-unhide:hover { background:#1c3a5c; color:#81c784; }
 /* ── Empty ── */
 .empty { text-align:center; padding:48px 20px; color:#334; }
 .empty .icon { font-size:40px; margin-bottom:14px; }
@@ -190,6 +206,15 @@ header { background:#122340; border-bottom:1px solid #1c3a5c; padding:12px 24px;
       </div>
     </div>
   </div>
+
+  <!-- Hidden birthdays — admin only -->
+  <div id="hidden-section" class="hidden-section" style="display:none">
+    <button class="hidden-toggle" id="hidden-toggle">
+      <span class="arrow">›</span>
+      <span id="hidden-toggle-label">Gizlenen Doğum Günleri</span>
+    </button>
+    <div id="hidden-list" class="hidden-list" style="display:none"></div>
+  </div>
 </div>
 
 <div id="toast"></div>
@@ -197,6 +222,7 @@ header { background:#122340; border-bottom:1px solid #1c3a5c; padding:12px 24px;
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 <script src="admin/firebase-config.js"></script>
 <script src="config.js"></script>
 <script>
@@ -212,7 +238,9 @@ const GEN_COLORS   = {'Kök':'#8d6e63','Nesil 1':'#1976d2','Nesil 2':'#2e7d32','
 /* ════════════════════════════════════════════════════
    STATE
    ════════════════════════════════════════════════════ */
-let auth, people = [];
+let auth, db, people = [];
+let currentRole = 'editor';
+let hiddenIds   = new Set(); // set of person IDs hidden from calendar
 const today = new Date();
 let viewYear  = today.getFullYear();
 let viewMonth = today.getMonth() + 1; // 1-indexed
@@ -226,6 +254,7 @@ if (!window.FIREBASE_CONFIG || FIREBASE_CONFIG.apiKey === 'YOUR_API_KEY') {
 } else {
   firebase.initializeApp(FIREBASE_CONFIG);
   auth = firebase.auth();
+  db   = firebase.firestore();
 
   auth.onAuthStateChanged(async user => {
     const elLoad  = document.getElementById('auth-loading');
@@ -239,19 +268,34 @@ if (!window.FIREBASE_CONFIG || FIREBASE_CONFIG.apiKey === 'YOUR_API_KEY') {
       return;
     }
 
-    // Get display name
+    // Load user role + hidden IDs
     let username = user.email.replace(FAKE_DOMAIN, '');
     try {
-      const doc = await firebase.firestore ? null : null; // auth only on this page
+      const userDoc = await db.collection('users').doc(user.uid).get();
+      if (userDoc.exists) {
+        currentRole = userDoc.data().role || 'editor';
+        username    = userDoc.data().username || username;
+      }
     } catch (_) {}
+
+    try {
+      const snap = await db.collection('calendarHidden').get();
+      hiddenIds = new Set(snap.docs.map(d => d.id));
+    } catch (_) {}
+
     document.getElementById('h-username').textContent = username;
 
     elLoad.style.display  = 'none';
     elLogin.style.display = 'none';
     elApp.style.display   = 'block';
 
+    if (currentRole === 'admin') {
+      document.getElementById('hidden-section').style.display = 'block';
+    }
+
     await loadPeople();
     renderAll();
+    if (currentRole === 'admin') renderHiddenSection();
   });
 }
 
@@ -399,6 +443,7 @@ function parseDeath(str) {
 function getBirthdaysInMonth(year, month) {
   const result = [];
   for (const p of people) {
+    if (hiddenIds.has(p.id)) continue;
     const b = parseBirth(p.birth);
     if (!b || !b.mo) continue;
     if (b.mo !== month) continue;
@@ -412,6 +457,7 @@ function getUpcoming(days) {
   const result = [];
   const now = new Date(today.getFullYear(), today.getMonth(), today.getDate());
   for (const p of people) {
+    if (hiddenIds.has(p.id)) continue;
     const b = parseBirth(p.birth);
     if (!b || !b.mo || !b.d) continue;
     // Birthday this year or next
@@ -535,6 +581,7 @@ function renderBirthdayList(birthdays) {
         </div>
       </div>
       ${isTodayBday ? '<span class="today-label">🎉 Bugün!</span>' : ''}
+      ${currentRole === 'admin' ? `<button class="btn-hide" onclick="hideFromCalendar('${esc(person.id)}','${esc(person.name)}')" title="Takvimden gizle">Gizle</button>` : ''}
     </div>`;
   }).join('');
 }
@@ -564,6 +611,80 @@ function renderUpcoming() {
     </div>`;
   }).join('');
 }
+
+/* ════════════════════════════════════════════════════
+   HIDE / UNHIDE (admin only)
+   ════════════════════════════════════════════════════ */
+async function hideFromCalendar(personId, personName) {
+  if (!confirm(`"${personName}" kişisini takvimden gizlemek istediğinizden emin misiniz?\n\nGizlenen doğum günleri listesinden geri ekleyebilirsiniz.`)) return;
+  try {
+    await db.collection('calendarHidden').doc(personId).set({
+      name:     personName,
+      hiddenAt: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+    hiddenIds.add(personId);
+    renderAll();
+    renderHiddenSection();
+    toast(`"${personName}" takvimden gizlendi`, 'ok');
+  } catch (e) { toast(e.message, 'err'); }
+}
+
+async function unhideFromCalendar(personId, personName) {
+  try {
+    await db.collection('calendarHidden').doc(personId).delete();
+    hiddenIds.delete(personId);
+    renderAll();
+    renderHiddenSection();
+    toast(`"${personName}" takvime geri eklendi`, 'ok');
+  } catch (e) { toast(e.message, 'err'); }
+}
+
+function renderHiddenSection() {
+  const label = document.getElementById('hidden-toggle-label');
+  const list  = document.getElementById('hidden-list');
+
+  if (!hiddenIds.size) {
+    label.textContent = 'Gizlenen Doğum Günleri (yok)';
+    list.innerHTML    = '<div style="color:#334;font-size:13px;padding:8px 0">Gizlenen doğum günü bulunmuyor.</div>';
+    return;
+  }
+
+  label.textContent = `Gizlenen Doğum Günleri (${hiddenIds.size})`;
+
+  // Build list from hidden IDs + names from Firestore (or people array as fallback)
+  const items = [];
+  for (const id of hiddenIds) {
+    const person = people.find(p => p.id === id);
+    const name   = person?.name || id;
+    const birth  = person ? parseBirth(person.birth) : null;
+    const dateStr = birth
+      ? (birth.d && birth.mo ? `${birth.d} ${TR_MONTHS[birth.mo-1]}` : birth.mo ? TR_MONTHS[birth.mo-1] : birth.y ? String(birth.y) : '')
+      : '';
+    items.push({ id, name, dateStr, gen: person?.gen || '' });
+  }
+  items.sort((a, b) => a.name.localeCompare(b.name, 'tr'));
+
+  list.innerHTML = items.map(({ id, name, dateStr, gen }) => {
+    const col = GEN_COLORS[gen] || '#37474f';
+    return `<div class="hidden-card">
+      <div class="bday-avatar" style="background:${col}22;color:${col};width:36px;height:36px;font-size:14px;flex-shrink:0">${esc(name.charAt(0))}</div>
+      <div class="hc-info">
+        <div class="hc-name">${esc(name)}</div>
+        <div class="hc-meta">${dateStr ? '🎂 ' + dateStr : 'Tarih bilinmiyor'}</div>
+      </div>
+      <button class="btn-unhide" onclick="unhideFromCalendar('${esc(id)}','${esc(name)}')">Geri Ekle</button>
+    </div>`;
+  }).join('');
+}
+
+// Toggle hidden section visibility
+document.getElementById('hidden-toggle').addEventListener('click', function() {
+  const list = document.getElementById('hidden-list');
+  const open = list.style.display === 'none';
+  list.style.display = open ? 'flex' : 'none';
+  list.style.flexDirection = 'column';
+  this.classList.toggle('open', open);
+});
 
 /* ════════════════════════════════════════════════════
    NAVIGATION
