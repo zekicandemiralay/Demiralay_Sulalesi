@@ -703,10 +703,23 @@ async function init() {
 
 function navigateToPerson(targetId) {
   if (!root) return;
-  const target = root.descendants().find(d => d.data.id === targetId);
+
+  // Must search ALL nodes — root.descendants() only returns visible ones,
+  // but the target may be hidden deep inside _children chains.
+  function findNode(node, id) {
+    if (node.data.id === id) return node;
+    for (const child of [...(node.children || []), ...(node._children || [])]) {
+      const found = findNode(child, id);
+      if (found) return found;
+    }
+    return null;
+  }
+
+  const target = findNode(root, targetId);
   if (!target) { fitView(); return; }
 
-  // Expand every ancestor so the node is visible
+  // Expand every ancestor (from target up to root) so the node becomes visible.
+  // ancestors() returns [target, parent, grandparent, ..., root] even for hidden nodes.
   target.ancestors().forEach(anc => {
     if (anc._children) { anc.children = anc._children; anc._children = null; }
   });
@@ -715,11 +728,10 @@ function navigateToPerson(targetId) {
   selNode = target;
   update(root);
 
-  // Show detail or minibar depending on screen size
   if (window.innerWidth <= 768) showMinibar(target);
   else showPanel(target);
 
-  // Pan & zoom to the node
+  // Pan & zoom after the tree transition settles (350ms) + panel open (250ms)
   setTimeout(() => {
     const pos = posMap.get(targetId);
     if (!pos) return;
@@ -727,11 +739,11 @@ function navigateToPerson(targetId) {
     const W = svgEl.clientWidth || 900;
     const H = svgEl.clientHeight || 600;
     const scale = 2;
-    const tx = W / 2 - pos.sx * scale;
-    const ty = H / 2 - pos.sy * scale;
     svg.transition().duration(700)
-       .call(zoomBeh.transform, d3.zoomIdentity.translate(tx, ty).scale(scale));
-  }, 380);
+       .call(zoomBeh.transform, d3.zoomIdentity
+         .translate(W / 2 - pos.sx * scale, H / 2 - pos.sy * scale)
+         .scale(scale));
+  }, 420);
 }
 
 init();
