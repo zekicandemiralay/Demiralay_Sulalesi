@@ -34,10 +34,20 @@ body { font-family:'Segoe UI',system-ui,sans-serif; background:#0d1b2a; color:#d
 .btn-lg { padding:14px 30px; font-size:16px; border-radius:10px; font-weight:600; }
 
 /* ── Header ── */
-header { background:#122340; border-bottom:1px solid #1c3a5c; padding:12px 24px; display:flex; align-items:center; gap:12px; position:sticky; top:0; z-index:50; flex-wrap:wrap; gap:10px; }
+header { background:#122340; border-bottom:1px solid #1c3a5c; padding:12px 24px; display:flex; align-items:center; gap:12px; position:sticky; top:0; z-index:50; flex-wrap:wrap; }
 .h-logo { font-size:16px; font-weight:700; color:#d4a843; }
-.h-right { margin-left:auto; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
-.h-username { font-size:13px; color:#445; }
+.h-right { margin-left:auto; display:flex; align-items:center; gap:10px; }
+/* ── Profile dropdown ── */
+.profile-wrap { position:relative; }
+.profile-btn { background:none; border:1px solid #1c3a5c; border-radius:8px; color:#bbc; cursor:pointer; padding:7px 14px; font-size:13px; display:flex; align-items:center; gap:7px; transition:background .15s,color .15s; }
+.profile-btn:hover { background:#1c3a5c; color:#fff; }
+.profile-btn .arrow { font-size:10px; color:#445; transition:transform .15s; }
+.profile-btn.open .arrow { transform:rotate(180deg); }
+.profile-drop { position:absolute; top:calc(100% + 8px); right:0; background:#122340; border:1px solid #1c3a5c; border-radius:10px; min-width:170px; padding:6px; box-shadow:0 8px 28px rgba(0,0,0,.55); display:none; z-index:100; }
+.profile-drop.open { display:block; }
+.profile-drop .pd-item { width:100%; text-align:left; padding:11px 15px; border-radius:7px; background:none; border:none; color:#bbc; cursor:pointer; font-size:14px; display:flex; align-items:center; gap:8px; }
+.profile-drop .pd-item:hover { background:#1c3a5c; color:#fff; }
+.profile-drop .pd-sep { border:none; border-top:1px solid #1c3a5c; margin:4px 0; }
 
 /* ── Page ── */
 .page { padding:28px 24px; max-width:1300px; margin:0 auto; }
@@ -176,9 +186,16 @@ header { background:#122340; border-bottom:1px solid #1c3a5c; padding:12px 24px;
   <header>
     <span class="h-logo">📷 Demiralay Fotoğrafları</span>
     <div class="h-right">
-      <span class="h-username" id="h-username"></span>
       <a href="index.html" class="btn" style="font-size:13px;padding:7px 14px">🌳 Ağaç</a>
-      <button class="btn" id="btn-logout" style="font-size:13px;padding:7px 14px">Çıkış Yap</button>
+      <div class="profile-wrap">
+        <button class="profile-btn" id="profile-btn">
+          👤 <span id="h-username"></span>
+          <span class="arrow">▾</span>
+        </button>
+        <div class="profile-drop" id="profile-drop">
+          <button class="pd-item" id="btn-logout">🚪 Çıkış Yap</button>
+        </div>
+      </div>
     </div>
   </header>
 
@@ -322,11 +339,19 @@ if (!window.FIREBASE_CONFIG || FIREBASE_CONFIG.apiKey === 'YOUR_API_KEY') {
   storage = firebase.storage();
 
   auth.onAuthStateChanged(async user => {
-    document.getElementById('auth-loading').style.display = 'none';
+    // Always update all three elements so no state gets "stuck"
+    const elLoading = document.getElementById('auth-loading');
+    const elLogin   = document.getElementById('login-screen');
+    const elApp     = document.getElementById('app');
+
     if (!user) {
-      document.getElementById('login-screen').style.display = 'flex';
+      elLoading.style.display = 'none';
+      elApp.style.display     = 'none';
+      elLogin.style.display   = 'flex';
       return;
     }
+
+    // Authenticated — fetch user role before showing anything
     currentUser = user;
     try {
       const doc = await db.collection('users').doc(user.uid).get();
@@ -334,11 +359,14 @@ if (!window.FIREBASE_CONFIG || FIREBASE_CONFIG.apiKey === 'YOUR_API_KEY') {
       currentUsername = doc.exists ? (doc.data().username || user.email.replace(FAKE_DOMAIN, '')) : user.email.replace(FAKE_DOMAIN, '');
     } catch (_) {}
 
+    elLoading.style.display = 'none';
+    elLogin.style.display   = 'none';
+    elApp.style.display     = 'block';
+
     document.getElementById('h-username').textContent = currentUsername;
     if (currentRole === 'admin') {
       document.querySelectorAll('.admin-only').forEach(el => el.style.display = '');
     }
-    document.getElementById('app').style.display = 'block';
     await loadAlbums();
   });
 }
@@ -370,6 +398,19 @@ document.addEventListener('keydown', e => {
 });
 
 document.getElementById('btn-logout').addEventListener('click', () => auth.signOut());
+
+/* Profile dropdown */
+const profileBtn  = document.getElementById('profile-btn');
+const profileDrop = document.getElementById('profile-drop');
+profileBtn.addEventListener('click', e => {
+  e.stopPropagation();
+  const open = profileDrop.classList.toggle('open');
+  profileBtn.classList.toggle('open', open);
+});
+document.addEventListener('click', () => {
+  profileDrop.classList.remove('open');
+  profileBtn.classList.remove('open');
+});
 
 /* ════════════════════════════════════════════════════
    ALBUMS
