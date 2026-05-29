@@ -8,143 +8,115 @@
 * { margin:0; padding:0; box-sizing:border-box; }
 body {
   font-family:'Segoe UI',system-ui,sans-serif;
-  background:#0d1b2a;
-  color:#dde;
+  background:#0d1b2a; color:#dde;
   min-height:100vh;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  padding:32px 16px;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  padding:40px 20px;
 }
-.title {
-  font-size:30px;
-  font-weight:700;
-  color:#d4a843;
-  text-align:center;
-  margin-bottom:6px;
-  letter-spacing:-.3px;
-}
-.subtitle {
-  font-size:14px;
-  color:#445;
-  text-align:center;
-  margin-bottom:40px;
-}
+.hero { text-align:center; margin-bottom:44px; }
+.hero-title { font-size:34px; font-weight:700; color:#d4a843; letter-spacing:-.3px; margin-bottom:8px; }
+.hero-sub   { font-size:15px; color:#445; }
+
 .cards {
-  display:flex;
-  gap:20px;
-  flex-wrap:wrap;
-  justify-content:center;
+  display:grid;
+  grid-template-columns:repeat(2, 1fr);
+  gap:16px;
+  width:100%; max-width:700px;
 }
 .card {
-  background:#122340;
-  border:1px solid #1c3a5c;
-  border-radius:12px;
-  padding:26px 30px;
-  text-decoration:none;
-  color:inherit;
-  width:290px;
-  transition:border-color .2s, transform .15s, box-shadow .2s;
+  background:#122340; border:1px solid #1c3a5c;
+  border-radius:14px; padding:26px 22px;
+  text-decoration:none; color:inherit;
+  display:flex; flex-direction:column;
+  transition:border-color .2s, transform .2s, box-shadow .2s;
+  -webkit-tap-highlight-color:transparent;
 }
-.card:hover {
-  border-color:#d4a843;
-  transform:translateY(-3px);
-  box-shadow:0 8px 24px rgba(0,0,0,.35);
+.card:hover  { border-color:#d4a843; transform:translateY(-3px); box-shadow:0 10px 28px rgba(0,0,0,.4); }
+.card:active { transform:translateY(0); box-shadow:none; }
+.card-icon   { font-size:34px; margin-bottom:13px; }
+.card-title  { font-size:17px; font-weight:700; color:#d4a843; margin-bottom:8px; }
+.card-desc   { font-size:13px; color:#556; line-height:1.65; flex:1; }
+.card-badge  {
+  display:inline-block; margin-top:16px;
+  padding:3px 10px; border-radius:10px;
+  background:#0d1b2a; color:#445;
+  font-size:11px; border:1px solid #1c3a5c;
+  align-self:flex-start; white-space:nowrap;
 }
-.card-icon { font-size:28px; margin-bottom:12px; }
-.card-title { font-size:15px; font-weight:700; color:#d4a843; margin-bottom:8px; }
-.card-desc { font-size:12.5px; color:#667; line-height:1.65; }
-.card-badge {
-  display:inline-block;
-  margin-top:16px;
-  padding:3px 10px;
-  border-radius:10px;
-  background:#0d1b2a;
-  color:#778;
-  font-size:11px;
-  border:1px solid #1c3a5c;
-}
+.card-admin  { border-style:dashed; opacity:.75; }
+
 .notice {
-  margin-top:32px;
-  background:#1a1020;
-  border:1px solid #8b4513;
-  border-radius:8px;
-  padding:14px 20px;
-  max-width:580px;
-  font-size:13px;
-  color:#c87;
-  line-height:1.6;
+  margin-top:28px; width:100%; max-width:700px;
+  background:#1a1020; border:1px solid #8b4513;
+  border-radius:8px; padding:14px 20px;
+  font-size:13px; color:#c87; line-height:1.6;
   display:none;
 }
-.notice code {
-  background:#0d1b2a;
-  padding:1px 6px;
-  border-radius:4px;
-  font-size:12px;
-  color:#e8a;
-}
-.footer {
-  margin-top:44px;
-  color:#334;
-  font-size:11px;
-  text-align:center;
-  line-height:1.8;
+.notice code { background:#0d1b2a; padding:1px 6px; border-radius:4px; font-size:12px; color:#e8a; }
+.footer { margin-top:40px; color:#223; font-size:12px; text-align:center; line-height:1.8; }
+
+/* ── Mobile ── */
+@media (max-width:520px) {
+  body { padding:32px 16px; justify-content:flex-start; padding-top:48px; }
+  .hero { margin-bottom:32px; }
+  .hero-title { font-size:26px; }
+  .hero-sub   { font-size:14px; }
+  .cards { grid-template-columns:1fr; gap:12px; }
+  .card { padding:22px 18px; flex-direction:row; align-items:flex-start; gap:16px; }
+  .card-icon { font-size:28px; margin-bottom:0; flex-shrink:0; margin-top:2px; }
+  .card-badge { display:none; }
 }
 </style>
 </head>
 <body>
 
-<div class="title">🌿 Demiralay Sülalesi</div>
-<div class="subtitle">Şecere Haritası — Online Versiyon</div>
+<div class="hero">
+  <div class="hero-title">🌿 Demiralay Sülalesi</div>
+  <div class="hero-sub">Şecere Haritası</div>
+</div>
 
 <div class="cards">
   <a class="card" href="v2.html">
     <div class="card-icon">🌲</div>
-    <div class="card-title">V2 — Yatay Ağaç</div>
-    <div class="card-desc">
-      Hiyerarşik yatay ağaç görünümü. Dalları açıp kapatabilir,
-      kişilere tıklayarak detaylara ulaşabilir, isim arayabilirsiniz.
+    <div>
+      <div class="card-title">Yatay Ağaç</div>
+      <div class="card-desc">Hiyerarşik ağaç görünümü. Dalları açıp kapatabilir, kişi detaylarına ulaşabilirsiniz.</div>
+      <span class="card-badge">İnteraktif · Dallar</span>
     </div>
-    <span class="card-badge">D3.js · İnteraktif · Dallar</span>
   </a>
   <a class="card" href="v3.html">
     <div class="card-icon">🔵</div>
-    <div class="card-title">V3 — Dairesel Harita</div>
-    <div class="card-desc">
-      Tüm sülaleyi tek bir dairesel haritada gösterir. Baskı çıktısıyla
-      aynı görünüm, yakınlaştırma ve kişi detaylarıyla birlikte.
+    <div>
+      <div class="card-title">Dairesel Harita</div>
+      <div class="card-desc">Tüm sülaleyi tek bir dairesel haritada görüntüleyin. Yakınlaştırma destekli.</div>
+      <span class="card-badge">Radyal · Tam Görünüm</span>
     </div>
-    <span class="card-badge">D3.js · İnteraktif · Radyal</span>
   </a>
   <a class="card" href="photos.html">
     <div class="card-icon">📷</div>
-    <div class="card-title">Fotoğraf Albümü</div>
-    <div class="card-desc">
-      Aile fotoğraflarını albümler halinde görüntüleyin. Giriş yaparak fotoğraf ekleyebilirsiniz.
+    <div>
+      <div class="card-title">Fotoğraf Albümü</div>
+      <div class="card-desc">Aile fotoğraflarını albümler halinde görüntüleyin. Giriş yaparak fotoğraf ekleyebilirsiniz.</div>
+      <span class="card-badge">Giriş Gerekli</span>
     </div>
-    <span class="card-badge">Giriş Gerekli · Firebase</span>
   </a>
-  <a class="card" href="admin/login.html" style="width:290px;border-style:dashed;opacity:.7">
+  <a class="card card-admin" href="admin/login.html">
     <div class="card-icon">🔐</div>
-    <div class="card-title">Yönetim Paneli</div>
-    <div class="card-desc">
-      Kişi ekle, düzenle, sil. Giriş yapmanız gerekir.
+    <div>
+      <div class="card-title">Yönetim Paneli</div>
+      <div class="card-desc">Aile ağacını düzenleyin. Yönetici girişi gerektirir.</div>
+      <span class="card-badge">Admin</span>
     </div>
-    <span class="card-badge">Admin · Firebase</span>
   </a>
 </div>
 
 <div class="notice" id="notice">
   ⚠️ <strong>Kurulum gerekli:</strong> Google Sheets henüz bağlanmamış.<br>
-  <code>docs/config.js</code> dosyasındaki <code>SHEET_ID</code> değerini
-  kendi tablonuzun ID'siyle doldurup GitHub'a yükleyin.
+  <code>docs/config.js</code> dosyasındaki <code>SHEET_ID</code> değerini kendi tablonuzun ID'siyle doldurun.
 </div>
 
-<div class="footer">
-  Veri kaynağı: Google Sheets — Her ziyarette otomatik güncellenir.<br>
-  Görselleştirme güncellemeleri için sayfa yenilemeniz yeterlidir.
-</div>
+<div class="footer">Demiralay Ailesi</div>
 
 <script src="config.js"></script>
 <script>
