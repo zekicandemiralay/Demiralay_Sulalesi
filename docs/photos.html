@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Demiralay Sülalesi — Fotoğraflar</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Segoe UI',system-ui,sans-serif; background:#0d1b2a; color:#dde; min-height:100vh; }
+
+/* ── Loading ── */
+#auth-loading { position:fixed; inset:0; background:#0d1b2a; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; z-index:999; }
+#auth-loading .icon { font-size:40px; }
+#auth-loading .text { color:#445; font-size:15px; }
+
+/* ── Login ── */
+#login-screen { display:none; min-height:100vh; align-items:center; justify-content:center; padding:20px; }
+.login-card { background:#122340; border:1px solid #1c3a5c; border-radius:14px; padding:42px 46px; width:420px; max-width:100%; }
+.login-logo { font-size:24px; font-weight:700; color:#d4a843; text-align:center; margin-bottom:6px; }
+.login-sub  { color:#445; text-align:center; font-size:14px; margin-bottom:34px; }
+.inp { width:100%; padding:12px 16px; border-radius:8px; border:1px solid #1c3a5c; background:#0d1b2a; color:#dde; font-size:15px; outline:none; margin-bottom:18px; transition:border-color .2s; }
+.inp:focus { border-color:#d4a843; }
+.inp-label { display:block; font-size:12px; color:#445; text-transform:uppercase; letter-spacing:.5px; margin-bottom:7px; }
+.err-box { color:#f88; font-size:13px; background:rgba(200,50,50,.12); border:1px solid rgba(200,50,50,.3); border-radius:7px; padding:10px 14px; margin-bottom:16px; display:none; line-height:1.5; }
+
+/* ── Buttons ── */
+.btn { padding:10px 20px; border-radius:8px; border:1px solid #1c3a5c; background:#172f4a; color:#bbc; cursor:pointer; font-size:14px; white-space:nowrap; transition:background .15s,color .15s; text-decoration:none; display:inline-flex; align-items:center; gap:7px; }
+.btn:hover { background:#1c3a5c; color:#fff; }
+.btn:disabled { opacity:.4; cursor:default; }
+.btn-primary { background:#d4a843; color:#0d1b2a; border-color:#d4a843; font-weight:700; }
+.btn-primary:hover { opacity:.88; }
+.btn-danger  { border-color:#7f2a2a; color:#e57373; }
+.btn-danger:hover  { background:#7f2a2a; color:#fff; }
+.btn-lg { padding:14px 30px; font-size:16px; border-radius:10px; font-weight:600; }
+
+/* ── Header ── */
+header { background:#122340; border-bottom:1px solid #1c3a5c; padding:12px 24px; display:flex; align-items:center; gap:12px; position:sticky; top:0; z-index:50; flex-wrap:wrap; gap:10px; }
+.h-logo { font-size:16px; font-weight:700; color:#d4a843; }
+.h-right { margin-left:auto; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+.h-username { font-size:13px; color:#445; }
+
+/* ── Page ── */
+.page { padding:28px 24px; max-width:1300px; margin:0 auto; }
+.page-header { display:flex; align-items:center; gap:14px; margin-bottom:28px; flex-wrap:wrap; }
+.page-title { font-size:22px; font-weight:700; color:#d4a843; }
+.page-actions { margin-left:auto; display:flex; gap:10px; flex-wrap:wrap; }
+.back-btn { background:none; border:none; color:#445; font-size:15px; cursor:pointer; padding:8px 0; display:flex; align-items:center; gap:6px; }
+.back-btn:hover { color:#bbc; }
+
+/* ── Album grid ── */
+.album-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:20px; }
+.album-card { background:#122340; border:1px solid #1c3a5c; border-radius:12px; overflow:hidden; cursor:pointer; transition:border-color .2s,transform .15s,box-shadow .2s; }
+.album-card:hover { border-color:#d4a843; transform:translateY(-4px); box-shadow:0 10px 28px rgba(0,0,0,.45); }
+.album-cover { width:100%; aspect-ratio:4/3; background:#0b1620; display:flex; align-items:center; justify-content:center; font-size:52px; color:#1c3a5c; overflow:hidden; }
+.album-cover img { width:100%; height:100%; object-fit:cover; }
+.album-info { padding:16px 18px; }
+.album-name { font-size:17px; font-weight:700; color:#dde; margin-bottom:4px; }
+.album-meta { font-size:13px; color:#445; }
+
+/* ── Photo grid ── */
+.photo-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:10px; }
+.photo-card { position:relative; aspect-ratio:1; border-radius:10px; overflow:hidden; cursor:pointer; background:#122340; transition:transform .15s,box-shadow .15s; }
+.photo-card:hover { transform:scale(1.04); box-shadow:0 8px 24px rgba(0,0,0,.55); }
+.photo-card img { width:100%; height:100%; object-fit:cover; display:block; }
+.photo-placeholder { width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:#1c3a5c; font-size:40px; }
+.del-btn { position:absolute; top:8px; right:8px; background:rgba(0,0,0,.75); border:none; border-radius:50%; width:38px; height:38px; display:none; align-items:center; justify-content:center; cursor:pointer; font-size:17px; transition:background .15s; }
+.photo-card:hover .del-btn { display:flex; }
+.del-btn:hover { background:rgba(180,30,30,.9); }
+
+/* ── Upload zone ── */
+.upload-zone { border:2px dashed #1c3a5c; border-radius:12px; padding:52px 24px; text-align:center; cursor:pointer; transition:border-color .2s,background .2s; margin-bottom:20px; }
+.upload-zone:hover, .upload-zone.drag { border-color:#d4a843; background:rgba(212,168,67,.06); }
+.upload-zone-icon { font-size:52px; margin-bottom:16px; }
+.upload-zone-text { font-size:17px; color:#bbc; margin-bottom:7px; font-weight:500; }
+.upload-zone-sub  { font-size:14px; color:#445; }
+.upload-list { display:flex; flex-direction:column; gap:10px; margin-top:16px; }
+.upload-item { display:flex; align-items:center; gap:14px; padding:12px 14px; background:#0d1b2a; border-radius:10px; }
+.upload-thumb { width:52px; height:52px; border-radius:8px; object-fit:cover; flex-shrink:0; background:#122340; display:flex; align-items:center; justify-content:center; font-size:20px; overflow:hidden; }
+.upload-thumb img { width:100%; height:100%; object-fit:cover; }
+.upload-info { flex:1; min-width:0; }
+.upload-fname { font-size:13px; color:#bbc; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-bottom:6px; }
+.upload-bar-bg { height:5px; background:#1c3a5c; border-radius:3px; overflow:hidden; }
+.upload-bar-fg { height:100%; background:#d4a843; border-radius:3px; transition:width .25s; }
+.upload-status { font-size:13px; white-space:nowrap; font-weight:600; }
+.upload-status.ok  { color:#81c784; }
+.upload-status.err { color:#e57373; }
+
+/* ── Lightbox ── */
+#lightbox { position:fixed; inset:0; background:rgba(0,0,0,.96); display:none; z-index:300; flex-direction:column; align-items:center; justify-content:center; }
+#lightbox.show { display:flex; }
+.lb-close { position:absolute; top:16px; right:20px; background:rgba(255,255,255,.15); border:none; border-radius:50%; width:52px; height:52px; color:#fff; font-size:24px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .15s; z-index:10; }
+.lb-close:hover { background:rgba(255,255,255,.3); }
+.lb-img-wrap { flex:1; display:flex; align-items:center; justify-content:center; width:100%; padding:16px 88px; min-height:0; }
+.lb-img-wrap img { max-width:100%; max-height:100%; object-fit:contain; border-radius:6px; user-select:none; }
+.lb-nav { position:absolute; top:50%; transform:translateY(-50%); background:rgba(255,255,255,.15); border:none; border-radius:50%; width:60px; height:60px; color:#fff; font-size:30px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .15s; }
+.lb-nav:hover { background:rgba(255,255,255,.3); }
+.lb-nav:disabled { opacity:.18; cursor:default; pointer-events:none; }
+#lb-prev { left:16px; }
+#lb-next { right:16px; }
+.lb-bottom { padding:14px 24px 22px; text-align:center; width:100%; }
+.lb-caption { font-size:16px; color:#ccd; margin-bottom:5px; }
+.lb-uploader { font-size:13px; color:#445; }
+.lb-counter { font-size:13px; color:#334; margin-top:6px; }
+
+/* ── Modals ── */
+.modal-back { position:fixed; inset:0; background:rgba(0,0,0,.7); display:none; align-items:center; justify-content:center; z-index:200; padding:16px; }
+.modal-back.show { display:flex; }
+.modal-box { background:#122340; border:1px solid #1c3a5c; border-radius:14px; width:500px; max-width:100%; max-height:90vh; display:flex; flex-direction:column; }
+.modal-head { padding:18px 22px; border-bottom:1px solid #1c3a5c; display:flex; justify-content:space-between; align-items:center; flex-shrink:0; }
+.modal-head h2 { font-size:18px; font-weight:700; color:#d4a843; }
+.modal-x { background:none; border:none; color:#445; font-size:22px; cursor:pointer; padding:2px 6px; line-height:1; }
+.modal-x:hover { color:#fff; }
+.modal-body { padding:22px; overflow-y:auto; flex:1; }
+.modal-foot { padding:16px 22px; border-top:1px solid #1c3a5c; display:flex; justify-content:flex-end; gap:10px; flex-shrink:0; }
+.field { margin-bottom:18px; }
+.field label { display:block; font-size:12px; color:#445; text-transform:uppercase; letter-spacing:.5px; margin-bottom:7px; }
+.field input, .field textarea { width:100%; padding:11px 14px; border-radius:8px; border:1px solid #1c3a5c; background:#0d1b2a; color:#dde; font-size:14px; outline:none; transition:border-color .2s; font-family:inherit; }
+.field input:focus, .field textarea:focus { border-color:#d4a843; }
+
+/* ── Confirm ── */
+.confirm-thumb { width:100%; max-height:220px; object-fit:cover; border-radius:10px; margin-bottom:18px; display:none; }
+.confirm-msg { font-size:16px; color:#bbc; line-height:1.65; }
+.confirm-warn { margin-top:10px; font-size:14px; color:#e57373; font-weight:600; }
+
+/* ── Empty state ── */
+.empty { text-align:center; padding:64px 20px; color:#334; }
+.empty .icon { font-size:52px; margin-bottom:18px; }
+.empty .title { font-size:18px; color:#445; margin-bottom:8px; }
+.empty .sub   { font-size:14px; color:#334; }
+
+/* ── Toast ── */
+#toast { position:fixed; bottom:28px; right:28px; padding:14px 20px; border-radius:10px; font-size:15px; z-index:500; opacity:0; transition:opacity .25s; pointer-events:none; max-width:340px; line-height:1.45; }
+#toast.show { opacity:1; }
+#toast.ok  { background:#2e7d32; color:#fff; }
+#toast.err { background:#c62828; color:#fff; }
+
+/* ── Responsive ── */
+@media (max-width:640px) {
+  .album-grid  { grid-template-columns:repeat(2,1fr); gap:12px; }
+  .photo-grid  { grid-template-columns:repeat(2,1fr); gap:8px; }
+  .lb-img-wrap { padding:12px 56px; }
+  .lb-nav      { width:46px; height:46px; font-size:24px; }
+  #lb-prev { left:6px; }
+  #lb-next { right:6px; }
+  .page { padding:16px; }
+  .login-card { padding:32px 24px; }
+}
+</style>
+</head>
+<body>
+
+<div id="auth-loading">
+  <div class="icon">📷</div>
+  <div class="text">Yükleniyor…</div>
+</div>
+
+<!-- ── LOGIN ── -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">📷 Demiralay Fotoğrafları</div>
+    <div class="login-sub">Görüntülemek için giriş yapmanız gerekiyor</div>
+    <div class="err-box" id="login-err"></div>
+    <label class="inp-label">Kullanıcı Adı</label>
+    <input class="inp" type="text" id="login-user" placeholder="kullanici_adi" autocomplete="username" spellcheck="false">
+    <label class="inp-label">Şifre</label>
+    <input class="inp" type="password" id="login-pass" placeholder="••••••••" autocomplete="current-password">
+    <button class="btn btn-primary btn-lg" id="btn-login" style="width:100%;justify-content:center">Giriş Yap</button>
+    <div style="text-align:center;margin-top:18px">
+      <a href="index.html" style="color:#334;font-size:14px;text-decoration:none">← Ana Sayfaya Dön</a>
+    </div>
+  </div>
+</div>
+
+<!-- ── MAIN APP ── -->
+<div id="app" style="display:none">
+  <header>
+    <span class="h-logo">📷 Demiralay Fotoğrafları</span>
+    <div class="h-right">
+      <span class="h-username" id="h-username"></span>
+      <a href="index.html" class="btn" style="font-size:13px;padding:7px 14px">🌳 Ağaç</a>
+      <button class="btn" id="btn-logout" style="font-size:13px;padding:7px 14px">Çıkış Yap</button>
+    </div>
+  </header>
+
+  <!-- Albums view -->
+  <div id="view-albums" class="page">
+    <div class="page-header">
+      <div class="page-title">Fotoğraf Albümleri</div>
+      <div class="page-actions">
+        <button class="btn btn-primary admin-only" id="btn-new-album" style="display:none">+ Yeni Albüm</button>
+      </div>
+    </div>
+    <div class="album-grid" id="album-grid">
+      <div class="empty" style="grid-column:1/-1"><div class="icon">⏳</div><div class="title">Yükleniyor…</div></div>
+    </div>
+  </div>
+
+  <!-- Photos view -->
+  <div id="view-photos" class="page" style="display:none">
+    <div class="page-header">
+      <button class="back-btn" id="btn-back">‹ Albümlere Dön</button>
+      <div class="page-title" id="album-title"></div>
+      <div class="page-actions">
+        <button class="btn btn-primary" id="btn-upload">+ Fotoğraf Ekle</button>
+        <button class="btn btn-danger admin-only" id="btn-del-album" style="display:none">Albümü Sil</button>
+      </div>
+    </div>
+    <div class="photo-grid" id="photo-grid"></div>
+  </div>
+</div>
+
+<!-- ── LIGHTBOX ── -->
+<div id="lightbox">
+  <button class="lb-close" id="lb-close">✕</button>
+  <button class="lb-nav" id="lb-prev">‹</button>
+  <div class="lb-img-wrap"><img id="lb-img" src="" alt=""></div>
+  <button class="lb-nav" id="lb-next">›</button>
+  <div class="lb-bottom">
+    <div class="lb-caption"  id="lb-caption"></div>
+    <div class="lb-uploader" id="lb-uploader"></div>
+    <div class="lb-counter"  id="lb-counter"></div>
+  </div>
+</div>
+
+<!-- ── CREATE ALBUM MODAL ── -->
+<div class="modal-back" id="modal-album">
+  <div class="modal-box" style="width:440px">
+    <div class="modal-head">
+      <h2>Yeni Albüm Oluştur</h2>
+      <button class="modal-x" data-close="modal-album">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="field">
+        <label>Albüm Adı *</label>
+        <input type="text" id="alb-name" placeholder="Örn: Düğünler, 1990'lar, Piknikler">
+      </div>
+      <div class="field">
+        <label>Açıklama</label>
+        <input type="text" id="alb-desc" placeholder="İsteğe bağlı">
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn" data-close="modal-album">İptal</button>
+      <button class="btn btn-primary" id="btn-create-album">Oluştur</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── UPLOAD MODAL ── -->
+<div class="modal-back" id="modal-upload">
+  <div class="modal-box" style="width:580px">
+    <div class="modal-head">
+      <h2>Fotoğraf Ekle</h2>
+      <button class="modal-x" id="btn-close-upload">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="upload-zone" id="upload-zone">
+        <div class="upload-zone-icon">📸</div>
+        <div class="upload-zone-text">Fotoğrafları buraya sürükleyin</div>
+        <div class="upload-zone-sub">veya tıklayarak seçin — birden fazla seçebilirsiniz</div>
+        <input type="file" id="file-input" multiple accept="image/*" style="display:none">
+      </div>
+      <div class="upload-list" id="upload-list"></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-primary" id="btn-close-upload2">Tamam</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── CONFIRM DELETE MODAL ── -->
+<div class="modal-back" id="modal-confirm">
+  <div class="modal-box" style="width:400px">
+    <div class="modal-head">
+      <h2 id="confirm-title">Emin misiniz?</h2>
+    </div>
+    <div class="modal-body">
+      <img id="confirm-img" class="confirm-thumb" src="" alt="">
+      <div class="confirm-msg"  id="confirm-msg"></div>
+      <div class="confirm-warn">⚠ Bu işlem geri alınamaz.</div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn" id="btn-conf-no">İptal</button>
+      <button class="btn btn-danger" id="btn-conf-yes">Evet, Sil</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-storage-compat.js"></script>
+<script src="admin/firebase-config.js"></script>
+<script>
+/* ════════════════════════════════════════════════════
+   STATE
+   ════════════════════════════════════════════════════ */
+let db, auth, storage;
+let currentUser     = null;
+let currentRole     = 'editor';
+let currentUsername = '';
+let albums          = [];
+let currentAlbumId  = null;
+let photos          = [];
+let lbIndex         = 0;
+let confirmResolve  = null;
+
+const FAKE_DOMAIN = '@demiralay.local';
+
+/* ════════════════════════════════════════════════════
+   FIREBASE INIT
+   ════════════════════════════════════════════════════ */
+if (!window.FIREBASE_CONFIG || FIREBASE_CONFIG.apiKey === 'YOUR_API_KEY') {
+  document.getElementById('auth-loading').innerHTML =
+    '<div style="text-align:center;padding:40px"><p style="color:#d4a843;font-size:16px;margin-bottom:12px">Firebase yapılandırılmamış</p><a href="index.html" style="color:#445;font-size:14px">← Ana Sayfaya Dön</a></div>';
+} else {
+  firebase.initializeApp(FIREBASE_CONFIG);
+  auth    = firebase.auth();
+  db      = firebase.firestore();
+  storage = firebase.storage();
+
+  auth.onAuthStateChanged(async user => {
+    document.getElementById('auth-loading').style.display = 'none';
+    if (!user) {
+      document.getElementById('login-screen').style.display = 'flex';
+      return;
+    }
+    currentUser = user;
+    try {
+      const doc = await db.collection('users').doc(user.uid).get();
+      currentRole     = doc.exists ? (doc.data().role     || 'editor') : 'editor';
+      currentUsername = doc.exists ? (doc.data().username || user.email.replace(FAKE_DOMAIN, '')) : user.email.replace(FAKE_DOMAIN, '');
+    } catch (_) {}
+
+    document.getElementById('h-username').textContent = currentUsername;
+    if (currentRole === 'admin') {
+      document.querySelectorAll('.admin-only').forEach(el => el.style.display = '');
+    }
+    document.getElementById('app').style.display = 'block';
+    await loadAlbums();
+  });
+}
+
+/* ════════════════════════════════════════════════════
+   LOGIN / LOGOUT
+   ════════════════════════════════════════════════════ */
+document.getElementById('btn-login').addEventListener('click', async () => {
+  const raw  = document.getElementById('login-user').value.trim();
+  const pass = document.getElementById('login-pass').value;
+  const err  = document.getElementById('login-err');
+  const btn  = document.getElementById('btn-login');
+  err.style.display = 'none';
+  btn.disabled = true; btn.textContent = 'Giriş yapılıyor…';
+  try {
+    const email = raw.includes('@') ? raw : raw + FAKE_DOMAIN;
+    await auth.signInWithEmailAndPassword(email, pass);
+  } catch (e) {
+    err.textContent = ['auth/user-not-found','auth/wrong-password','auth/invalid-credential'].includes(e.code)
+      ? 'Kullanıcı adı veya şifre hatalı.' : e.message;
+    err.style.display = 'block';
+    btn.disabled = false; btn.textContent = 'Giriş Yap';
+  }
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && document.getElementById('login-screen').style.display !== 'none')
+    document.getElementById('btn-login').click();
+});
+
+document.getElementById('btn-logout').addEventListener('click', () => auth.signOut());
+
+/* ════════════════════════════════════════════════════
+   ALBUMS
+   ════════════════════════════════════════════════════ */
+async function loadAlbums() {
+  try {
+    const snap = await db.collection('albums').orderBy('createdAt', 'desc').get();
+    albums = [];
+    snap.forEach(d => albums.push({ id: d.id, ...d.data() }));
+  } catch (_) {}
+  renderAlbums();
+}
+
+function renderAlbums() {
+  const grid = document.getElementById('album-grid');
+  if (!albums.length) {
+    grid.innerHTML = `<div class="empty" style="grid-column:1/-1">
+      <div class="icon">📷</div>
+      <div class="title">Henüz albüm yok</div>
+      ${currentRole === 'admin' ? '<div class="sub" style="margin-top:14px"><button class="btn btn-primary" onclick="document.getElementById(\'btn-new-album\').click()">+ İlk Albümü Oluştur</button></div>' : ''}
+    </div>`;
+    return;
+  }
+  grid.innerHTML = albums.map(a => `
+    <div class="album-card" onclick="openAlbum('${esc(a.id)}')">
+      <div class="album-cover">
+        ${a.coverURL ? `<img src="${esc(a.coverURL)}" alt="" loading="lazy">` : '🖼️'}
+      </div>
+      <div class="album-info">
+        <div class="album-name">${esc(a.name)}</div>
+        <div class="album-meta">${a.photoCount || 0} fotoğraf${a.description ? ' · ' + esc(a.description) : ''}</div>
+      </div>
+    </div>`).join('');
+}
+
+/* Create album */
+document.getElementById('btn-new-album').addEventListener('click', () => {
+  document.getElementById('alb-name').value = '';
+  document.getElementById('alb-desc').value = '';
+  openModal('modal-album');
+  setTimeout(() => document.getElementById('alb-name').focus(), 100);
+});
+
+document.getElementById('btn-create-album').addEventListener('click', async () => {
+  const name = document.getElementById('alb-name').value.trim();
+  if (!name) { document.getElementById('alb-name').focus(); return; }
+  const btn = document.getElementById('btn-create-album');
+  btn.disabled = true; btn.textContent = 'Oluşturuluyor…';
+  try {
+    const ref = await db.collection('albums').add({
+      name, description: document.getElementById('alb-desc').value.trim(),
+      photoCount: 0, coverURL: null,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      createdBy: currentUser.uid,
+    });
+    albums.unshift({ id: ref.id, name, description: '', photoCount: 0, coverURL: null });
+    renderAlbums();
+    closeModal('modal-album');
+    toast(`"${name}" oluşturuldu ✓`, 'ok');
+  } catch (e) { toast(e.message, 'err'); }
+  finally { btn.disabled = false; btn.textContent = 'Oluştur'; }
+});
+
+/* Delete album */
+document.getElementById('btn-del-album').addEventListener('click', async () => {
+  const alb = albums.find(a => a.id === currentAlbumId);
+  const ok = await askConfirm(
+    'Albümü silmek istediğinize emin misiniz?',
+    `"${alb?.name}" albümü ve içindeki tüm fotoğraflar kalıcı olarak silinecek.`
+  );
+  if (!ok) return;
+  try {
+    const snap = await db.collection('albums').doc(currentAlbumId).collection('photos').get();
+    for (const doc of snap.docs) {
+      const d = doc.data();
+      await Promise.all([
+        d.fullPath  ? storage.ref(d.fullPath ).delete().catch(() => {}) : Promise.resolve(),
+        d.thumbPath ? storage.ref(d.thumbPath).delete().catch(() => {}) : Promise.resolve(),
+      ]);
+      await doc.ref.delete();
+    }
+    await db.collection('albums').doc(currentAlbumId).delete();
+    albums = albums.filter(a => a.id !== currentAlbumId);
+    goBack();
+    renderAlbums();
+    toast('Albüm silindi', 'ok');
+  } catch (e) { toast(e.message, 'err'); }
+});
+
+/* ════════════════════════════════════════════════════
+   PHOTOS
+   ════════════════════════════════════════════════════ */
+async function openAlbum(id) {
+  currentAlbumId = id;
+  const alb = albums.find(a => a.id === id);
+  document.getElementById('album-title').textContent = alb?.name || '';
+  document.getElementById('view-albums').style.display = 'none';
+  document.getElementById('view-photos').style.display = 'block';
+  document.getElementById('photo-grid').innerHTML =
+    '<div class="empty" style="grid-column:1/-1"><div class="icon" style="font-size:36px">⏳</div><div class="title">Yükleniyor…</div></div>';
+  try {
+    const snap = await db.collection('albums').doc(id).collection('photos')
+      .orderBy('uploadedAt', 'desc').get();
+    photos = [];
+    snap.forEach(d => photos.push({ id: d.id, ...d.data() }));
+  } catch (_) {}
+  renderPhotos();
+}
+
+function goBack() {
+  currentAlbumId = null; photos = [];
+  document.getElementById('view-photos').style.display = 'none';
+  document.getElementById('view-albums').style.display = 'block';
+}
+document.getElementById('btn-back').addEventListener('click', goBack);
+
+function renderPhotos() {
+  const grid = document.getElementById('photo-grid');
+  if (!photos.length) {
+    grid.innerHTML = `<div class="empty" style="grid-column:1/-1">
+      <div class="icon">📸</div>
+      <div class="title">Bu albümde henüz fotoğraf yok</div>
+      <div class="sub" style="margin-top:14px"><button class="btn btn-primary" onclick="document.getElementById('btn-upload').click()">+ Fotoğraf Ekle</button></div>
+    </div>`;
+    return;
+  }
+  grid.innerHTML = photos.map((p, i) => `
+    <div class="photo-card" onclick="openLightbox(${i})">
+      ${p.thumbURL
+        ? `<img src="${esc(p.thumbURL)}" alt="" loading="lazy">`
+        : `<div class="photo-placeholder">🖼️</div>`}
+      ${currentRole === 'admin'
+        ? `<button class="del-btn" onclick="event.stopPropagation();doDeletePhoto('${esc(p.id)}','${esc(p.thumbURL||'')}')">🗑️</button>`
+        : ''}
+    </div>`).join('');
+}
+
+async function doDeletePhoto(photoId, thumbURL) {
+  const ok = await askConfirm('Bu fotoğrafı silmek istediğinize emin misiniz?', '', thumbURL);
+  if (!ok) return;
+  try {
+    const photo = photos.find(p => p.id === photoId);
+    await Promise.all([
+      photo?.fullPath  ? storage.ref(photo.fullPath ).delete().catch(() => {}) : Promise.resolve(),
+      photo?.thumbPath ? storage.ref(photo.thumbPath).delete().catch(() => {}) : Promise.resolve(),
+    ]);
+    await db.collection('albums').doc(currentAlbumId).collection('photos').doc(photoId).delete();
+    await db.collection('albums').doc(currentAlbumId).update({
+      photoCount: firebase.firestore.FieldValue.increment(-1),
+    });
+    photos = photos.filter(p => p.id !== photoId);
+    const alb = albums.find(a => a.id === currentAlbumId);
+    if (alb) alb.photoCount = Math.max(0, (alb.photoCount || 1) - 1);
+    renderPhotos();
+    if (document.getElementById('lightbox').classList.contains('show')) closeLightbox();
+    toast('Fotoğraf silindi', 'ok');
+  } catch (e) { toast(e.message, 'err'); }
+}
+
+/* ════════════════════════════════════════════════════
+   UPLOAD
+   ════════════════════════════════════════════════════ */
+document.getElementById('btn-upload').addEventListener('click', () => {
+  document.getElementById('upload-list').innerHTML = '';
+  document.getElementById('file-input').value = '';
+  openModal('modal-upload');
+});
+
+const uploadZone = document.getElementById('upload-zone');
+const fileInput  = document.getElementById('file-input');
+
+uploadZone.addEventListener('click', () => fileInput.click());
+uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('drag'); });
+uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('drag'));
+uploadZone.addEventListener('drop', e => {
+  e.preventDefault(); uploadZone.classList.remove('drag');
+  startUploads(Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/')));
+});
+fileInput.addEventListener('change', e => startUploads(Array.from(e.target.files)));
+
+async function startUploads(files) {
+  if (!files.length) return;
+  for (const f of files) await uploadOne(f);
+}
+
+function compressImage(file, maxDim, quality) {
+  return new Promise(resolve => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      let w = img.width, h = img.height;
+      if (w > maxDim || h > maxDim) {
+        if (w >= h) { h = Math.round(h * maxDim / w); w = maxDim; }
+        else        { w = Math.round(w * maxDim / h); h = maxDim; }
+      }
+      const c = document.createElement('canvas');
+      c.width = w; c.height = h;
+      c.getContext('2d').drawImage(img, 0, 0, w, h);
+      c.toBlob(blob => { URL.revokeObjectURL(url); resolve({ blob, w, h }); }, 'image/jpeg', quality);
+    };
+    img.src = url;
+  });
+}
+
+async function uploadOne(file) {
+  const uid  = Date.now() + '_' + Math.random().toString(36).slice(2, 7);
+  const list = document.getElementById('upload-list');
+
+  const item = document.createElement('div');
+  item.className = 'upload-item';
+  item.innerHTML = `
+    <div class="upload-thumb" id="t${uid}">📷</div>
+    <div class="upload-info">
+      <div class="upload-fname">${esc(file.name)}</div>
+      <div class="upload-bar-bg"><div class="upload-bar-fg" id="b${uid}" style="width:0"></div></div>
+    </div>
+    <div class="upload-status" id="s${uid}">Hazırlanıyor…</div>`;
+  list.appendChild(item);
+
+  const bar    = pct => { document.getElementById(`b${uid}`).style.width = pct + '%'; };
+  const status = (txt, cls) => { const el = document.getElementById(`s${uid}`); el.textContent = txt; el.className = 'upload-status ' + (cls||''); };
+
+  try {
+    const [full, thumb] = await Promise.all([
+      compressImage(file, 1600, 0.85),
+      compressImage(file, 400,  0.80),
+    ]);
+
+    // Show preview
+    const previewUrl = URL.createObjectURL(thumb.blob);
+    document.getElementById(`t${uid}`).innerHTML = `<img src="${previewUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:6px">`;
+
+    bar(8); status('Yükleniyor…');
+
+    const albumId   = currentAlbumId;
+    const fullPath  = `photos/${albumId}/${uid}.jpg`;
+    const thumbPath = `photos/${albumId}/thumbs/${uid}.jpg`;
+
+    // Upload full image with progress
+    const fullTask = storage.ref(fullPath).put(full.blob);
+    fullTask.on('state_changed', s => bar(8 + Math.round(s.bytesTransferred / s.totalBytes * 72)));
+    await fullTask;
+
+    bar(82); status('Küçük resim…');
+    await storage.ref(thumbPath).put(thumb.blob);
+    bar(94);
+
+    const [fullURL, thumbURL] = await Promise.all([
+      storage.ref(fullPath).getDownloadURL(),
+      storage.ref(thumbPath).getDownloadURL(),
+    ]);
+
+    const photoData = {
+      fullPath, thumbPath, fullURL, thumbURL,
+      width: full.w, height: full.h,
+      caption: '',
+      uploaderName: currentUsername,
+      uploaderUid:  currentUser.uid,
+      uploadedAt:   firebase.firestore.FieldValue.serverTimestamp(),
+    };
+    const docRef = await db.collection('albums').doc(albumId).collection('photos').add(photoData);
+
+    const isFirst = photos.length === 0;
+    await db.collection('albums').doc(albumId).update({
+      photoCount: firebase.firestore.FieldValue.increment(1),
+      ...(isFirst ? { coverURL: thumbURL } : {}),
+    });
+
+    const alb = albums.find(a => a.id === albumId);
+    if (alb) { alb.photoCount = (alb.photoCount || 0) + 1; if (isFirst) alb.coverURL = thumbURL; }
+
+    photos.unshift({ id: docRef.id, ...photoData });
+    renderPhotos();
+    URL.revokeObjectURL(previewUrl);
+    bar(100); status('✓ Yüklendi', 'ok');
+  } catch (e) {
+    status('Hata', 'err');
+    console.error(e);
+  }
+}
+
+document.getElementById('btn-close-upload' ).addEventListener('click', () => closeModal('modal-upload'));
+document.getElementById('btn-close-upload2').addEventListener('click', () => closeModal('modal-upload'));
+
+/* ════════════════════════════════════════════════════
+   LIGHTBOX
+   ════════════════════════════════════════════════════ */
+function openLightbox(index) {
+  lbIndex = index;
+  showLbPhoto();
+  document.getElementById('lightbox').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+function showLbPhoto() {
+  const p = photos[lbIndex];
+  if (!p) return;
+  document.getElementById('lb-img').src = p.fullURL || p.thumbURL || '';
+  document.getElementById('lb-caption').textContent  = p.caption || '';
+  document.getElementById('lb-uploader').textContent = p.uploaderName ? `📤 ${p.uploaderName}` : '';
+  document.getElementById('lb-counter').textContent  = `${lbIndex + 1} / ${photos.length}`;
+  document.getElementById('lb-prev').disabled = lbIndex === 0;
+  document.getElementById('lb-next').disabled = lbIndex === photos.length - 1;
+}
+
+document.getElementById('lb-close').addEventListener('click', closeLightbox);
+document.getElementById('lb-prev').addEventListener('click', () => { if (lbIndex > 0) { lbIndex--; showLbPhoto(); } });
+document.getElementById('lb-next').addEventListener('click', () => { if (lbIndex < photos.length - 1) { lbIndex++; showLbPhoto(); } });
+
+// Keyboard
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('lightbox').classList.contains('show')) return;
+  if (e.key === 'ArrowLeft'  && lbIndex > 0)                   { lbIndex--; showLbPhoto(); }
+  if (e.key === 'ArrowRight' && lbIndex < photos.length - 1)   { lbIndex++; showLbPhoto(); }
+  if (e.key === 'Escape') closeLightbox();
+});
+
+// Touch swipe
+let touchX = 0;
+document.getElementById('lightbox').addEventListener('touchstart', e => { touchX = e.touches[0].clientX; }, { passive:true });
+document.getElementById('lightbox').addEventListener('touchend', e => {
+  const diff = touchX - e.changedTouches[0].clientX;
+  if (Math.abs(diff) < 50) return;
+  if (diff > 0 && lbIndex < photos.length - 1) { lbIndex++; showLbPhoto(); }
+  if (diff < 0 && lbIndex > 0)                 { lbIndex--; showLbPhoto(); }
+});
+
+/* ════════════════════════════════════════════════════
+   CONFIRM DIALOG
+   ════════════════════════════════════════════════════ */
+function askConfirm(title, msg, imgUrl) {
+  return new Promise(resolve => {
+    document.getElementById('confirm-title').textContent = title;
+    document.getElementById('confirm-msg').textContent   = msg;
+    const img = document.getElementById('confirm-img');
+    if (imgUrl) { img.src = imgUrl; img.style.display = 'block'; }
+    else img.style.display = 'none';
+    openModal('modal-confirm');
+    confirmResolve = resolve;
+  });
+}
+document.getElementById('btn-conf-yes').addEventListener('click', () => { closeModal('modal-confirm'); confirmResolve?.(true);  confirmResolve = null; });
+document.getElementById('btn-conf-no' ).addEventListener('click', () => { closeModal('modal-confirm'); confirmResolve?.(false); confirmResolve = null; });
+
+/* ════════════════════════════════════════════════════
+   HELPERS
+   ════════════════════════════════════════════════════ */
+function openModal(id)  { document.getElementById(id).classList.add('show'); }
+function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+
+document.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', () => closeModal(b.dataset.close)));
+document.querySelectorAll('.modal-back').forEach(el => el.addEventListener('click', e => { if (e.target === el) closeModal(el.id); }));
+
+let toastTimer;
+function toast(msg, type) {
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.className = 'show ' + (type || 'ok');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 3500);
+}
+
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
+</body>
+</html>
