@@ -78,14 +78,24 @@ header { background:#122340; border-bottom:1px solid #1c3a5c; padding:12px 24px;
 .del-btn:hover { background:rgba(180,30,30,.9); }
 
 /* ── Upload zone ── */
-.upload-zone { border:2px dashed #1c3a5c; border-radius:12px; padding:52px 24px; text-align:center; cursor:pointer; transition:border-color .2s,background .2s; margin-bottom:20px; }
+.upload-zone { border:2px dashed #1c3a5c; border-radius:12px; padding:44px 24px; text-align:center; cursor:pointer; transition:border-color .2s,background .2s; }
 .upload-zone:hover, .upload-zone.drag { border-color:#d4a843; background:rgba(212,168,67,.06); }
-.upload-zone-icon { font-size:52px; margin-bottom:16px; }
-.upload-zone-text { font-size:17px; color:#bbc; margin-bottom:7px; font-weight:500; }
-.upload-zone-sub  { font-size:14px; color:#445; }
-.upload-list { display:flex; flex-direction:column; gap:10px; margin-top:16px; }
+.upload-zone-icon { font-size:48px; margin-bottom:14px; }
+.upload-zone-text { font-size:17px; color:#bbc; margin-bottom:6px; font-weight:500; }
+.upload-zone-sub  { font-size:13px; color:#445; }
+/* ── Staging grid ── */
+.stage-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(90px,1fr)); gap:8px; margin-bottom:14px; }
+.stage-item { position:relative; aspect-ratio:1; border-radius:9px; overflow:hidden; background:#0d1b2a; }
+.stage-item img { width:100%; height:100%; object-fit:cover; display:block; }
+.stage-rm { position:absolute; top:5px; right:5px; background:rgba(0,0,0,.75); border:none; border-radius:50%; width:24px; height:24px; color:#fff; font-size:13px; cursor:pointer; display:flex; align-items:center; justify-content:center; line-height:1; }
+.stage-rm:hover { background:rgba(180,30,30,.9); }
+.stage-add { border:2px dashed #1c3a5c; border-radius:9px; aspect-ratio:1; display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; gap:4px; background:none; color:#445; font-size:22px; transition:border-color .15s,color .15s; }
+.stage-add:hover { border-color:#d4a843; color:#d4a843; }
+.stage-add span { font-size:11px; }
+/* ── Upload progress list ── */
+.upload-list { display:flex; flex-direction:column; gap:10px; }
 .upload-item { display:flex; align-items:center; gap:14px; padding:12px 14px; background:#0d1b2a; border-radius:10px; }
-.upload-thumb { width:52px; height:52px; border-radius:8px; object-fit:cover; flex-shrink:0; background:#122340; display:flex; align-items:center; justify-content:center; font-size:20px; overflow:hidden; }
+.upload-thumb { width:52px; height:52px; border-radius:8px; flex-shrink:0; background:#122340; display:flex; align-items:center; justify-content:center; font-size:20px; overflow:hidden; }
 .upload-thumb img { width:100%; height:100%; object-fit:cover; }
 .upload-info { flex:1; min-width:0; }
 .upload-fname { font-size:13px; color:#bbc; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-bottom:6px; }
@@ -265,25 +275,38 @@ header { background:#122340; border-bottom:1px solid #1c3a5c; padding:12px 24px;
 
 <!-- ── UPLOAD MODAL ── -->
 <div class="modal-back" id="modal-upload">
-  <div class="modal-box" style="width:580px">
+  <div class="modal-box" style="width:560px">
     <div class="modal-head">
-      <h2>Fotoğraf Ekle</h2>
+      <h2 id="upload-title">Fotoğraf Ekle</h2>
       <button class="modal-x" id="btn-close-upload">✕</button>
     </div>
     <div class="modal-body">
-      <div class="upload-zone" id="upload-zone">
-        <div class="upload-zone-icon">📸</div>
-        <div class="upload-zone-text">Fotoğrafları buraya sürükleyin</div>
-        <div class="upload-zone-sub">veya tıklayarak seçin — birden fazla seçebilirsiniz</div>
-        <input type="file" id="file-input" multiple accept="image/*" style="display:none">
+      <!-- Phase 1: Select photos -->
+      <div id="upload-phase-stage">
+        <div class="upload-zone" id="upload-zone">
+          <div class="upload-zone-icon">📸</div>
+          <div class="upload-zone-text">Fotoğraf seçmek için dokunun</div>
+          <div class="upload-zone-sub">veya buraya sürükleyin</div>
+        </div>
+        <div class="stage-grid" id="stage-grid" style="display:none;margin-top:14px"></div>
       </div>
-      <div class="upload-list" id="upload-list"></div>
+      <!-- Phase 2: Upload progress -->
+      <div id="upload-phase-progress" style="display:none">
+        <div class="upload-list" id="upload-list"></div>
+      </div>
     </div>
     <div class="modal-foot">
-      <button class="btn btn-primary" id="btn-close-upload2">Tamam</button>
+      <div id="upload-foot-stage" style="display:flex;gap:10px;width:100%;justify-content:flex-end">
+        <button class="btn" id="btn-upload-cancel">İptal</button>
+        <button class="btn btn-primary" id="btn-upload-start" disabled>Yükle</button>
+      </div>
+      <div id="upload-foot-done" style="display:none;width:100%;justify-content:flex-end">
+        <button class="btn btn-primary" id="btn-upload-done">Tamam</button>
+      </div>
     </div>
   </div>
 </div>
+<input type="file" id="file-input" multiple accept="image/*" style="display:none">
 
 <!-- ── CONFIRM DELETE MODAL ── -->
 <div class="modal-back" id="modal-confirm">
@@ -586,28 +609,123 @@ async function doDeletePhoto(photoId, thumbURL) {
 /* ════════════════════════════════════════════════════
    UPLOAD
    ════════════════════════════════════════════════════ */
+/* ── Upload staging ─────────────────────────────────── */
+let stagedFiles = [];
+let stagedURLs  = [];
+
 document.getElementById('btn-upload').addEventListener('click', () => {
-  document.getElementById('upload-list').innerHTML = '';
-  document.getElementById('file-input').value = '';
+  resetUploadModal();
   openModal('modal-upload');
 });
+
+function resetUploadModal() {
+  stagedFiles = [];
+  stagedURLs.forEach(u => URL.revokeObjectURL(u));
+  stagedURLs = [];
+  document.getElementById('stage-grid').innerHTML = '';
+  document.getElementById('stage-grid').style.display = 'none';
+  document.getElementById('upload-zone').style.display = 'block';
+  document.getElementById('upload-phase-stage').style.display = 'block';
+  document.getElementById('upload-phase-progress').style.display = 'none';
+  document.getElementById('upload-foot-stage').style.display = 'flex';
+  document.getElementById('upload-foot-done').style.display = 'none';
+  document.getElementById('upload-list').innerHTML = '';
+  document.getElementById('file-input').value = '';
+  document.getElementById('btn-upload-start').disabled = true;
+  document.getElementById('btn-upload-start').textContent = 'Yükle';
+  document.getElementById('upload-title').textContent = 'Fotoğraf Ekle';
+}
+
+function addToStaging(newFiles) {
+  const images = Array.from(newFiles).filter(f => f.type.startsWith('image/'));
+  if (!images.length) return;
+  stagedFiles.push(...images);
+  renderStaging();
+  document.getElementById('file-input').value = '';
+}
+
+function renderStaging() {
+  // Revoke old preview URLs
+  stagedURLs.forEach(u => URL.revokeObjectURL(u));
+  stagedURLs = [];
+
+  const grid    = document.getElementById('stage-grid');
+  const zone    = document.getElementById('upload-zone');
+  const startBtn = document.getElementById('btn-upload-start');
+
+  if (!stagedFiles.length) {
+    zone.style.display = 'block';
+    grid.style.display = 'none';
+    startBtn.disabled = true;
+    startBtn.textContent = 'Yükle';
+    return;
+  }
+
+  zone.style.display = 'none';
+  grid.style.display = 'grid';
+  startBtn.disabled = false;
+  startBtn.textContent = `Yükle (${stagedFiles.length} fotoğraf)`;
+
+  const items = stagedFiles.map((f, i) => {
+    const url = URL.createObjectURL(f);
+    stagedURLs.push(url);
+    return `<div class="stage-item">
+      <img src="${url}" alt="">
+      <button class="stage-rm" onclick="removeStagedFile(${i})" title="Kaldır">✕</button>
+    </div>`;
+  });
+  // "Add more" tile at the end
+  items.push(`<button class="stage-add" onclick="document.getElementById('file-input').click()">
+    <span>＋</span><span>Ekle</span>
+  </button>`);
+  grid.innerHTML = items.join('');
+}
+
+function removeStagedFile(index) {
+  stagedFiles.splice(index, 1);
+  renderStaging();
+}
 
 const uploadZone = document.getElementById('upload-zone');
 const fileInput  = document.getElementById('file-input');
 
 uploadZone.addEventListener('click', () => fileInput.click());
-uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('drag'); });
+uploadZone.addEventListener('dragover',  e => { e.preventDefault(); uploadZone.classList.add('drag'); });
 uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('drag'));
 uploadZone.addEventListener('drop', e => {
   e.preventDefault(); uploadZone.classList.remove('drag');
-  startUploads(Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/')));
+  addToStaging(e.dataTransfer.files);
 });
-fileInput.addEventListener('change', e => startUploads(Array.from(e.target.files)));
+fileInput.addEventListener('change', e => addToStaging(e.target.files));
 
-async function startUploads(files) {
-  if (!files.length) return;
+document.getElementById('btn-upload-start').addEventListener('click', async () => {
+  if (!stagedFiles.length) return;
+  // Switch to progress phase
+  document.getElementById('upload-phase-stage').style.display = 'none';
+  document.getElementById('upload-phase-progress').style.display = 'block';
+  document.getElementById('upload-foot-stage').style.display = 'none';
+  document.getElementById('upload-title').textContent = 'Yükleniyor…';
+  const files = [...stagedFiles];
+  stagedFiles = [];
+  stagedURLs.forEach(u => URL.revokeObjectURL(u));
+  stagedURLs = [];
   for (const f of files) await uploadOne(f);
-}
+  document.getElementById('upload-title').textContent = '✓ Tamamlandı';
+  document.getElementById('upload-foot-done').style.display = 'flex';
+});
+
+document.getElementById('btn-upload-cancel').addEventListener('click', () => {
+  stagedURLs.forEach(u => URL.revokeObjectURL(u));
+  stagedURLs = []; stagedFiles = [];
+  closeModal('modal-upload');
+});
+document.getElementById('btn-upload-done').addEventListener('click', () => closeModal('modal-upload'));
+document.getElementById('btn-close-upload').addEventListener('click', () => {
+  if (stagedFiles.length && !confirm('Seçilen fotoğraflar iptal edilecek. Devam?')) return;
+  stagedURLs.forEach(u => URL.revokeObjectURL(u));
+  stagedURLs = []; stagedFiles = [];
+  closeModal('modal-upload');
+});
 
 function compressImage(file, maxDim, quality) {
   return new Promise(resolve => {
@@ -722,8 +840,6 @@ async function uploadOne(file) {
   }
 }
 
-document.getElementById('btn-close-upload' ).addEventListener('click', () => closeModal('modal-upload'));
-document.getElementById('btn-close-upload2').addEventListener('click', () => closeModal('modal-upload'));
 
 /* ════════════════════════════════════════════════════
    LIGHTBOX
