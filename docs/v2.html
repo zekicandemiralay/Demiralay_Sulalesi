@@ -691,13 +691,47 @@ async function init() {
     document.getElementById("loading").style.display = "none";
 
     update(root);
-    setTimeout(fitView, 120);
+    const urlId = new URLSearchParams(window.location.search).get("id");
+    setTimeout(() => urlId ? navigateToPerson(urlId) : fitView(), 150);
   } catch (err) {
     document.getElementById("loading").style.display = "none";
     document.getElementById("err-msg").textContent = err.message;
     document.getElementById("errscreen").style.display = "flex";
     console.error(err);
   }
+}
+
+function navigateToPerson(targetId) {
+  if (!root) return;
+  const target = root.descendants().find(d => d.data.id === targetId);
+  if (!target) { fitView(); return; }
+
+  // Expand every ancestor so the node is visible
+  target.ancestors().forEach(anc => {
+    if (anc._children) { anc.children = anc._children; anc._children = null; }
+  });
+
+  selId   = targetId;
+  selNode = target;
+  update(root);
+
+  // Show detail or minibar depending on screen size
+  if (window.innerWidth <= 768) showMinibar(target);
+  else showPanel(target);
+
+  // Pan & zoom to the node
+  setTimeout(() => {
+    const pos = posMap.get(targetId);
+    if (!pos) return;
+    const svgEl = document.getElementById("svg");
+    const W = svgEl.clientWidth || 900;
+    const H = svgEl.clientHeight || 600;
+    const scale = 2;
+    const tx = W / 2 - pos.sx * scale;
+    const ty = H / 2 - pos.sy * scale;
+    svg.transition().duration(700)
+       .call(zoomBeh.transform, d3.zoomIdentity.translate(tx, ty).scale(scale));
+  }, 380);
 }
 
 init();
